@@ -1,0 +1,59 @@
+<div class="page">
+  <div class="page-header">
+    <div>
+      <p class="page-header__eyebrow">Admin</p>
+      <h2>Workflows</h2>
+      <p>How the department processes each application type at each approval level: stages in order, the tasks of a stage run in parallel, the last stage is the decision of the issuing authority. Officers are the officers of each role associated with the fire station of the property.</p>
+    </div>
+    <a class="btn btn--secondary" routerLink="/admin/sla"><app-icon name="clock" size="16"></app-icon> SLA &amp; Escalations</a>
+  </div>
+
+  @if (problems().length) {
+    <div class="banner banner--error" role="alert">
+      <app-icon name="alert-circle" size="18"></app-icon>
+      <div><strong>The workflow set has problems:</strong><ul>@for (p of problems(); track p) { <li>{{ p }}</li> }</ul></div>
+    </div>
+  }
+
+  @if (!data()) {
+    <p class="empty-state">Loading workflows…</p>
+  } @else {
+    <div class="matrix" role="table" aria-label="Workflows by application type and approval level">
+      <div class="matrix__corner" role="columnheader"></div>
+      @for (l of levels; track l.code) {
+        <div class="matrix__col" role="columnheader">{{ l.name }}</div>
+      }
+      @for (t of types; track t.code) {
+        <div class="matrix__row" role="rowheader">{{ t.name }}</div>
+        @for (l of levels; track l.code) {
+          @let c = cells()[t.code + '-' + l.code];
+          @if (c.def; as def) {
+            <a class="card wf-card" role="cell" [routerLink]="['/admin/workflows', def.code]" [attr.aria-label]="'Edit ' + def.name">
+              <div class="wf-card__head">
+                <span class="wf-card__id">{{ def.code }}</span>
+                <span class="wf-card__version">v{{ def.version }}</span>
+              </div>
+              <ol class="wf-card__stages">
+                @for (s of c.stages; track $index) {
+                  <li [class.is-ondemand]="s.onDemand">
+                    {{ s.name }}
+                    @if (s.parallel > 1) {
+                      <span class="par" title="Tasks in parallel">{{ s.parallel }} in parallel</span>
+                    }
+                  </li>
+                }
+              </ol>
+              <div class="wf-card__foot">
+                <span><app-icon name="shield" size="12"></app-icon> Decided by <strong>{{ c.decisionRole }}</strong></span>
+                <span>{{ c.inProcess }} in process · {{ c.total }} total</span>
+              </div>
+              <span class="wf-card__meta">Updated {{ def.updated_on }} by {{ def.updated_by }}</span>
+            </a>
+          } @else {
+            <div class="card wf-card wf-card--missing" role="cell">No workflow defined</div>
+          }
+        }
+      }
+    </div>
+  }
+</div>

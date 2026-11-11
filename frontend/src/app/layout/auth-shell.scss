@@ -1,0 +1,62 @@
+@use 'mixins';
+
+.auth-shell {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(180deg, var(--brand-700) 0%, var(--brand-500) 45%, var(--gray-50) 45%);
+}
+
+.auth-shell__banner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-5) var(--space-6);
+  color: var(--gray-0);
+}
+
+.auth-shell__eyebrow {
+  margin: 0;
+  font-size: var(--font-size-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--brand-100);
+}
+
+.auth-shell__title {
+  margin: 0;
+  font-size: var(--font-size-lg);
+  color: var(--gray-0);
+}
+
+.auth-shell__main {
+  flex: 1;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: var(--space-5) var(--space-5) var(--space-8);
+}
+
+.auth-shell__card {
+  @include mixins.card;
+  width: 100%;
+  max-width: 440px;
+  padding: var(--space-6);
+  margin-top: var(--space-5);
+}
+
+.auth-shell__product {
+  margin-bottom: var(--space-1);
+}
+
+.auth-shell__subtitle {
+  font-size: var(--font-size-sm);
+  margin-bottom: var(--space-5);
+}
+
+.auth-shell__footer {
+  text-align: center;
+  padding: var(--space-4);
+  font-size: var(--font-size-xs);
+  color: var(--gray-500);
+}

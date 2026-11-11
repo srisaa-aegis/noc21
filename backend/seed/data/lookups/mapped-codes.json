@@ -1,0 +1,1472 @@
+[
+  {
+    "Activity_DTCP_Code": "1",
+    "DTCP_Desc": "Residential Apartment Bldg",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "1",
+    "Use_NBC_Code": "res"
+  },
+  {
+    "Activity_DTCP_Code": "2",
+    "DTCP_Desc": "Bungalow/Dwelling/Non Apartment",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "1",
+    "Use_NBC_Code": "res"
+  },
+  {
+    "Activity_DTCP_Code": "3",
+    "DTCP_Desc": "Semidetached",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "1",
+    "Use_NBC_Code": "res"
+  },
+  {
+    "Activity_DTCP_Code": "4",
+    "DTCP_Desc": "Row House",
+    "Activity_NBC_Code": "A4",
+    "Use_DTCP_Code": "1",
+    "Use_NBC_Code": "res"
+  },
+  {
+    "Activity_DTCP_Code": "5",
+    "DTCP_Desc": "Villa",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "1",
+    "Use_NBC_Code": "res"
+  },
+  {
+    "Activity_DTCP_Code": "7",
+    "DTCP_Desc": "EWS(LowCost) / Low Income Housing",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "1",
+    "Use_NBC_Code": "res"
+  },
+  {
+    "Activity_DTCP_Code": "9",
+    "DTCP_Desc": "Group Housing",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "1",
+    "Use_NBC_Code": "res"
+  },
+  {
+    "Activity_DTCP_Code": "10",
+    "DTCP_Desc": "ResiComm Bldg",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "1",
+    "Use_NBC_Code": "res"
+  },
+  {
+    "Activity_DTCP_Code": "11",
+    "DTCP_Desc": "Farm House",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "1",
+    "Use_NBC_Code": "res"
+  },
+  {
+    "Activity_DTCP_Code": "12",
+    "DTCP_Desc": "Hostel",
+    "Activity_NBC_Code": "A3",
+    "Use_DTCP_Code": "1",
+    "Use_NBC_Code": "res"
+  },
+  {
+    "Activity_DTCP_Code": "13",
+    "DTCP_Desc": "Dormitory",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "1",
+    "Use_NBC_Code": "res"
+  },
+  {
+    "Activity_DTCP_Code": "14",
+    "DTCP_Desc": "Boarding",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "1",
+    "Use_NBC_Code": "res"
+  },
+  {
+    "Activity_DTCP_Code": "19",
+    "DTCP_Desc": "Dharamshala",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "1",
+    "Use_NBC_Code": "res"
+  },
+  {
+    "Activity_DTCP_Code": "27",
+    "DTCP_Desc": "Staff Quarters",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "1",
+    "Use_NBC_Code": "res"
+  },
+  {
+    "Activity_DTCP_Code": "40",
+    "DTCP_Desc": "Other Residential Building",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "1",
+    "Use_NBC_Code": "res"
+  },
+  {
+    "Activity_DTCP_Code": "646",
+    "DTCP_Desc": "Individual Row House",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "1",
+    "Use_NBC_Code": "res"
+  },
+  {
+    "Activity_DTCP_Code": "653",
+    "DTCP_Desc": "Hut",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "1",
+    "Use_NBC_Code": "res"
+  },
+  {
+    "Activity_DTCP_Code": "673",
+    "DTCP_Desc": "Affordable Housing Scheme (Single Dwelling Unit)",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "1",
+    "Use_NBC_Code": "res"
+  },
+  {
+    "Activity_DTCP_Code": "41",
+    "DTCP_Desc": "Shop",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "2",
+    "Use_NBC_Code": "mer"
+  },
+  {
+    "Activity_DTCP_Code": "42",
+    "DTCP_Desc": "Store",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "2",
+    "Use_NBC_Code": "mer"
+  },
+  {
+    "Activity_DTCP_Code": "43",
+    "DTCP_Desc": "Retail Shop",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "2",
+    "Use_NBC_Code": "mer"
+  },
+  {
+    "Activity_DTCP_Code": "44",
+    "DTCP_Desc": "Bank",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "2",
+    "Use_NBC_Code": "mer"
+  },
+  {
+    "Activity_DTCP_Code": "45",
+    "DTCP_Desc": "Safe Deposite Vault",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "2",
+    "Use_NBC_Code": "mer"
+  },
+  {
+    "Activity_DTCP_Code": "46",
+    "DTCP_Desc": "Shopping Centre",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "2",
+    "Use_NBC_Code": "mer"
+  },
+  {
+    "Activity_DTCP_Code": "47",
+    "DTCP_Desc": "Showroom",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "2",
+    "Use_NBC_Code": "mer"
+  },
+  {
+    "Activity_DTCP_Code": "48",
+    "DTCP_Desc": "Commercial Bldg",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "2",
+    "Use_NBC_Code": "mer"
+  },
+  {
+    "Activity_DTCP_Code": "49",
+    "DTCP_Desc": "Market",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "2",
+    "Use_NBC_Code": "mer"
+  },
+  {
+    "Activity_DTCP_Code": "50",
+    "DTCP_Desc": "Shopping Mall",
+    "Activity_NBC_Code": "F1",
+    "Use_DTCP_Code": "2",
+    "Use_NBC_Code": "mer"
+  },
+  {
+    "Activity_DTCP_Code": "51",
+    "DTCP_Desc": "Departmental Store",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "2",
+    "Use_NBC_Code": "mer"
+  },
+  {
+    "Activity_DTCP_Code": "54",
+    "DTCP_Desc": "Supermarkets",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "2",
+    "Use_NBC_Code": "mer"
+  },
+  {
+    "Activity_DTCP_Code": "55",
+    "DTCP_Desc": "Convinience Shops",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "2",
+    "Use_NBC_Code": "mer"
+  },
+  {
+    "Activity_DTCP_Code": "56",
+    "DTCP_Desc": "ResiComm Bldg",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "2",
+    "Use_NBC_Code": "mer"
+  },
+  {
+    "Activity_DTCP_Code": "57",
+    "DTCP_Desc": "Office",
+    "Activity_NBC_Code": "E1",
+    "Use_DTCP_Code": "2",
+    "Use_NBC_Code": "mer"
+  },
+  {
+    "Activity_DTCP_Code": "58",
+    "DTCP_Desc": "Shop and Office",
+    "Activity_NBC_Code": "E1",
+    "Use_DTCP_Code": "2",
+    "Use_NBC_Code": "mer"
+  },
+  {
+    "Activity_DTCP_Code": "59",
+    "DTCP_Desc": "Professional Office",
+    "Activity_NBC_Code": "E1",
+    "Use_DTCP_Code": "2",
+    "Use_NBC_Code": "mer"
+  },
+  {
+    "Activity_DTCP_Code": "60",
+    "DTCP_Desc": "Corporate Office",
+    "Activity_NBC_Code": "E1",
+    "Use_DTCP_Code": "2",
+    "Use_NBC_Code": "mer"
+  },
+  {
+    "Activity_DTCP_Code": "61",
+    "DTCP_Desc": "Business Office",
+    "Activity_NBC_Code": "E1",
+    "Use_DTCP_Code": "2",
+    "Use_NBC_Code": "mer"
+  },
+  {
+    "Activity_DTCP_Code": "62",
+    "DTCP_Desc": "IT Office",
+    "Activity_NBC_Code": "E1",
+    "Use_DTCP_Code": "2",
+    "Use_NBC_Code": "mer"
+  },
+  {
+    "Activity_DTCP_Code": "63",
+    "DTCP_Desc": "Bio-Technology(BT) Park",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "2",
+    "Use_NBC_Code": "mer"
+  },
+  {
+    "Activity_DTCP_Code": "64",
+    "DTCP_Desc": "Information-Technology IT/ ITES",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "2",
+    "Use_NBC_Code": "mer"
+  },
+  {
+    "Activity_DTCP_Code": "65",
+    "DTCP_Desc": "Corporate Commercial",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "2",
+    "Use_NBC_Code": "mer"
+  },
+  {
+    "Activity_DTCP_Code": "66",
+    "DTCP_Desc": "Restaurant",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "2",
+    "Use_NBC_Code": "mer"
+  },
+  {
+    "Activity_DTCP_Code": "70",
+    "DTCP_Desc": "3 Star Hotel",
+    "Activity_NBC_Code": "A6",
+    "Use_DTCP_Code": "2",
+    "Use_NBC_Code": "mer"
+  },
+  {
+    "Activity_DTCP_Code": "71",
+    "DTCP_Desc": "4 Star Hotel",
+    "Activity_NBC_Code": "A6",
+    "Use_DTCP_Code": "2",
+    "Use_NBC_Code": "mer"
+  },
+  {
+    "Activity_DTCP_Code": "72",
+    "DTCP_Desc": "5 Star Hotel",
+    "Activity_NBC_Code": "A6",
+    "Use_DTCP_Code": "2",
+    "Use_NBC_Code": "mer"
+  },
+  {
+    "Activity_DTCP_Code": "73",
+    "DTCP_Desc": "Hotel",
+    "Activity_NBC_Code": "A5",
+    "Use_DTCP_Code": "2",
+    "Use_NBC_Code": "mer"
+  },
+  {
+    "Activity_DTCP_Code": "74",
+    "DTCP_Desc": "Lodging",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "2",
+    "Use_NBC_Code": "mer"
+  },
+  {
+    "Activity_DTCP_Code": "75",
+    "DTCP_Desc": "Holiday Resort",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "2",
+    "Use_NBC_Code": "mer"
+  },
+  {
+    "Activity_DTCP_Code": "80",
+    "DTCP_Desc": "Services or Repair establishments",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "2",
+    "Use_NBC_Code": "mer"
+  },
+  {
+    "Activity_DTCP_Code": "81",
+    "DTCP_Desc": "Clinic",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "2",
+    "Use_NBC_Code": "mer"
+  },
+  {
+    "Activity_DTCP_Code": "82",
+    "DTCP_Desc": "Kiosk",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "2",
+    "Use_NBC_Code": "mer"
+  },
+  {
+    "Activity_DTCP_Code": "86",
+    "DTCP_Desc": "Service Station",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "2",
+    "Use_NBC_Code": "mer"
+  },
+  {
+    "Activity_DTCP_Code": "88",
+    "DTCP_Desc": "Pathological Lab",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "2",
+    "Use_NBC_Code": "mer"
+  },
+  {
+    "Activity_DTCP_Code": "89",
+    "DTCP_Desc": "Booth",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "2",
+    "Use_NBC_Code": "mer"
+  },
+  {
+    "Activity_DTCP_Code": "90",
+    "DTCP_Desc": "Parlor",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "2",
+    "Use_NBC_Code": "mer"
+  },
+  {
+    "Activity_DTCP_Code": "91",
+    "DTCP_Desc": "Bakery",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "2",
+    "Use_NBC_Code": "mer"
+  },
+  {
+    "Activity_DTCP_Code": "92",
+    "DTCP_Desc": "Cyber Cafe",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "2",
+    "Use_NBC_Code": "mer"
+  },
+  {
+    "Activity_DTCP_Code": "94",
+    "DTCP_Desc": "Training Institute",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "2",
+    "Use_NBC_Code": "mer"
+  },
+  {
+    "Activity_DTCP_Code": "95",
+    "DTCP_Desc": "Public Liabrary",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "2",
+    "Use_NBC_Code": "mer"
+  },
+  {
+    "Activity_DTCP_Code": "96",
+    "DTCP_Desc": "Court House",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "2",
+    "Use_NBC_Code": "mer"
+  },
+  {
+    "Activity_DTCP_Code": "97",
+    "DTCP_Desc": "Call Centers",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "2",
+    "Use_NBC_Code": "mer"
+  },
+  {
+    "Activity_DTCP_Code": "98",
+    "DTCP_Desc": "Junk Yard",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "2",
+    "Use_NBC_Code": "mer"
+  },
+  {
+    "Activity_DTCP_Code": "100",
+    "DTCP_Desc": "Godowns",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "2",
+    "Use_NBC_Code": "mer"
+  },
+  {
+    "Activity_DTCP_Code": "101",
+    "DTCP_Desc": "Ware House",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "2",
+    "Use_NBC_Code": "mer"
+  },
+  {
+    "Activity_DTCP_Code": "102",
+    "DTCP_Desc": "Good Storage",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "2",
+    "Use_NBC_Code": "mer"
+  },
+  {
+    "Activity_DTCP_Code": "103",
+    "DTCP_Desc": "Cold Storage",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "2",
+    "Use_NBC_Code": "mer"
+  },
+  {
+    "Activity_DTCP_Code": "109",
+    "DTCP_Desc": "Petrol Pump",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "2",
+    "Use_NBC_Code": "mer"
+  },
+  {
+    "Activity_DTCP_Code": "110",
+    "DTCP_Desc": "Petrol Filling Station (With Service Bay)",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "2",
+    "Use_NBC_Code": "mer"
+  },
+  {
+    "Activity_DTCP_Code": "111",
+    "DTCP_Desc": "Petrol Filling Station (Without Service Bay)",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "2",
+    "Use_NBC_Code": "mer"
+  },
+  {
+    "Activity_DTCP_Code": "112",
+    "DTCP_Desc": "Parking Complex (Parking Lot)",
+    "Activity_NBC_Code": "mlcp",
+    "Use_DTCP_Code": "2",
+    "Use_NBC_Code": "mer"
+  },
+  {
+    "Activity_DTCP_Code": "118",
+    "DTCP_Desc": "Gas Godown",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "2",
+    "Use_NBC_Code": "mer"
+  },
+  {
+    "Activity_DTCP_Code": "172",
+    "DTCP_Desc": "Wholesale Commecial Market",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "2",
+    "Use_NBC_Code": "mer"
+  },
+  {
+    "Activity_DTCP_Code": "173",
+    "DTCP_Desc": "Other Commercial Building",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "2",
+    "Use_NBC_Code": "mer"
+  },
+  {
+    "Activity_DTCP_Code": "197",
+    "DTCP_Desc": "Industrial Building",
+    "Activity_NBC_Code": "G1",
+    "Use_DTCP_Code": "5",
+    "Use_NBC_Code": "ind"
+  },
+  {
+    "Activity_DTCP_Code": "199",
+    "DTCP_Desc": "Service Industry",
+    "Activity_NBC_Code": "G1",
+    "Use_DTCP_Code": "5",
+    "Use_NBC_Code": "ind"
+  },
+  {
+    "Activity_DTCP_Code": "200",
+    "DTCP_Desc": "HouseHold Industry",
+    "Activity_NBC_Code": "G1",
+    "Use_DTCP_Code": "5",
+    "Use_NBC_Code": "ind"
+  },
+  {
+    "Activity_DTCP_Code": "201",
+    "DTCP_Desc": "Light Industry",
+    "Activity_NBC_Code": "G1",
+    "Use_DTCP_Code": "5",
+    "Use_NBC_Code": "ind"
+  },
+  {
+    "Activity_DTCP_Code": "202",
+    "DTCP_Desc": "Medium Industry",
+    "Activity_NBC_Code": "G1",
+    "Use_DTCP_Code": "5",
+    "Use_NBC_Code": "ind"
+  },
+  {
+    "Activity_DTCP_Code": "203",
+    "DTCP_Desc": "Heavy Industry",
+    "Activity_NBC_Code": "G1",
+    "Use_DTCP_Code": "5",
+    "Use_NBC_Code": "ind"
+  },
+  {
+    "Activity_DTCP_Code": "207",
+    "DTCP_Desc": "Workshop",
+    "Activity_NBC_Code": "G1",
+    "Use_DTCP_Code": "5",
+    "Use_NBC_Code": "ind"
+  },
+  {
+    "Activity_DTCP_Code": "208",
+    "DTCP_Desc": "Industrial Laboratory",
+    "Activity_NBC_Code": "G1",
+    "Use_DTCP_Code": "5",
+    "Use_NBC_Code": "ind"
+  },
+  {
+    "Activity_DTCP_Code": "209",
+    "DTCP_Desc": "Power Plant",
+    "Activity_NBC_Code": "G1",
+    "Use_DTCP_Code": "5",
+    "Use_NBC_Code": "ind"
+  },
+  {
+    "Activity_DTCP_Code": "210",
+    "DTCP_Desc": "Assembly Plant",
+    "Activity_NBC_Code": "G1",
+    "Use_DTCP_Code": "5",
+    "Use_NBC_Code": "ind"
+  },
+  {
+    "Activity_DTCP_Code": "211",
+    "DTCP_Desc": "Refinery",
+    "Activity_NBC_Code": "G1",
+    "Use_DTCP_Code": "5",
+    "Use_NBC_Code": "ind"
+  },
+  {
+    "Activity_DTCP_Code": "212",
+    "DTCP_Desc": "Gas Plant",
+    "Activity_NBC_Code": "G1",
+    "Use_DTCP_Code": "5",
+    "Use_NBC_Code": "ind"
+  },
+  {
+    "Activity_DTCP_Code": "213",
+    "DTCP_Desc": "Mill",
+    "Activity_NBC_Code": "G1",
+    "Use_DTCP_Code": "5",
+    "Use_NBC_Code": "ind"
+  },
+  {
+    "Activity_DTCP_Code": "214",
+    "DTCP_Desc": "Factory",
+    "Activity_NBC_Code": "G1",
+    "Use_DTCP_Code": "5",
+    "Use_NBC_Code": "ind"
+  },
+  {
+    "Activity_DTCP_Code": "215",
+    "DTCP_Desc": "Dairy",
+    "Activity_NBC_Code": "G1",
+    "Use_DTCP_Code": "5",
+    "Use_NBC_Code": "ind"
+  },
+  {
+    "Activity_DTCP_Code": "220",
+    "DTCP_Desc": "Godown",
+    "Activity_NBC_Code": "G1",
+    "Use_DTCP_Code": "5",
+    "Use_NBC_Code": "ind"
+  },
+  {
+    "Activity_DTCP_Code": "255",
+    "DTCP_Desc": "Small Scale Industries",
+    "Activity_NBC_Code": "G1",
+    "Use_DTCP_Code": "5",
+    "Use_NBC_Code": "ind"
+  },
+  {
+    "Activity_DTCP_Code": "261",
+    "DTCP_Desc": "Other Industrial Building",
+    "Activity_NBC_Code": "G1",
+    "Use_DTCP_Code": "5",
+    "Use_NBC_Code": "ind"
+  },
+  {
+    "Activity_DTCP_Code": "311",
+    "DTCP_Desc": "Theatre",
+    "Activity_NBC_Code": "D1",
+    "Use_DTCP_Code": "7",
+    "Use_NBC_Code": "asm"
+  },
+  {
+    "Activity_DTCP_Code": "312",
+    "DTCP_Desc": "Cinema",
+    "Activity_NBC_Code": "D1",
+    "Use_DTCP_Code": "7",
+    "Use_NBC_Code": "asm"
+  },
+  {
+    "Activity_DTCP_Code": "313",
+    "DTCP_Desc": "MultiPlex",
+    "Activity_NBC_Code": "D1",
+    "Use_DTCP_Code": "7",
+    "Use_NBC_Code": "asm"
+  },
+  {
+    "Activity_DTCP_Code": "316",
+    "DTCP_Desc": "Auditorium",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "7",
+    "Use_NBC_Code": "asm"
+  },
+  {
+    "Activity_DTCP_Code": "317",
+    "DTCP_Desc": "Cultural Complex",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "7",
+    "Use_NBC_Code": "asm"
+  },
+  {
+    "Activity_DTCP_Code": "318",
+    "DTCP_Desc": "Recreation Building",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "7",
+    "Use_NBC_Code": "asm"
+  },
+  {
+    "Activity_DTCP_Code": "319",
+    "DTCP_Desc": "Patriotic",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "7",
+    "Use_NBC_Code": "asm"
+  },
+  {
+    "Activity_DTCP_Code": "320",
+    "DTCP_Desc": "Place of Assembly",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "7",
+    "Use_NBC_Code": "asm"
+  },
+  {
+    "Activity_DTCP_Code": "321",
+    "DTCP_Desc": "Conference Hall",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "7",
+    "Use_NBC_Code": "asm"
+  },
+  {
+    "Activity_DTCP_Code": "322",
+    "DTCP_Desc": "Social Club",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "7",
+    "Use_NBC_Code": "asm"
+  },
+  {
+    "Activity_DTCP_Code": "323",
+    "DTCP_Desc": "Religious Building",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "7",
+    "Use_NBC_Code": "asm"
+  },
+  {
+    "Activity_DTCP_Code": "324",
+    "DTCP_Desc": "Assembly Hall",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "7",
+    "Use_NBC_Code": "asm"
+  },
+  {
+    "Activity_DTCP_Code": "325",
+    "DTCP_Desc": "Drama Hall",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "7",
+    "Use_NBC_Code": "asm"
+  },
+  {
+    "Activity_DTCP_Code": "326",
+    "DTCP_Desc": "City Hall",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "7",
+    "Use_NBC_Code": "asm"
+  },
+  {
+    "Activity_DTCP_Code": "327",
+    "DTCP_Desc": "Town Hall",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "7",
+    "Use_NBC_Code": "asm"
+  },
+  {
+    "Activity_DTCP_Code": "328",
+    "DTCP_Desc": "Dance Hall",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "7",
+    "Use_NBC_Code": "asm"
+  },
+  {
+    "Activity_DTCP_Code": "329",
+    "DTCP_Desc": "Club",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "7",
+    "Use_NBC_Code": "asm"
+  },
+  {
+    "Activity_DTCP_Code": "330",
+    "DTCP_Desc": "Meeting Hall",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "7",
+    "Use_NBC_Code": "asm"
+  },
+  {
+    "Activity_DTCP_Code": "331",
+    "DTCP_Desc": "Lecture Hall",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "7",
+    "Use_NBC_Code": "asm"
+  },
+  {
+    "Activity_DTCP_Code": "332",
+    "DTCP_Desc": "Mangal Karyalaya",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "7",
+    "Use_NBC_Code": "asm"
+  },
+  {
+    "Activity_DTCP_Code": "333",
+    "DTCP_Desc": "Banquet Hall",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "7",
+    "Use_NBC_Code": "asm"
+  },
+  {
+    "Activity_DTCP_Code": "334",
+    "DTCP_Desc": "Marriage Hall",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "7",
+    "Use_NBC_Code": "asm"
+  },
+  {
+    "Activity_DTCP_Code": "335",
+    "DTCP_Desc": "Community Hall",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "7",
+    "Use_NBC_Code": "asm"
+  },
+  {
+    "Activity_DTCP_Code": "337",
+    "DTCP_Desc": "Party Plot",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "7",
+    "Use_NBC_Code": "asm"
+  },
+  {
+    "Activity_DTCP_Code": "338",
+    "DTCP_Desc": "Exhibition Centre",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "7",
+    "Use_NBC_Code": "asm"
+  },
+  {
+    "Activity_DTCP_Code": "339",
+    "DTCP_Desc": "Amusement Building/Park",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "7",
+    "Use_NBC_Code": "asm"
+  },
+  {
+    "Activity_DTCP_Code": "340",
+    "DTCP_Desc": "Games Centre",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "7",
+    "Use_NBC_Code": "asm"
+  },
+  {
+    "Activity_DTCP_Code": "341",
+    "DTCP_Desc": "Museum",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "7",
+    "Use_NBC_Code": "asm"
+  },
+  {
+    "Activity_DTCP_Code": "342",
+    "DTCP_Desc": "Skating Ring",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "7",
+    "Use_NBC_Code": "asm"
+  },
+  {
+    "Activity_DTCP_Code": "343",
+    "DTCP_Desc": "Stadium",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "7",
+    "Use_NBC_Code": "asm"
+  },
+  {
+    "Activity_DTCP_Code": "344",
+    "DTCP_Desc": "Gymnasia",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "7",
+    "Use_NBC_Code": "asm"
+  },
+  {
+    "Activity_DTCP_Code": "345",
+    "DTCP_Desc": "Sports Complex",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "7",
+    "Use_NBC_Code": "asm"
+  },
+  {
+    "Activity_DTCP_Code": "346",
+    "DTCP_Desc": "Art Gallery",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "7",
+    "Use_NBC_Code": "asm"
+  },
+  {
+    "Activity_DTCP_Code": "347",
+    "DTCP_Desc": "Circus",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "7",
+    "Use_NBC_Code": "asm"
+  },
+  {
+    "Activity_DTCP_Code": "348",
+    "DTCP_Desc": "Gymkhana",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "7",
+    "Use_NBC_Code": "asm"
+  },
+  {
+    "Activity_DTCP_Code": "349",
+    "DTCP_Desc": "Welfare center",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "7",
+    "Use_NBC_Code": "asm"
+  },
+  {
+    "Activity_DTCP_Code": "350",
+    "DTCP_Desc": "Public transportation station and Recreation",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "7",
+    "Use_NBC_Code": "asm"
+  },
+  {
+    "Activity_DTCP_Code": "352",
+    "DTCP_Desc": "Public Utility Building",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "7",
+    "Use_NBC_Code": "asm"
+  },
+  {
+    "Activity_DTCP_Code": "353",
+    "DTCP_Desc": "Public Utility Bldg",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "8",
+    "Use_NBC_Code": ""
+  },
+  {
+    "Activity_DTCP_Code": "354",
+    "DTCP_Desc": "Police Station",
+    "Activity_NBC_Code": "E1",
+    "Use_DTCP_Code": "8",
+    "Use_NBC_Code": ""
+  },
+  {
+    "Activity_DTCP_Code": "355",
+    "DTCP_Desc": "Post Office",
+    "Activity_NBC_Code": "E1",
+    "Use_DTCP_Code": "8",
+    "Use_NBC_Code": ""
+  },
+  {
+    "Activity_DTCP_Code": "356",
+    "DTCP_Desc": "Telecommunication",
+    "Activity_NBC_Code": "E4",
+    "Use_DTCP_Code": "8",
+    "Use_NBC_Code": ""
+  },
+  {
+    "Activity_DTCP_Code": "357",
+    "DTCP_Desc": "Public Distribution System Shop",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "8",
+    "Use_NBC_Code": ""
+  },
+  {
+    "Activity_DTCP_Code": "358",
+    "DTCP_Desc": "Fire Station",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "8",
+    "Use_NBC_Code": ""
+  },
+  {
+    "Activity_DTCP_Code": "359",
+    "DTCP_Desc": "Bill Collection Centre",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "8",
+    "Use_NBC_Code": ""
+  },
+  {
+    "Activity_DTCP_Code": "360",
+    "DTCP_Desc": "Broadcasting-Transmission Station",
+    "Activity_NBC_Code": "E5",
+    "Use_DTCP_Code": "8",
+    "Use_NBC_Code": ""
+  },
+  {
+    "Activity_DTCP_Code": "361",
+    "DTCP_Desc": "EB Office",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "8",
+    "Use_NBC_Code": ""
+  },
+  {
+    "Activity_DTCP_Code": "362",
+    "DTCP_Desc": "Telegraph Office",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "8",
+    "Use_NBC_Code": ""
+  },
+  {
+    "Activity_DTCP_Code": "363",
+    "DTCP_Desc": "Public Garage",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "8",
+    "Use_NBC_Code": ""
+  },
+  {
+    "Activity_DTCP_Code": "364",
+    "DTCP_Desc": "Public Parking",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "8",
+    "Use_NBC_Code": ""
+  },
+  {
+    "Activity_DTCP_Code": "365",
+    "DTCP_Desc": "Sub-Station",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "8",
+    "Use_NBC_Code": ""
+  },
+  {
+    "Activity_DTCP_Code": "366",
+    "DTCP_Desc": "Water Works",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "8",
+    "Use_NBC_Code": ""
+  },
+  {
+    "Activity_DTCP_Code": "367",
+    "DTCP_Desc": "Other Public utility Building",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "8",
+    "Use_NBC_Code": ""
+  },
+  {
+    "Activity_DTCP_Code": "368",
+    "DTCP_Desc": "Transportation Building",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "9",
+    "Use_NBC_Code": ""
+  },
+  {
+    "Activity_DTCP_Code": "369",
+    "DTCP_Desc": "Transport Terminal",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "9",
+    "Use_NBC_Code": ""
+  },
+  {
+    "Activity_DTCP_Code": "370",
+    "DTCP_Desc": "Traffic-Transport related Facility",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "9",
+    "Use_NBC_Code": ""
+  },
+  {
+    "Activity_DTCP_Code": "371",
+    "DTCP_Desc": "Passanger Station (Bus-Railway)",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "9",
+    "Use_NBC_Code": ""
+  },
+  {
+    "Activity_DTCP_Code": "372",
+    "DTCP_Desc": "Auto Stand",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "9",
+    "Use_NBC_Code": ""
+  },
+  {
+    "Activity_DTCP_Code": "373",
+    "DTCP_Desc": "Taxi Stands",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "9",
+    "Use_NBC_Code": ""
+  },
+  {
+    "Activity_DTCP_Code": "374",
+    "DTCP_Desc": "Bus Stand",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "9",
+    "Use_NBC_Code": ""
+  },
+  {
+    "Activity_DTCP_Code": "375",
+    "DTCP_Desc": "Bus Terminal",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "9",
+    "Use_NBC_Code": ""
+  },
+  {
+    "Activity_DTCP_Code": "377",
+    "DTCP_Desc": "Truck Terminal",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "9",
+    "Use_NBC_Code": ""
+  },
+  {
+    "Activity_DTCP_Code": "378",
+    "DTCP_Desc": "Railway Station",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "9",
+    "Use_NBC_Code": ""
+  },
+  {
+    "Activity_DTCP_Code": "379",
+    "DTCP_Desc": "Airport",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "9",
+    "Use_NBC_Code": ""
+  },
+  {
+    "Activity_DTCP_Code": "652",
+    "DTCP_Desc": "Cell Tower",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "9",
+    "Use_NBC_Code": ""
+  },
+  {
+    "Activity_DTCP_Code": "406",
+    "DTCP_Desc": "Educational Building",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "10",
+    "Use_NBC_Code": "edu"
+  },
+  {
+    "Activity_DTCP_Code": "407",
+    "DTCP_Desc": "School",
+    "Activity_NBC_Code": "B1",
+    "Use_DTCP_Code": "10",
+    "Use_NBC_Code": "edu"
+  },
+  {
+    "Activity_DTCP_Code": "409",
+    "DTCP_Desc": "Primary School",
+    "Activity_NBC_Code": "B1",
+    "Use_DTCP_Code": "10",
+    "Use_NBC_Code": "edu"
+  },
+  {
+    "Activity_DTCP_Code": "410",
+    "DTCP_Desc": "Nursery School",
+    "Activity_NBC_Code": "B1",
+    "Use_DTCP_Code": "10",
+    "Use_NBC_Code": "edu"
+  },
+  {
+    "Activity_DTCP_Code": "411",
+    "DTCP_Desc": "High School",
+    "Activity_NBC_Code": "B1",
+    "Use_DTCP_Code": "10",
+    "Use_NBC_Code": "edu"
+  },
+  {
+    "Activity_DTCP_Code": "412",
+    "DTCP_Desc": "Secondary-Higher Secondary School",
+    "Activity_NBC_Code": "B1",
+    "Use_DTCP_Code": "10",
+    "Use_NBC_Code": "edu"
+  },
+  {
+    "Activity_DTCP_Code": "413",
+    "DTCP_Desc": "College",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "10",
+    "Use_NBC_Code": "edu"
+  },
+  {
+    "Activity_DTCP_Code": "415",
+    "DTCP_Desc": "Research Institution",
+    "Activity_NBC_Code": "E2",
+    "Use_DTCP_Code": "10",
+    "Use_NBC_Code": "edu"
+  },
+  {
+    "Activity_DTCP_Code": "416",
+    "DTCP_Desc": "Educational Institution",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "10",
+    "Use_NBC_Code": "edu"
+  },
+  {
+    "Activity_DTCP_Code": "420",
+    "DTCP_Desc": "Library",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "10",
+    "Use_NBC_Code": "edu"
+  },
+  {
+    "Activity_DTCP_Code": "421",
+    "DTCP_Desc": "Technical School",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "10",
+    "Use_NBC_Code": "edu"
+  },
+  {
+    "Activity_DTCP_Code": "422",
+    "DTCP_Desc": "Coaching Class",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "10",
+    "Use_NBC_Code": "edu"
+  },
+  {
+    "Activity_DTCP_Code": "423",
+    "DTCP_Desc": "Middle School",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "10",
+    "Use_NBC_Code": "edu"
+  },
+  {
+    "Activity_DTCP_Code": "424",
+    "DTCP_Desc": "Tutorial Centre",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "10",
+    "Use_NBC_Code": "edu"
+  },
+  {
+    "Activity_DTCP_Code": "427",
+    "DTCP_Desc": "Research and Development",
+    "Activity_NBC_Code": "E2",
+    "Use_DTCP_Code": "10",
+    "Use_NBC_Code": "edu"
+  },
+  {
+    "Activity_DTCP_Code": "430",
+    "DTCP_Desc": "Other Educational Building",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "10",
+    "Use_NBC_Code": "edu"
+  },
+  {
+    "Activity_DTCP_Code": "431",
+    "DTCP_Desc": "Nursing Home",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "11",
+    "Use_NBC_Code": ""
+  },
+  {
+    "Activity_DTCP_Code": "432",
+    "DTCP_Desc": "Dispensary",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "11",
+    "Use_NBC_Code": ""
+  },
+  {
+    "Activity_DTCP_Code": "433",
+    "DTCP_Desc": "Clinic",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "11",
+    "Use_NBC_Code": ""
+  },
+  {
+    "Activity_DTCP_Code": "434",
+    "DTCP_Desc": "Lab",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "11",
+    "Use_NBC_Code": ""
+  },
+  {
+    "Activity_DTCP_Code": "435",
+    "DTCP_Desc": "Indoor Patients Wards",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "11",
+    "Use_NBC_Code": ""
+  },
+  {
+    "Activity_DTCP_Code": "436",
+    "DTCP_Desc": "Hospital",
+    "Activity_NBC_Code": "C1",
+    "Use_DTCP_Code": "11",
+    "Use_NBC_Code": ""
+  },
+  {
+    "Activity_DTCP_Code": "437",
+    "DTCP_Desc": "Special Hospital",
+    "Activity_NBC_Code": "C1",
+    "Use_DTCP_Code": "11",
+    "Use_NBC_Code": ""
+  },
+  {
+    "Activity_DTCP_Code": "438",
+    "DTCP_Desc": "Private Hospital",
+    "Activity_NBC_Code": "C1",
+    "Use_DTCP_Code": "11",
+    "Use_NBC_Code": ""
+  },
+  {
+    "Activity_DTCP_Code": "441",
+    "DTCP_Desc": "Govt-Semi Govt. Hospital",
+    "Activity_NBC_Code": "C1",
+    "Use_DTCP_Code": "11",
+    "Use_NBC_Code": ""
+  },
+  {
+    "Activity_DTCP_Code": "442",
+    "DTCP_Desc": "Research and Training Center",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "11",
+    "Use_NBC_Code": ""
+  },
+  {
+    "Activity_DTCP_Code": "443",
+    "DTCP_Desc": "Rehabilitation Center",
+    "Activity_NBC_Code": "C3",
+    "Use_DTCP_Code": "11",
+    "Use_NBC_Code": ""
+  },
+  {
+    "Activity_DTCP_Code": "444",
+    "DTCP_Desc": "Govt. Dispansary",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "11",
+    "Use_NBC_Code": ""
+  },
+  {
+    "Activity_DTCP_Code": "445",
+    "DTCP_Desc": "Maternity Home",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "11",
+    "Use_NBC_Code": ""
+  },
+  {
+    "Activity_DTCP_Code": "446",
+    "DTCP_Desc": "Health Centre",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "11",
+    "Use_NBC_Code": ""
+  },
+  {
+    "Activity_DTCP_Code": "447",
+    "DTCP_Desc": "Medical Building",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "11",
+    "Use_NBC_Code": ""
+  },
+  {
+    "Activity_DTCP_Code": "448",
+    "DTCP_Desc": "Sanatoria",
+    "Activity_NBC_Code": "C1",
+    "Use_DTCP_Code": "11",
+    "Use_NBC_Code": ""
+  },
+  {
+    "Activity_DTCP_Code": "449",
+    "DTCP_Desc": "Forensic Science Laboratory",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "11",
+    "Use_NBC_Code": ""
+  },
+  {
+    "Activity_DTCP_Code": "450",
+    "DTCP_Desc": "Other Medical Building",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "11",
+    "Use_NBC_Code": ""
+  },
+  {
+    "Activity_DTCP_Code": "451",
+    "DTCP_Desc": "Storage Bldg",
+    "Activity_NBC_Code": "I1",
+    "Use_DTCP_Code": "12",
+    "Use_NBC_Code": "sto"
+  },
+  {
+    "Activity_DTCP_Code": "452",
+    "DTCP_Desc": "Godown",
+    "Activity_NBC_Code": "I1",
+    "Use_DTCP_Code": "12",
+    "Use_NBC_Code": "sto"
+  },
+  {
+    "Activity_DTCP_Code": "453",
+    "DTCP_Desc": "WareHouse",
+    "Activity_NBC_Code": "I1",
+    "Use_DTCP_Code": "12",
+    "Use_NBC_Code": "sto"
+  },
+  {
+    "Activity_DTCP_Code": "454",
+    "DTCP_Desc": "Cold Storage Depot",
+    "Activity_NBC_Code": "I1",
+    "Use_DTCP_Code": "12",
+    "Use_NBC_Code": "sto"
+  },
+  {
+    "Activity_DTCP_Code": "463",
+    "DTCP_Desc": "Other Building",
+    "Activity_NBC_Code": "I1",
+    "Use_DTCP_Code": "12",
+    "Use_NBC_Code": "sto"
+  },
+  {
+    "Activity_DTCP_Code": "485",
+    "DTCP_Desc": "Government",
+    "Activity_NBC_Code": " Semi-Government Organization",
+    "Use_DTCP_Code": "",
+    "Use_NBC_Code": "14"
+  },
+  {
+    "Activity_DTCP_Code": "486",
+    "DTCP_Desc": "Vocational Training Institute",
+    "Activity_NBC_Code": "B2",
+    "Use_DTCP_Code": "14",
+    "Use_NBC_Code": ""
+  },
+  {
+    "Activity_DTCP_Code": "487",
+    "DTCP_Desc": "Sports Training Institute",
+    "Activity_NBC_Code": "B2",
+    "Use_DTCP_Code": "14",
+    "Use_NBC_Code": ""
+  },
+  {
+    "Activity_DTCP_Code": "489",
+    "DTCP_Desc": "Institutional Building",
+    "Activity_NBC_Code": "B2",
+    "Use_DTCP_Code": "14",
+    "Use_NBC_Code": ""
+  },
+  {
+    "Activity_DTCP_Code": "573",
+    "DTCP_Desc": "Forest House",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "18",
+    "Use_NBC_Code": ""
+  },
+  {
+    "Activity_DTCP_Code": "574",
+    "DTCP_Desc": "Agro-research Farm",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "18",
+    "Use_NBC_Code": ""
+  },
+  {
+    "Activity_DTCP_Code": "575",
+    "DTCP_Desc": "Agriculturer Farm",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "18",
+    "Use_NBC_Code": ""
+  },
+  {
+    "Activity_DTCP_Code": "576",
+    "DTCP_Desc": "Garden Nursery",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "18",
+    "Use_NBC_Code": ""
+  },
+  {
+    "Activity_DTCP_Code": "577",
+    "DTCP_Desc": "Poultry",
+    "Activity_NBC_Code": " Dairy and Swine/Goat/Horse Farm",
+    "Use_DTCP_Code": "",
+    "Use_NBC_Code": "18"
+  },
+  {
+    "Activity_DTCP_Code": "650",
+    "DTCP_Desc": "Agro Godown",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "18",
+    "Use_NBC_Code": ""
+  },
+  {
+    "Activity_DTCP_Code": "579",
+    "DTCP_Desc": "Resi+Comm",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "20",
+    "Use_NBC_Code": ""
+  },
+  {
+    "Activity_DTCP_Code": "656",
+    "DTCP_Desc": "Cell Tower",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "9",
+    "Use_NBC_Code": ""
+  },
+  {
+    "Activity_DTCP_Code": "657",
+    "DTCP_Desc": "Hut",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "1",
+    "Use_NBC_Code": "res"
+  },
+  {
+    "Activity_DTCP_Code": "674",
+    "DTCP_Desc": "Mini Theatre",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "7",
+    "Use_NBC_Code": "asm"
+  },
+  {
+    "Activity_DTCP_Code": "675",
+    "DTCP_Desc": "Mini Digital Theatre",
+    "Activity_NBC_Code": "",
+    "Use_DTCP_Code": "7",
+    "Use_NBC_Code": "asm"
+  }
+]

@@ -1,0 +1,1117 @@
+[
+ {
+  "code": "P-MSB",
+  "appl_type": "P",
+  "level": "MSB",
+  "name": "Provisional NOC — Head Office",
+  "version": 1,
+  "updated_on": "01-Jan-2026",
+  "updated_by": "seed",
+  "stages": [
+   {
+    "key": "scrutiny",
+    "name": "Scrutiny & Inspection",
+    "stage_label": "Inspected",
+    "citizen_status": 3,
+    "tasks": [
+     {
+      "key": "section",
+      "name": "Scrutiny by Section",
+      "role_id": 10,
+      "form": "section_note",
+      "action_label": "Submit Note",
+      "permissions": {
+       "send_back": false,
+       "request_documents": true,
+       "skippable": false,
+       "reassignable": false
+      }
+     },
+     {
+      "key": "inspection",
+      "name": "Inspection Report (Committee Chairman)",
+      "role_id": 6,
+      "form": "inspection_report",
+      "action_label": "Submit Report",
+      "permissions": {
+       "send_back": false,
+       "request_documents": true,
+       "skippable": true,
+       "reassignable": true
+      }
+     },
+     {
+      "key": "committee",
+      "name": "Committee Member Concurrence",
+      "role_id": 9,
+      "form": "committee_concurrence",
+      "action_label": "Submit",
+      "permissions": {
+       "send_back": false,
+       "request_documents": true,
+       "skippable": true,
+       "reassignable": true
+      }
+     }
+    ]
+   },
+   {
+    "key": "rfo",
+    "name": "Regional Review",
+    "stage_label": "Reviewed by RFO",
+    "citizen_status": 3,
+    "tasks": [
+     {
+      "key": "rfo",
+      "name": "RFO Note",
+      "role_id": 7,
+      "form": "rfo_note",
+      "action_label": "Review",
+      "permissions": {
+       "send_back": true,
+       "request_documents": true,
+       "skippable": true,
+       "reassignable": false
+      }
+     }
+    ]
+   },
+   {
+    "key": "adfs",
+    "name": "ADFS Review",
+    "stage_label": "Reviewed by ADFS",
+    "citizen_status": 4,
+    "tasks": [
+     {
+      "key": "adfs",
+      "name": "ADFS Note",
+      "role_id": 5,
+      "form": "adfs_note",
+      "action_label": "Review",
+      "permissions": {
+       "send_back": true,
+       "request_documents": true,
+       "skippable": true,
+       "reassignable": false
+      }
+     }
+    ]
+   },
+   {
+    "key": "dfscd",
+    "name": "DFS-CD Review",
+    "stage_label": "Reviewed by DFS-CD",
+    "citizen_status": 5,
+    "tasks": [
+     {
+      "key": "dfscd",
+      "name": "DFS-CD Note",
+      "role_id": 3,
+      "form": "dfscd_note",
+      "action_label": "Review",
+      "permissions": {
+       "send_back": true,
+       "request_documents": true,
+       "skippable": true,
+       "reassignable": false
+      }
+     }
+    ]
+   },
+   {
+    "key": "dfs",
+    "name": "DFS Review",
+    "stage_label": "Reviewed by DFS",
+    "citizen_status": 6,
+    "tasks": [
+     {
+      "key": "dfs",
+      "name": "DFS Note",
+      "role_id": 2,
+      "form": "dfs_note",
+      "action_label": "Review",
+      "permissions": {
+       "send_back": true,
+       "request_documents": true,
+       "skippable": true,
+       "reassignable": false
+      }
+     }
+    ]
+   },
+   {
+    "key": "decision",
+    "name": "Final Decision",
+    "stage_label": "Decided",
+    "citizen_status": 6,
+    "tasks": [
+     {
+      "key": "decision",
+      "name": "Final Decision",
+      "role_id": 1,
+      "form": "final_decision",
+      "action_label": "Issue/Reject",
+      "permissions": {
+       "send_back": true,
+       "request_documents": true,
+       "skippable": false,
+       "reassignable": false
+      },
+      "decision": {
+       "outcomes": [
+        "approve",
+        "return",
+        "reject"
+       ]
+      }
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "code": "P-RFO",
+  "appl_type": "P",
+  "level": "RFO",
+  "name": "Provisional NOC — Regional",
+  "version": 1,
+  "updated_on": "01-Jan-2026",
+  "updated_by": "seed",
+  "stages": [
+   {
+    "key": "inspection",
+    "name": "Inspection",
+    "stage_label": "Inspected",
+    "citizen_status": 3,
+    "tasks": [
+     {
+      "key": "inspection",
+      "name": "Inspection Report",
+      "role_id": 9,
+      "form": "inspection_report",
+      "action_label": "Submit Report",
+      "permissions": {
+       "send_back": false,
+       "request_documents": true,
+       "skippable": true,
+       "reassignable": true
+      }
+     }
+    ]
+   },
+   {
+    "key": "dfo",
+    "name": "District Review",
+    "stage_label": "Reviewed by DFO",
+    "citizen_status": 6,
+    "tasks": [
+     {
+      "key": "dfo",
+      "name": "DFO Note",
+      "role_id": 6,
+      "form": "dfo_note",
+      "action_label": "Review",
+      "permissions": {
+       "send_back": true,
+       "request_documents": true,
+       "skippable": true,
+       "reassignable": false
+      }
+     }
+    ]
+   },
+   {
+    "key": "decision",
+    "name": "Final Decision",
+    "stage_label": "Decided",
+    "citizen_status": 6,
+    "tasks": [
+     {
+      "key": "decision",
+      "name": "Final Decision",
+      "role_id": 7,
+      "form": "final_decision",
+      "action_label": "Issue/Reject",
+      "permissions": {
+       "send_back": true,
+       "request_documents": true,
+       "skippable": false,
+       "reassignable": false
+      },
+      "decision": {
+       "outcomes": [
+        "approve",
+        "return",
+        "reject"
+       ]
+      }
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "code": "P-DFO",
+  "appl_type": "P",
+  "level": "DFO",
+  "name": "Provisional NOC — District",
+  "version": 1,
+  "updated_on": "01-Jan-2026",
+  "updated_by": "seed",
+  "stages": [
+   {
+    "key": "inspection",
+    "name": "Inspection",
+    "stage_label": "Inspected",
+    "citizen_status": 6,
+    "tasks": [
+     {
+      "key": "inspection",
+      "name": "Inspection Report",
+      "role_id": 9,
+      "form": "inspection_report",
+      "action_label": "Submit Report",
+      "permissions": {
+       "send_back": false,
+       "request_documents": true,
+       "skippable": true,
+       "reassignable": true
+      }
+     }
+    ]
+   },
+   {
+    "key": "decision",
+    "name": "Final Decision",
+    "stage_label": "Decided",
+    "citizen_status": 6,
+    "tasks": [
+     {
+      "key": "decision",
+      "name": "Final Decision",
+      "role_id": 6,
+      "form": "final_decision",
+      "action_label": "Issue/Reject",
+      "permissions": {
+       "send_back": true,
+       "request_documents": true,
+       "skippable": false,
+       "reassignable": false
+      },
+      "decision": {
+       "outcomes": [
+        "approve",
+        "return",
+        "reject"
+       ]
+      }
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "code": "O-MSB",
+  "appl_type": "O",
+  "level": "MSB",
+  "name": "Occupancy NOC — Head Office",
+  "version": 1,
+  "updated_on": "01-Jan-2026",
+  "updated_by": "seed",
+  "stages": [
+   {
+    "key": "scrutiny",
+    "name": "Scrutiny & Inspection",
+    "stage_label": "Inspected",
+    "citizen_status": 3,
+    "tasks": [
+     {
+      "key": "section",
+      "name": "Scrutiny by Section",
+      "role_id": 10,
+      "form": "section_note",
+      "action_label": "Submit Note",
+      "permissions": {
+       "send_back": false,
+       "request_documents": true,
+       "skippable": false,
+       "reassignable": false
+      }
+     },
+     {
+      "key": "inspection",
+      "name": "Inspection Report (Committee Chairman)",
+      "role_id": 6,
+      "form": "inspection_report",
+      "action_label": "Submit Report",
+      "permissions": {
+       "send_back": false,
+       "request_documents": true,
+       "skippable": true,
+       "reassignable": true
+      }
+     },
+     {
+      "key": "committee",
+      "name": "Committee Member Concurrence",
+      "role_id": 9,
+      "form": "committee_concurrence",
+      "action_label": "Submit",
+      "permissions": {
+       "send_back": false,
+       "request_documents": true,
+       "skippable": true,
+       "reassignable": true
+      }
+     }
+    ]
+   },
+   {
+    "key": "rfo",
+    "name": "Regional Review",
+    "stage_label": "Reviewed by RFO",
+    "citizen_status": 3,
+    "tasks": [
+     {
+      "key": "rfo",
+      "name": "RFO Note",
+      "role_id": 7,
+      "form": "rfo_note",
+      "action_label": "Review",
+      "permissions": {
+       "send_back": true,
+       "request_documents": true,
+       "skippable": true,
+       "reassignable": false
+      }
+     }
+    ]
+   },
+   {
+    "key": "adfs",
+    "name": "ADFS Review",
+    "stage_label": "Reviewed by ADFS",
+    "citizen_status": 4,
+    "tasks": [
+     {
+      "key": "adfs",
+      "name": "ADFS Note",
+      "role_id": 5,
+      "form": "adfs_note",
+      "action_label": "Review",
+      "permissions": {
+       "send_back": true,
+       "request_documents": true,
+       "skippable": true,
+       "reassignable": false
+      }
+     }
+    ]
+   },
+   {
+    "key": "dfscd",
+    "name": "DFS-CD Review",
+    "stage_label": "Reviewed by DFS-CD",
+    "citizen_status": 5,
+    "tasks": [
+     {
+      "key": "dfscd",
+      "name": "DFS-CD Note",
+      "role_id": 3,
+      "form": "dfscd_note",
+      "action_label": "Review",
+      "permissions": {
+       "send_back": true,
+       "request_documents": true,
+       "skippable": true,
+       "reassignable": false
+      }
+     }
+    ]
+   },
+   {
+    "key": "dfs",
+    "name": "DFS Review",
+    "stage_label": "Reviewed by DFS",
+    "citizen_status": 6,
+    "tasks": [
+     {
+      "key": "dfs",
+      "name": "DFS Note",
+      "role_id": 2,
+      "form": "dfs_note",
+      "action_label": "Review",
+      "permissions": {
+       "send_back": true,
+       "request_documents": true,
+       "skippable": true,
+       "reassignable": false
+      }
+     }
+    ]
+   },
+   {
+    "key": "decision",
+    "name": "Final Decision",
+    "stage_label": "Decided",
+    "citizen_status": 6,
+    "tasks": [
+     {
+      "key": "decision",
+      "name": "Final Decision",
+      "role_id": 1,
+      "form": "final_decision",
+      "action_label": "Issue/Reject",
+      "permissions": {
+       "send_back": true,
+       "request_documents": true,
+       "skippable": false,
+       "reassignable": false
+      },
+      "decision": {
+       "outcomes": [
+        "approve",
+        "return",
+        "reject"
+       ]
+      }
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "code": "O-RFO",
+  "appl_type": "O",
+  "level": "RFO",
+  "name": "Occupancy NOC — Regional",
+  "version": 1,
+  "updated_on": "01-Jan-2026",
+  "updated_by": "seed",
+  "stages": [
+   {
+    "key": "inspection",
+    "name": "Inspection",
+    "stage_label": "Inspected",
+    "citizen_status": 3,
+    "tasks": [
+     {
+      "key": "inspection",
+      "name": "Inspection Report",
+      "role_id": 9,
+      "form": "inspection_report",
+      "action_label": "Submit Report",
+      "permissions": {
+       "send_back": false,
+       "request_documents": true,
+       "skippable": true,
+       "reassignable": true
+      }
+     }
+    ]
+   },
+   {
+    "key": "dfo",
+    "name": "District Review",
+    "stage_label": "Reviewed by DFO",
+    "citizen_status": 6,
+    "tasks": [
+     {
+      "key": "dfo",
+      "name": "DFO Note",
+      "role_id": 6,
+      "form": "dfo_note",
+      "action_label": "Review",
+      "permissions": {
+       "send_back": true,
+       "request_documents": true,
+       "skippable": true,
+       "reassignable": false
+      }
+     }
+    ]
+   },
+   {
+    "key": "decision",
+    "name": "Final Decision",
+    "stage_label": "Decided",
+    "citizen_status": 6,
+    "tasks": [
+     {
+      "key": "decision",
+      "name": "Final Decision",
+      "role_id": 7,
+      "form": "final_decision",
+      "action_label": "Issue/Reject",
+      "permissions": {
+       "send_back": true,
+       "request_documents": true,
+       "skippable": false,
+       "reassignable": false
+      },
+      "decision": {
+       "outcomes": [
+        "approve",
+        "return",
+        "reject"
+       ]
+      }
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "code": "O-DFO",
+  "appl_type": "O",
+  "level": "DFO",
+  "name": "Occupancy NOC — District",
+  "version": 1,
+  "updated_on": "01-Jan-2026",
+  "updated_by": "seed",
+  "stages": [
+   {
+    "key": "inspection",
+    "name": "Inspection",
+    "stage_label": "Inspected",
+    "citizen_status": 6,
+    "tasks": [
+     {
+      "key": "inspection",
+      "name": "Inspection Report",
+      "role_id": 9,
+      "form": "inspection_report",
+      "action_label": "Submit Report",
+      "permissions": {
+       "send_back": false,
+       "request_documents": true,
+       "skippable": true,
+       "reassignable": true
+      }
+     }
+    ]
+   },
+   {
+    "key": "decision",
+    "name": "Final Decision",
+    "stage_label": "Decided",
+    "citizen_status": 6,
+    "tasks": [
+     {
+      "key": "decision",
+      "name": "Final Decision",
+      "role_id": 6,
+      "form": "final_decision",
+      "action_label": "Issue/Reject",
+      "permissions": {
+       "send_back": true,
+       "request_documents": true,
+       "skippable": false,
+       "reassignable": false
+      },
+      "decision": {
+       "outcomes": [
+        "approve",
+        "return",
+        "reject"
+       ]
+      }
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "code": "R-MSB",
+  "appl_type": "R",
+  "level": "MSB",
+  "name": "Renewal of Occupancy NOC — Head Office",
+  "version": 1,
+  "updated_on": "01-Jan-2026",
+  "updated_by": "seed",
+  "stages": [
+   {
+    "key": "scrutiny",
+    "name": "Scrutiny & Inspection",
+    "stage_label": "Inspected",
+    "citizen_status": 3,
+    "tasks": [
+     {
+      "key": "section",
+      "name": "Scrutiny by Section",
+      "role_id": 10,
+      "form": "section_note",
+      "action_label": "Submit Note",
+      "permissions": {
+       "send_back": false,
+       "request_documents": true,
+       "skippable": false,
+       "reassignable": false
+      }
+     },
+     {
+      "key": "inspection",
+      "name": "Inspection Report (Committee Chairman)",
+      "role_id": 6,
+      "form": "inspection_report",
+      "action_label": "Submit Report",
+      "permissions": {
+       "send_back": false,
+       "request_documents": true,
+       "skippable": true,
+       "reassignable": true
+      }
+     },
+     {
+      "key": "committee",
+      "name": "Committee Member Concurrence",
+      "role_id": 9,
+      "form": "committee_concurrence",
+      "action_label": "Submit",
+      "permissions": {
+       "send_back": false,
+       "request_documents": true,
+       "skippable": true,
+       "reassignable": true
+      }
+     }
+    ]
+   },
+   {
+    "key": "rfo",
+    "name": "Regional Review",
+    "stage_label": "Reviewed by RFO / Renewal Inspected",
+    "citizen_status": 4,
+    "tasks": [
+     {
+      "key": "rfo",
+      "name": "RFO Note",
+      "role_id": 7,
+      "form": "rfo_note",
+      "action_label": "Review",
+      "permissions": {
+       "send_back": true,
+       "request_documents": true,
+       "skippable": true,
+       "reassignable": false
+      }
+     }
+    ]
+   },
+   {
+    "key": "adfs",
+    "name": "ADFS Review",
+    "stage_label": "Reviewed by ADFS",
+    "citizen_status": 5,
+    "tasks": [
+     {
+      "key": "adfs",
+      "name": "ADFS Note",
+      "role_id": 5,
+      "form": "adfs_note",
+      "action_label": "Review",
+      "permissions": {
+       "send_back": true,
+       "request_documents": true,
+       "skippable": true,
+       "reassignable": false
+      }
+     }
+    ]
+   },
+   {
+    "key": "dfscd",
+    "name": "DFS-CD Review",
+    "stage_label": "Reviewed by DFS-CD",
+    "citizen_status": 6,
+    "tasks": [
+     {
+      "key": "dfscd",
+      "name": "DFS-CD Note",
+      "role_id": 3,
+      "form": "dfscd_note",
+      "action_label": "Review",
+      "permissions": {
+       "send_back": true,
+       "request_documents": true,
+       "skippable": true,
+       "reassignable": false
+      }
+     }
+    ]
+   },
+   {
+    "key": "decision",
+    "name": "Final Decision",
+    "stage_label": "Decided",
+    "citizen_status": 6,
+    "tasks": [
+     {
+      "key": "decision",
+      "name": "Final Decision",
+      "role_id": 2,
+      "form": "final_decision",
+      "action_label": "Issue/Reject",
+      "permissions": {
+       "send_back": true,
+       "request_documents": true,
+       "skippable": false,
+       "reassignable": false
+      },
+      "decision": {
+       "outcomes": [
+        "approve",
+        "return",
+        "reject"
+       ]
+      }
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "code": "R-RFO",
+  "appl_type": "R",
+  "level": "RFO",
+  "name": "Renewal of Occupancy NOC — Regional",
+  "version": 1,
+  "updated_on": "01-Jan-2026",
+  "updated_by": "seed",
+  "stages": [
+   {
+    "key": "inspection",
+    "name": "Inspection",
+    "stage_label": "Inspected",
+    "citizen_status": 3,
+    "tasks": [
+     {
+      "key": "inspection",
+      "name": "Inspection Report",
+      "role_id": 9,
+      "form": "inspection_report",
+      "action_label": "Submit Report",
+      "permissions": {
+       "send_back": false,
+       "request_documents": true,
+       "skippable": true,
+       "reassignable": true
+      }
+     }
+    ]
+   },
+   {
+    "key": "dfo",
+    "name": "District Review",
+    "stage_label": "Reviewed by DFO",
+    "citizen_status": 6,
+    "tasks": [
+     {
+      "key": "dfo",
+      "name": "DFO Note",
+      "role_id": 6,
+      "form": "dfo_note",
+      "action_label": "Review",
+      "permissions": {
+       "send_back": true,
+       "request_documents": true,
+       "skippable": true,
+       "reassignable": false
+      }
+     }
+    ]
+   },
+   {
+    "key": "decision",
+    "name": "Final Decision",
+    "stage_label": "Decided",
+    "citizen_status": 6,
+    "tasks": [
+     {
+      "key": "decision",
+      "name": "Final Decision",
+      "role_id": 7,
+      "form": "final_decision",
+      "action_label": "Issue/Reject",
+      "permissions": {
+       "send_back": true,
+       "request_documents": true,
+       "skippable": false,
+       "reassignable": false
+      },
+      "decision": {
+       "outcomes": [
+        "approve",
+        "return",
+        "reject"
+       ]
+      }
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "code": "R-DFO",
+  "appl_type": "R",
+  "level": "DFO",
+  "name": "Renewal of Occupancy NOC — District",
+  "version": 1,
+  "updated_on": "01-Jan-2026",
+  "updated_by": "seed",
+  "stages": [
+   {
+    "key": "inspection",
+    "name": "Inspection",
+    "stage_label": "Inspected",
+    "citizen_status": 6,
+    "tasks": [
+     {
+      "key": "inspection",
+      "name": "Inspection Report",
+      "role_id": 9,
+      "form": "inspection_report",
+      "action_label": "Submit Report",
+      "permissions": {
+       "send_back": false,
+       "request_documents": true,
+       "skippable": true,
+       "reassignable": true
+      }
+     }
+    ]
+   },
+   {
+    "key": "decision",
+    "name": "Final Decision",
+    "stage_label": "Decided",
+    "citizen_status": 6,
+    "tasks": [
+     {
+      "key": "decision",
+      "name": "Final Decision",
+      "role_id": 6,
+      "form": "final_decision",
+      "action_label": "Issue/Reject",
+      "permissions": {
+       "send_back": true,
+       "request_documents": true,
+       "skippable": false,
+       "reassignable": false
+      },
+      "decision": {
+       "outcomes": [
+        "approve",
+        "return",
+        "reject"
+       ]
+      }
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "code": "D-MSB",
+  "appl_type": "D",
+  "level": "MSB",
+  "name": "Declaration for Renewal — Head Office",
+  "version": 1,
+  "updated_on": "01-Jan-2026",
+  "updated_by": "seed",
+  "stages": [
+   {
+    "key": "inspection",
+    "name": "Inspection (when ordered)",
+    "stage_label": "Inspected",
+    "citizen_status": 6,
+    "tasks": [
+     {
+      "key": "inspection",
+      "name": "Inspection Report (Committee Chairman)",
+      "role_id": 6,
+      "form": "inspection_report",
+      "action_label": "Submit Report",
+      "permissions": {
+       "send_back": false,
+       "request_documents": true,
+       "skippable": true,
+       "reassignable": true
+      },
+      "on_demand": true
+     },
+     {
+      "key": "committee",
+      "name": "Committee Member Concurrence",
+      "role_id": 9,
+      "form": "committee_concurrence",
+      "action_label": "Submit",
+      "permissions": {
+       "send_back": false,
+       "request_documents": true,
+       "skippable": true,
+       "reassignable": true
+      },
+      "on_demand": true
+     }
+    ]
+   },
+   {
+    "key": "decision",
+    "name": "Final Decision",
+    "stage_label": "Decided",
+    "citizen_status": 6,
+    "tasks": [
+     {
+      "key": "decision",
+      "name": "Final Decision",
+      "role_id": 2,
+      "form": "final_decision",
+      "action_label": "Issue/Reject",
+      "permissions": {
+       "send_back": true,
+       "request_documents": true,
+       "skippable": false,
+       "reassignable": false
+      },
+      "decision": {
+       "outcomes": [
+        "approve",
+        "return",
+        "reject",
+        "inspect"
+       ],
+       "inspect_stage": "inspection"
+      }
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "code": "D-RFO",
+  "appl_type": "D",
+  "level": "RFO",
+  "name": "Declaration for Renewal — Regional",
+  "version": 1,
+  "updated_on": "01-Jan-2026",
+  "updated_by": "seed",
+  "stages": [
+   {
+    "key": "inspection",
+    "name": "Inspection (when ordered)",
+    "stage_label": "Inspected",
+    "citizen_status": 6,
+    "tasks": [
+     {
+      "key": "inspection",
+      "name": "Inspection Report",
+      "role_id": 9,
+      "form": "inspection_report",
+      "action_label": "Submit Report",
+      "permissions": {
+       "send_back": false,
+       "request_documents": true,
+       "skippable": true,
+       "reassignable": true
+      },
+      "on_demand": true
+     }
+    ]
+   },
+   {
+    "key": "decision",
+    "name": "Final Decision",
+    "stage_label": "Decided",
+    "citizen_status": 6,
+    "tasks": [
+     {
+      "key": "decision",
+      "name": "Final Decision",
+      "role_id": 7,
+      "form": "final_decision",
+      "action_label": "Issue/Reject",
+      "permissions": {
+       "send_back": true,
+       "request_documents": true,
+       "skippable": false,
+       "reassignable": false
+      },
+      "decision": {
+       "outcomes": [
+        "approve",
+        "return",
+        "reject",
+        "inspect"
+       ],
+       "inspect_stage": "inspection"
+      }
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "code": "D-DFO",
+  "appl_type": "D",
+  "level": "DFO",
+  "name": "Declaration for Renewal — District",
+  "version": 1,
+  "updated_on": "01-Jan-2026",
+  "updated_by": "seed",
+  "stages": [
+   {
+    "key": "inspection",
+    "name": "Inspection (when ordered)",
+    "stage_label": "Inspected",
+    "citizen_status": 6,
+    "tasks": [
+     {
+      "key": "inspection",
+      "name": "Inspection Report",
+      "role_id": 9,
+      "form": "inspection_report",
+      "action_label": "Submit Report",
+      "permissions": {
+       "send_back": false,
+       "request_documents": true,
+       "skippable": true,
+       "reassignable": true
+      },
+      "on_demand": true
+     }
+    ]
+   },
+   {
+    "key": "decision",
+    "name": "Final Decision",
+    "stage_label": "Decided",
+    "citizen_status": 6,
+    "tasks": [
+     {
+      "key": "decision",
+      "name": "Final Decision",
+      "role_id": 6,
+      "form": "final_decision",
+      "action_label": "Issue/Reject",
+      "permissions": {
+       "send_back": true,
+       "request_documents": true,
+       "skippable": false,
+       "reassignable": false
+      },
+      "decision": {
+       "outcomes": [
+        "approve",
+        "return",
+        "reject",
+        "inspect"
+       ],
+       "inspect_stage": "inspection"
+      }
+     }
+    ]
+   }
+  ]
+ }
+]

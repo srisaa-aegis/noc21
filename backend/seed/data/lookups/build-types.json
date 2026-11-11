@@ -1,0 +1,211 @@
+[
+  {
+    "code": "res",
+    "name": "Residential",
+    "desc": "Apartments, Hostels etc",
+    "sub": [
+      {
+        "code": "A1",
+        "name": "Lodging or Rooming Houses"
+      },
+      {
+        "code": "A2",
+        "name": "One or Two Private Family Dwelling"
+      },
+      {
+        "code": "A3",
+        "name": "Dormitories"
+      },
+      {
+        "code": "A4",
+        "name": "Apartment House"
+      },
+      {
+        "code": "A5",
+        "name": "Hotels"
+      },
+      {
+        "code": "A6",
+        "name": "Hotels (Starred)"
+      }
+    ],
+    "minh": 18,
+    "maxh": -1
+  },
+  {
+    "code": "edu",
+    "name": "Educational",
+    "desc": "School, Training Institution etc",
+    "sub": [
+      {
+        "code": "B1",
+        "name": " Schools up to Senior Secondary Level "
+      },
+      {
+        "code": "B2",
+        "name": "All other/Training Institutions"
+      }
+    ],
+    "minh": 6,
+    "maxh": 30
+  },
+  {
+    "code": "ins",
+    "name": "Institutional (Hospitals)",
+    "desc": "Hospitals,Custodial Institutions etc",
+    "sub": [
+      {
+        "code": "C1",
+        "name": "Hospitals and Sanatoria"
+      },
+      {
+        "code": "C2",
+        "name": "Custodial Institutions"
+      },
+      {
+        "code": "C3",
+        "name": "Penal and Mental Institutions"
+      }
+    ],
+    "minh": 15,
+    "maxh": 30
+  },
+  {
+    "code": "asm",
+    "name": "Assembly",
+    "desc": "Function Halls, Cinema Theatres, Multiplexes etc",
+    "sub": [
+      {
+        "code": "D1",
+        "name": "Theatricals or motion picture ,fixed seats >1000"
+      },
+      {
+        "code": "D2",
+        "name": "Theatricals or motion picture ,fixed seats <1000"
+      },
+      {
+        "code": "D3",
+        "name": "Without a permanent stage,no seating > 300"
+      },
+      {
+        "code": "D4",
+        "name": "Without a permanent stage,no seating < 300"
+      },
+      {
+        "code": "D5",
+        "name": "All other structures not covered by D1 to D4"
+      },
+      {
+        "code": "D6",
+        "name": "Mixed Occupancy"
+      },
+      {
+        "code": "D7",
+        "name": "Underground and elevated mass rapid transit system(metro)"
+      }
+    ],
+    "minh": 6,
+    "maxh": 30
+  },
+  {
+    "code": "biz",
+    "name": "Business",
+    "desc": "Offices, Banks etc",
+    "sub": [
+      {
+        "code": "E1",
+        "name": "Offices, banks, Professional establishments,Police stations"
+      },
+      {
+        "code": "E2",
+        "name": "Laboratories, Research establishments, Libraries,Test houses"
+      },
+      {
+        "code": "E3",
+        "name": "Computer Installations"
+      },
+      {
+        "code": "E4",
+        "name": "Telephone Exchanges"
+      },
+      {
+        "code": "E5",
+        "name": "Broadcasting stations and T.V. Stations"
+      }
+    ],
+    "minh": 15,
+    "maxh": -1
+  },
+  {
+    "code": "mer",
+    "name": "Mercantile",
+    "desc": "Shopping Malls, Commercial Complexes etc",
+    "sub": [
+      {
+        "code": "F1",
+        "name": "Shopping Malls, Commercial Complxes up to 500sqmt covered area"
+      },
+      {
+        "code": "F2",
+        "name": "Shopping Malls, Commercial Complxes above 500sqmt covered area"
+      },
+      {
+        "code": "F3",
+        "name": "Underground shopping centres"
+      }
+    ],
+    "minh": 15,
+    "maxh": 30
+  },
+  {
+    "code": "ind",
+    "name": "Industrial",
+    "desc": "Industries",
+    "sub": [
+      {
+        "code": "G1",
+        "name": "Low Hazards"
+      },
+      {
+        "code": "G2",
+        "name": "Moderate Hazards"
+      },
+      {
+        "code": "G3",
+        "name": "High Hazards"
+      }
+    ],
+    "minh": 6,
+    "maxh": 18
+  },
+  {
+    "code": "sto",
+    "name": "Storage",
+    "desc": "Storage Buildings",
+    "sub": [
+      {
+        "code": "I1",
+        "name": "Storage Buildings"
+      },
+      {
+        "code": "mlcp",
+        "name": "Multilevel Car parking"
+      }
+    ],
+    "minh": 0,
+    "maxh": 45
+  },
+  {
+    "code": "haz",
+    "name": "Hazardous",
+    "desc": "Hazardous Buildings",
+    "sub": [
+      {
+        "code": "J1",
+        "name": "Hazardous Buildings"
+      }
+    ],
+    "minh": 0,
+    "maxh": 15
+  }
+]

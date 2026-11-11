@@ -1,0 +1,81 @@
+<div class="page">
+  <div class="page-header">
+    <div>
+      <p class="page-header__eyebrow">Admin</p>
+      <h2>SLA &amp; Escalations</h2>
+      <p>Days allowed for each step, for the inspection and for the whole processing of an application. When the processing SLA is crossed the issuing authority can only approve or reject the application (no return).</p>
+    </div>
+    <a class="btn btn--secondary" routerLink="/admin/workflows"><app-icon name="layers" size="16"></app-icon> Workflows</a>
+  </div>
+
+  @if (draft(); as s) {
+    @if (problems().length) {
+      <div class="banner banner--error" role="alert">
+        <app-icon name="alert-circle" size="18"></app-icon>
+        <div><strong>Please correct the following before saving:</strong><ul>@for (p of problems(); track p) { <li>{{ p }}</li> }</ul></div>
+      </div>
+    }
+
+    <section class="card escalation">
+      <h3><app-icon name="bell" size="18"></app-icon> Escalations</h3>
+      <p class="hint">"Send Escalations" (Admin workbench) reminds about tasks past their step / inspection SLA and files past the processing SLA.</p>
+      <div class="escalation__row">
+        <label class="checkbox-row"><input type="checkbox" [(ngModel)]="s.escalation.notify_officer" (ngModelChange)="touch()" /> Notify the officer the task is pending with</label>
+        <label class="checkbox-row"><input type="checkbox" [(ngModel)]="s.escalation.notify_approver" (ngModelChange)="touch()" /> Notify the issuing authority of the file</label>
+        <label class="inline">
+          Repeat a reminder for the same item every
+          <input class="input days" type="number" min="1" max="365" aria-label="Reminder interval in days" [(ngModel)]="s.escalation.remind_every_days" (ngModelChange)="touch()" />
+          days
+        </label>
+      </div>
+    </section>
+
+    <div class="wf-grid">
+      @for (w of workflows(); track w.def.code) {
+        @let ws = s.workflows[w.def.code];
+        <section class="card wf" [attr.aria-label]="'SLA of ' + w.def.name">
+          <header class="wf__head">
+            <span class="wf__id">{{ w.def.code }}</span>
+            <span class="wf__name">{{ w.def.name }}</span>
+          </header>
+          <div class="wf__main">
+            <label class="field">
+              <span class="field__label">Whole processing</span>
+              <span class="inline"><input class="input days" type="number" min="1" max="365" [attr.aria-label]="w.def.code + ' processing SLA'" [(ngModel)]="ws.processing_days" (ngModelChange)="touch()" /> days</span>
+            </label>
+            <label class="field">
+              <span class="field__label">Inspection</span>
+              <span class="inline"><input class="input days" type="number" min="1" max="365" [attr.aria-label]="w.def.code + ' inspection SLA'" [(ngModel)]="ws.inspection_days" (ngModelChange)="touch()" /> days</span>
+            </label>
+          </div>
+          <table class="table steps">
+            <tbody>
+              @for (st of w.steps; track st.key) {
+                <tr>
+                  <td>{{ st.name }} <span class="muted">{{ st.role }}</span></td>
+                  <td class="num">
+                    @if (st.inspection) {
+                      <span class="muted">inspection SLA</span>
+                    } @else {
+                      <input class="input days" type="number" min="1" max="365" [attr.aria-label]="w.def.code + ' ' + st.name + ' SLA'" [(ngModel)]="ws.step_days[st.key]" (ngModelChange)="touch()" />
+                    }
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+          @let sum = sumOfSteps(w.def.code, w.steps);
+          <p class="sum" [class.bad-text]="sum > ws.processing_days">Sum of the steps: {{ sum }} days@if (sum > ws.processing_days) { — more than the processing SLA }</p>
+        </section>
+      }
+    </div>
+
+    <div class="savebar">
+      <span class="spacer"></span>
+      <button type="button" class="btn btn--ghost" [disabled]="!dirty()" (click)="discard()">Discard changes</button>
+      <button type="button" class="btn btn--primary" [disabled]="!dirty() || problems().length > 0 || saving()" (click)="save()"><app-icon name="save" size="14"></app-icon> {{ saving() ? 'Saving…' : 'Save' }}</button>
+    </div>
+  } @else {
+    <p class="empty-state">Loading…</p>
+  }
+</div>

@@ -1,0 +1,168 @@
+<div class="page">
+  <div class="page-header">
+    <div>
+      <p class="page-header__eyebrow">Citizen Portal</p>
+      <h2>My Applications</h2>
+    </div>
+    <div class="summary-chips">
+      <div class="summary-chip">
+        <span class="summary-chip__value">{{ summary().total }}</span>
+        <span class="summary-chip__label">Total</span>
+      </div>
+      <div class="summary-chip">
+        <span class="summary-chip__value">{{ summary().inProgress }}</span>
+        <span class="summary-chip__label">In Progress</span>
+      </div>
+      <div class="summary-chip summary-chip--approved">
+        <span class="summary-chip__value">{{ summary().approved }}</span>
+        <span class="summary-chip__label">Approved</span>
+      </div>
+      <div class="summary-chip summary-chip--attention">
+        <span class="summary-chip__value">{{ summary().needsAttention }}</span>
+        <span class="summary-chip__label">Needs Attention</span>
+      </div>
+    </div>
+  </div>
+
+  <h3 class="apply-title">Apply for a new NOC</h3>
+  <section class="apply-cards">
+    @for (type of applicationTypes(); track type.code) {
+      <button type="button" class="apply-card" (click)="actions.start(type)">
+        <app-icon [name]="type.icon ?? 'file'" size="24"></app-icon>
+        <span class="apply-card__label">{{ type.shortLabel ?? type.name }}</span>
+        <span class="apply-card__desc">{{ type.description }}</span>
+      </button>
+    }
+  </section>
+
+  <div class="card applications-card">
+    <div class="section-title">
+      <h3>Applications</h3>
+      <div class="filters">
+        <select class="select" aria-label="Filter by type" [value]="typeFilter()" (change)="typeFilter.set($any($event.target).value)">
+          <option value="">All types</option>
+          @for (type of applicationTypes(); track type.code) {
+            <option [value]="type.code">{{ type.name }}</option>
+          }
+        </select>
+        <select class="select" aria-label="Filter by status" [value]="statusFilter()" (change)="statusFilter.set($any($event.target).value)">
+          <option value="">All statuses</option>
+          <option value="1">Draft</option>
+          <option value="2">Submitted</option>
+          <option value="3">Inspected</option>
+          <option value="4">Reviewed (ADFS)</option>
+          <option value="5">Reviewed (DFS-CD)</option>
+          <option value="6">Pending Final Approval</option>
+          <option value="7">Approved</option>
+          <option value="8">Returned with Comments</option>
+          <option value="9">Rejected</option>
+        </select>
+      </div>
+    </div>
+
+    @if (loading()) {
+      <p class="empty-state">Loading your applications…</p>
+    } @else if (applications().length === 0) {
+      <p class="empty-state">You have no applications yet. Choose an application type above to get started.</p>
+    } @else if (filtered().length === 0) {
+      <p class="empty-state">No applications match the current filters.</p>
+    } @else {
+      <div class="application-list">
+        @for (app of filtered(); track app.appl_id) {
+          <article class="application-row">
+            <div class="application-row__main">
+              <app-appl-type-badge [applType]="app.appl_type"></app-appl-type-badge>
+              <h4 class="application-row__title">
+                {{ app.appl_number || 'Draft (no number yet)' }}
+                @if (app.revision > 1) {
+                  <span class="application-row__revision">[{{ app.revision }}]</span>
+                }
+                — {{ app.site_name || 'Untitled site' }}
+              </h4>
+              <p class="application-row__addr">
+                {{ app.site_addr || 'Address not entered yet' }}
+                @if (app.status_id > 1) {
+                  · {{ app.delegation_level === 'MSB' ? 'DGFS' : app.delegation_level }}
+                }
+              </p>
+              @if (app.valid_to && app.status_id === 7) {
+                <p class="application-row__valid">Valid up to {{ app.valid_to }}</p>
+              }
+              @if (app.rating) {
+                <p class="application-row__rating"><app-star-rating [value]="app.rating" [readonly]="true" label="Your rating"></app-star-rating></p>
+              }
+              @if (app.pending_requests > 0) {
+                <a class="request-flag" [routerLink]="['/citizen/applications', app.appl_id]" fragment="requests">
+                  <app-icon name="alert-circle" size="14"></app-icon>
+                  {{ app.pending_requests }} document(s) requested by the department
+                </a>
+              }
+            </div>
+
+            <div class="application-row__status">
+              <app-status-badge
+                [statusId]="app.status_id"
+                [dateLabel]="app.status_id === 1 ? 'edited ' + app.last_modified : app.status_id >= 7 ? app.final_date : app.applied_date"
+              ></app-status-badge>
+            </div>
+
+            <div class="application-row__actions">
+              @if (app.status_id === 1) {
+                <button type="button" class="btn btn--primary btn--sm" (click)="actions.continue(app.appl_id)">
+                  <app-icon name="edit" size="14"></app-icon> Continue
+                </button>
+              }
+              <a class="btn btn--ghost btn--sm" [routerLink]="['/citizen/applications', app.appl_id]">
+                <app-icon name="eye" size="14"></app-icon> View
+              </a>
+              @if (app.status_id > 1) {
+                <a class="btn btn--ghost btn--sm" [routerLink]="actions.printUrl(app.appl_id, 'acknowledgement')">
+                  <app-icon name="printer" size="14"></app-icon> Acknowledgement
+                </a>
+              }
+              @if (app.status_id === 7) {
+                <a class="btn btn--ghost btn--sm" [routerLink]="actions.printUrl(app.appl_id, 'certificate')">
+                  <app-icon name="download" size="14"></app-icon> Download NOC
+                </a>
+              }
+              @if (app.status_id === 8 || app.status_id === 9) {
+                <a class="btn btn--ghost btn--sm" [routerLink]="actions.printUrl(app.appl_id, 'rejection')">
+                  <app-icon name="download" size="14"></app-icon> {{ app.status_id === 9 ? 'Reject Letter' : 'Return Letter' }}
+                </a>
+              }
+              @if (canRevise(app)) {
+                <button type="button" class="btn btn--secondary btn--sm" (click)="actions.revise(app)">
+                  <app-icon name="refresh-cw" size="14"></app-icon> Revise
+                </button>
+              }
+              @if (canApplyForOccupancy(app)) {
+                <button type="button" class="btn btn--secondary btn--sm" (click)="actions.applyForOccupancy(app)">
+                  <app-icon name="login" size="14"></app-icon> Apply for Occupancy
+                </button>
+              }
+              @if (canApplyForRenewal(app)) {
+                <button type="button" class="btn btn--secondary btn--sm" (click)="actions.applyForRenewal(app)">
+                  <app-icon name="repeat" size="14"></app-icon> Apply for Renewal
+                </button>
+              }
+              @if (canRate(app)) {
+                <button type="button" class="btn btn--ghost btn--sm" (click)="rateTarget.set(app)">
+                  <app-icon name="star" size="14"></app-icon> {{ app.rating ? 'Update rating' : 'Rate' }}
+                </button>
+              }
+              @if (canDelete(app)) {
+                <button type="button" class="btn btn--danger btn--sm" (click)="deleteDraft(app)">
+                  <app-icon name="trash" size="14"></app-icon> Delete
+                </button>
+              }
+            </div>
+          </article>
+        }
+      </div>
+    }
+  </div>
+
+  @if (rateTarget(); as t) {
+    <app-rate-dialog [open]="true" [applId]="t.appl_id" [siteName]="t.site_name" [applNumber]="t.appl_number" (closed)="rateTarget.set(null)" (saved)="onRated()"></app-rate-dialog>
+  }
+</div>

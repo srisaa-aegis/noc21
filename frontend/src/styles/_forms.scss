@@ -1,0 +1,244 @@
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  margin-bottom: var(--space-4);
+}
+
+.field__label {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--gray-700);
+}
+
+.field__hint {
+  font-size: var(--font-size-xs);
+  color: var(--gray-500);
+}
+
+.field__error {
+  font-size: var(--font-size-xs);
+  color: var(--status-rejected-fg);
+}
+
+.input,
+.select,
+.textarea {
+  appearance: none;
+  width: 100%;
+  padding: 10px var(--space-3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  font-family: inherit;
+  color: var(--gray-900);
+  background: var(--surface);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+
+  &:focus {
+    outline: none;
+    border-color: var(--brand-500);
+    box-shadow: 0 0 0 3px var(--brand-100);
+  }
+
+  &.is-invalid {
+    border-color: var(--status-rejected-fg);
+  }
+
+  &:disabled {
+    background: var(--gray-100);
+    color: var(--gray-500);
+  }
+}
+
+.textarea {
+  min-height: 96px;
+  resize: vertical;
+}
+
+.checkbox-row {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  font-size: var(--font-size-sm);
+  color: var(--gray-700);
+}
+
+.field__warning {
+  font-size: var(--font-size-xs);
+  color: var(--status-pending-fg);
+}
+
+.field__required::after {
+  content: ' *';
+  color: var(--status-rejected-fg);
+}
+
+/* Wizard / long-form layout ------------------------------------------------ */
+.form-section {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  margin-bottom: var(--space-4);
+
+  > h3 {
+    font-size: var(--font-size-lg);
+    margin-bottom: var(--space-1);
+  }
+
+  > .form-section__intro {
+    font-size: var(--font-size-sm);
+    color: var(--gray-500);
+    margin-bottom: var(--space-4);
+  }
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0 var(--space-4);
+}
+
+.form-grid--3 {
+  grid-template-columns: repeat(3, 1fr);
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.span-2 {
+  grid-column: span 2;
+
+  @media (max-width: 700px) {
+    grid-column: auto;
+  }
+}
+
+.table .input,
+.table .select {
+  padding: 6px var(--space-2);
+  min-width: 80px;
+}
+
+.table td.num,
+.table th.num {
+  text-align: right;
+}
+
+.readonly-value {
+  font-weight: 600;
+  color: var(--gray-800);
+}
+
+.link-button {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--brand-600);
+  text-decoration: underline;
+  cursor: pointer;
+  font: inherit;
+}
+
+.radio {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-right: var(--space-3);
+  font-size: var(--font-size-sm);
+}
+
+.nowrap {
+  white-space: nowrap;
+}
+
+tr.row-invalid td {
+  background: var(--status-rejected-bg);
+}
+
+.computed {
+  font-weight: 600;
+  color: var(--gray-800);
+  white-space: nowrap;
+}
+
+.ok-text {
+  color: var(--status-approved-fg);
+}
+
+/* Officer note / report forms — Y/N observation rows (section note, inspection report, RFO note…) */
+.yn-grid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
+}
+
+.yn-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-4);
+  padding: var(--space-2) var(--space-3);
+  background: var(--surface-alt);
+  border-radius: var(--radius-md);
+
+  > span:first-child {
+    flex: 1 1 280px;
+    font-size: var(--font-size-sm);
+  }
+}
+
+.block-card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  margin-bottom: var(--space-4);
+
+  > h4 {
+    margin: 0 0 var(--space-3);
+  }
+}
+
+.bad-text {
+  color: var(--status-rejected-fg);
+}
+
+.sub-heading {
+  font-size: var(--font-size-md);
+  margin: var(--space-4) 0 var(--space-2);
+}
+
+/* Page banners ------------------------------------------------------------ */
+.banner {
+  display: flex;
+  gap: var(--space-3);
+  align-items: flex-start;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-4);
+  font-size: var(--font-size-sm);
+
+  ul {
+    margin: var(--space-1) 0 0;
+    padding-left: var(--space-5);
+  }
+}
+
+.banner--warning {
+  background: var(--status-pending-bg);
+  color: var(--status-pending-fg);
+}
+
+.banner--info {
+  background: var(--status-submitted-bg);
+  color: var(--status-submitted-fg);
+}
+
+.banner--error {
+  background: var(--status-rejected-bg);
+  color: var(--status-rejected-fg);
+}
+

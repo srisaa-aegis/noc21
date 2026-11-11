@@ -1,0 +1,38 @@
+{
+  "name": "@srisaa/noc-domain",
+  "version": "1.0.0",
+  "description": "Fire NOC business rules: NBC calculations, FFE grid, fees, approval level, renewal period, validation, certificates \u2014 on top of @srisaa/rules-engine.",
+  "license": "MIT",
+  "author": "Srisaa Technologies Private Limited",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./models": {
+      "types": "./dist/models/index.d.ts",
+      "default": "./dist/models/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "@srisaa/rules-engine": "1.0.0",
+    "@srisaa/workflow-engine": "1.0.0"
+  },
+  "devDependencies": {
+    "typescript": "~5.9.2",
+    "vitest": "^4.0.8"
+  }
+}

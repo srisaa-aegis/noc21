@@ -1,0 +1,95 @@
+<ol class="stepper" aria-label="Workflow stages">
+  @for (s of stages(); track s.def.key) {
+    <li class="stage" [class]="'stage stage--' + s.state">
+      <div class="stage__head">
+        <span class="stage__num" aria-hidden="true">
+          @if (s.state === 'done') {
+            <app-icon name="check" size="14"></app-icon>
+          } @else {
+            {{ s.index }}
+          }
+        </span>
+        <div>
+          <p class="stage__name">{{ s.def.name }}</p>
+          <p class="stage__state">{{ stateLabel[s.state] }}@if (s.tasks.length > 1) { · {{ s.tasks.length }} in parallel }</p>
+        </div>
+      </div>
+      @if (!compact()) {
+      <ul class="stage__tasks">
+        @for (t of s.tasks; track t.task_id) {
+          <li class="task" [class]="'task task--' + t.state" [class.task--mine]="highlight() === t.task_id">
+            <span class="task__name">{{ t.name }}</span>
+            <span class="task__who">{{ roleOf(t) }} · {{ t.assignee_name || 'Unassigned' }}</span>
+            <span class="task__state">
+              {{ stateLabel[t.state] }}
+              @if (t.decision) {
+                — {{ outcomeLabel(t.decision) }}
+              }
+            </span>
+          </li>
+        }
+      </ul>
+      }
+    </li>
+  }
+</ol>
+
+@if (showTable() && !compact()) {
+  <div class="table-scroll">
+    <table class="table steps">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Step</th>
+          <th>Officer</th>
+          <th>Started</th>
+          <th>Completed</th>
+          <th>Status</th>
+          <th>Remarks</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (r of rows(); track r.task.task_id) {
+          <tr [class.is-mine]="highlight() === r.task.task_id">
+            <td>{{ r.task.task_id }}</td>
+            <td>
+              <strong>{{ r.task.name }}</strong>
+              @if (r.form !== r.task.name) {
+                <div class="muted">{{ r.form }}</div>
+              }
+            </td>
+            <td>{{ r.task.assignee_name || 'Unassigned' }}<div class="muted">{{ r.role }}</div></td>
+            <td class="nowrap">{{ r.task.start_date || '—' }}</td>
+            <td class="nowrap">
+              @if (r.task.end_date) {
+                {{ r.task.end_date }}
+              } @else if (r.days !== null) {
+                <span class="sla" [class.sla--bad]="r.overdue">Pending {{ r.days }} / {{ r.sla }} d</span>
+              } @else {
+                —
+              }
+            </td>
+            <td>
+              <span class="pill" [class]="'pill pill--' + r.task.state">{{ stateLabel[r.task.state] }}</span>
+              @if (r.task.decision) {
+                <div class="muted">{{ outcomeLabel(r.task.decision) }}</div>
+              }
+              @if (r.task.recommendation) {
+                <div class="muted">{{ r.task.recommendation === 'Y' ? 'Recommended' : 'Not recommended' }}</div>
+              }
+              @if (r.task.sent_back_to) {
+                <div class="muted">to {{ stageName(r.task.sent_back_to) }}</div>
+              }
+              @if (r.task.draft && r.task.state === 'active') {
+                <div class="muted">Draft saved</div>
+              }
+            </td>
+            <td class="remarks">{{ r.task.remarks || '—' }}</td>
+          </tr>
+        } @empty {
+          <tr><td colspan="7" class="muted">No step started yet.</td></tr>
+        }
+      </tbody>
+    </table>
+  </div>
+}

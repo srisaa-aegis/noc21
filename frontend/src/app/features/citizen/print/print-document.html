@@ -1,0 +1,86 @@
+<div class="page print-page">
+  <div class="print-toolbar no-print">
+    <a [routerLink]="['/citizen/applications', id()]" class="btn btn--ghost btn--sm"><app-icon name="chevron-left" size="14"></app-icon> Back to application</a>
+    <button type="button" class="btn btn--primary btn--sm" [disabled]="!app() || !lookups() || unavailable()" (click)="print()"><app-icon name="printer" size="14"></app-icon> Print / Save as PDF</button>
+  </div>
+
+  @if (error()) {
+    <p class="empty-state">{{ error() }}</p>
+  } @else if (!app() || !lookups()) {
+    <p class="empty-state">Loading…</p>
+  } @else if (unavailable(); as reason) {
+    <div class="card empty-state"><h3>{{ title() }}</h3><p>{{ reason }}</p></div>
+  } @else {
+    @let a = app()!;
+    @let l = lookups()!;
+    <article class="sheet" [class.sheet--legal]="kind() === 'certificate' || kind() === 'rejection' || kind() === 'display-certificate'">
+      @switch (kind()) {
+        @case ('acknowledgement') {
+          <header class="sheet__head">
+            <p>Government of Andhra Pradesh</p>
+            <h1>A.P. State Disaster Response and Fire Services Department</h1>
+          </header>
+          <h2 class="sheet__title">Acknowledgement</h2>
+          <p class="sheet__subtitle">for {{ nocTitle() }} application</p>
+          <table class="sheet-table">
+            <tr><th>Application Number</th><td>{{ a.appl_number }}</td><th>Building Name</th><td>{{ a.site_name }}</td></tr>
+            <tr><th>Site Address</th><td>{{ a.site_addr }}</td><th>District</th><td>{{ a.dist_name }}</td></tr>
+            <tr><th>Correspondence Address</th><td>{{ a.corr_addr }}</td><th>Licensing Authority</th><td>{{ a.lic_auth || '—' }}</td></tr>
+            <tr><th>Plot Area</th><td>{{ a.plot_area }} sq.m</td><th>Builder / Owner</th><td>{{ a.build_name }}</td></tr>
+            <tr><th>Contact Number</th><td>{{ a.build_landline || '—' }}</td><th>Mobile</th><td>{{ a.build_mobile }}</td></tr>
+            <tr><th>E-mail</th><td>{{ a.build_email }}</td><th>Applied On</th><td>{{ a.applied_date }}</td></tr>
+            <tr><th>Fire Station</th><td>{{ stationName() }}</td><th>Approval Level</th><td>{{ levelName() }}</td></tr>
+            <tr>
+              <th>Fee Paid</th><td>Rs. {{ a.payment.amount | number }}</td>
+              <th>{{ a.payment.mode === 'online' ? 'Transaction' : 'Challan' }}</th>
+              <td>{{ a.payment.mode === 'online' ? a.payment.txn_ref : a.payment.challan_num + ' / ' + a.payment.challan_bnk }}</td>
+            </tr>
+          </table>
+          <p>Your application has been received and will be processed by the department. Quote the application number in all correspondence.</p>
+          <footer class="sheet__sign">
+            <p>State Disaster Response &amp; Fire Services, Andhra Pradesh</p>
+            <p class="muted">* Electronically generated document — no signature required. Generated on {{ today.toDateString() }}.</p>
+          </footer>
+        }
+
+        @case ('receipt') {
+          <header class="sheet__head">
+            <p>Government of Andhra Pradesh</p>
+            <h1>A.P. State Disaster Response and Fire Services Department</h1>
+          </header>
+          <h2 class="sheet__title">Payment Receipt</h2>
+          <table class="sheet-table">
+            <tr><th>Draft / Application No.</th><td>{{ a.appl_number || 'Draft #' + a.appl_id }}</td><th>Date of Payment</th><td>{{ a.payment.paid_on }}</td></tr>
+            <tr><th>Paid By</th><td>{{ a.build_name }}</td><th>Building</th><td>{{ a.site_name }}</td></tr>
+            <tr><th>Mode</th><td>{{ a.payment.mode === 'online' ? 'Online (Payment Gateway)' : 'Bank Challan' }}</td><th>Reference</th><td>{{ a.payment.mode === 'online' ? a.payment.txn_ref : a.payment.challan_num }}</td></tr>
+            @if (a.payment.mode === 'challan') {
+              <tr><th>Bank / Branch</th><td colspan="3">{{ a.payment.challan_bnk }} / {{ a.payment.challan_brch }}</td></tr>
+            }
+            <tr class="total"><th>Amount</th><td colspan="3">Rs. {{ a.payment.amount | number }} (Fire Precautionary Fee incl. Portal Charges)</td></tr>
+          </table>
+          <footer class="sheet__sign">
+            <p>State Disaster Response &amp; Fire Services, Andhra Pradesh</p>
+            <p class="muted">* Electronically generated document — no signature required. Generated on {{ today.toDateString() }}.</p>
+          </footer>
+        }
+
+        @case ('certificate') {
+          @switch (a.appl_type) {
+            @case ('P') { <app-noc-provisional [app]="a" [lookups]="l" [parent]="parent()"></app-noc-provisional> }
+            @case ('O') { <app-noc-occupancy [app]="a" [lookups]="l" [parent]="parent()"></app-noc-occupancy> }
+            @case ('D') { <app-declaration-letter [app]="a" [lookups]="l"></app-declaration-letter> }
+            @default { <app-noc-renewal [app]="a" [lookups]="l" [parent]="parent()"></app-noc-renewal> }
+          }
+        }
+
+        @case ('display-certificate') {
+          <app-occupancy-certificate [app]="a" [lookups]="l" [parent]="parent()"></app-occupancy-certificate>
+        }
+
+        @case ('rejection') {
+          <app-rejection-letter [app]="a" [lookups]="l" [parent]="parent()"></app-rejection-letter>
+        }
+      }
+    </article>
+  }
+</div>

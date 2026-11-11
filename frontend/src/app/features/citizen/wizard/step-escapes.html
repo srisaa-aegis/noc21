@@ -1,0 +1,278 @@
+@let opts = store.lookups()!.blockOptions;
+@let rules = store.lookups()!.escapeRules;
+
+<section class="form-section">
+  <h3>Means of Escape</h3>
+  <p class="form-section__intro">
+    At least one internal staircase and one external staircase are mandatory for all multi-storeyed buildings; for institutional buildings a ramp above the
+    ground is mandatory. Beyond 500 sq.m of floor area two staircases are required, and one staircase shall be provided for every 30 m of travel distance
+    (Table 5). Minimum widths follow NBC 2016 Part 4.
+  </p>
+</section>
+
+@if (block(); as b) {
+  <section class="form-section">
+    <div class="section-title">
+      <h3>Staircases / Ramps</h3>
+      <button type="button" class="btn btn--ghost btn--sm" (click)="store.addRow(b, 'escapes')"><app-icon name="plus" size="14"></app-icon> Add Escape</button>
+    </div>
+    @if (err('escapes'); as e) { <p class="field__error">{{ e }}</p> }
+    <div class="table-scroll">
+      <table class="table">
+        <thead><tr><th>Sl</th><th>Escape Type</th><th>Description</th><th>From Floor</th><th>To Floor</th><th class="num">Min. Width (m)</th><th class="num">Width (m)</th><th>Location</th><th></th></tr></thead>
+        <tbody>
+          @for (e of b.escapes; track e.escape_id; let i = $index) {
+            <tr>
+              <td>{{ i + 1 }}</td>
+              <td>
+                <select class="select" [attr.aria-label]="'Escape ' + (i + 1) + ' type'" [ngModel]="e.etype" (ngModelChange)="store.set(e, 'etype', $event)">
+                  @for (t of opts.escapeTypes; track t.code) { <option [value]="t.code">{{ t.name }}</option> }
+                </select>
+              </td>
+              <td><input class="input" [attr.aria-label]="'Escape ' + (i + 1) + ' description'" [ngModel]="e.desc" (ngModelChange)="store.set(e, 'desc', $event)" /></td>
+              <td>
+                <select class="select" [attr.aria-label]="'Escape ' + (i + 1) + ' from floor'" [ngModel]="e.from_floor ?? 0" (ngModelChange)="store.set(e, 'from_floor', +$event)">
+                  <option [ngValue]="0">All floors</option>
+                  @for (f of b.floors; track f.floor_id) { <option [ngValue]="f.floor_id">{{ f.flr_name }}</option> }
+                </select>
+              </td>
+              <td>
+                <select class="select" [attr.aria-label]="'Escape ' + (i + 1) + ' to floor'" [ngModel]="e.to_floor ?? 0" (ngModelChange)="store.set(e, 'to_floor', +$event)">
+                  <option [ngValue]="0">All floors</option>
+                  @for (f of b.floors; track f.floor_id) { <option [ngValue]="f.floor_id">{{ f.flr_name }}</option> }
+                </select>
+              </td>
+              <td class="num computed">{{ minWidth(b, e.etype) }}</td>
+              <td class="num"><input class="input" type="number" min="0" step="0.05" [attr.aria-label]="'Escape ' + (i + 1) + ' width'" [class.is-invalid]="err('escapes.' + i + '.width')" [ngModel]="e.width" (ngModelChange)="store.set(e, 'width', $event)" /></td>
+              <td>
+                <select class="select" [attr.aria-label]="'Escape ' + (i + 1) + ' location'" [ngModel]="e.location" (ngModelChange)="store.set(e, 'location', $event)">
+                  @for (d of store.lookups()!.directions; track d.code) { <option [value]="d.code">{{ d.name }}</option> }
+                </select>
+              </td>
+              <td><button type="button" class="btn btn--ghost btn--sm btn--icon" (click)="store.removeRow(b, 'escapes', i)" [attr.aria-label]="'Remove escape ' + (i + 1)"><app-icon name="trash" size="14"></app-icon></button></td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+    <dl class="kv-inline">
+      <div><dt>Staircases required as per NBC</dt><dd>{{ fn.totalStairsRequiredByNBC(b) }}</dd></div>
+      <div><dt>Internal / External required by floor area</dt><dd>{{ fn.reqdEscapeCount(b, 'I') }} / {{ fn.reqdEscapeCount(b, 'E') }}</dd></div>
+      <div><dt>Internal / External proposed</dt><dd>{{ fn.proposedEscapeCount(b, 'I') }} / {{ fn.proposedEscapeCount(b, 'E') }}</dd></div>
+      <div><dt>Aggregate width required by load</dt><dd>{{ fn.maxStairsByLoad(b) }} m</dd></div>
+      <div><dt>Aggregate staircase width proposed</dt><dd>{{ fn.aggregateStaircase(b) }} m</dd></div>
+    </dl>
+  </section>
+
+  <section class="form-section">
+    <h3>Travelling Distance</h3>
+    <div class="form-grid">
+      <div class="field">
+        <label class="field__label" for="ta_dist">Distance from the farthest point to a staircase (m)</label>
+        <input id="ta_dist" class="input" type="number" min="0" [class.is-invalid]="err('ta_dist')" [ngModel]="b.ta_dist" (ngModelChange)="store.set(b, 'ta_dist', $event)" />
+        <span class="field__hint">Maximum: {{ maxTd(b) }} m</span>
+        @if (err('ta_dist'); as e) { <span class="field__error">{{ e }}</span> }
+      </div>
+      <div class="field">
+        <label class="field__label" for="ta_dead">Distance from a dead-end of the corridor to a staircase (m)</label>
+        <input id="ta_dead" class="input" type="number" min="0" [class.is-invalid]="err('ta_dead')" [ngModel]="b.ta_dead" (ngModelChange)="store.set(b, 'ta_dead', $event)" />
+        <span class="field__hint">Maximum: {{ maxDe(b) }} m</span>
+        @if (err('ta_dead'); as e) { <span class="field__error">{{ e }}</span> }
+      </div>
+    </div>
+  </section>
+
+  <section class="form-section">
+    <div class="section-title">
+      <h3>Doorways / Level Components</h3>
+      <button type="button" class="btn btn--ghost btn--sm" (click)="store.addRow(b, 'doors')"><app-icon name="plus" size="14"></app-icon> Add Door</button>
+    </div>
+    <p class="form-section__intro">Doorways at ground level: minimum width {{ fn.doorWidthRequired(b) }} m and minimum height 2 m.</p>
+    @if (b.doors.length) {
+      <div class="table-scroll">
+        <table class="table">
+          <thead><tr><th>Sl.</th><th>Description</th><th class="num">Width (m)</th><th>Location</th><th></th></tr></thead>
+          <tbody>
+            @for (d of b.doors; track d.door_id; let i = $index) {
+              <tr>
+                <td>{{ i + 1 }}</td>
+                <td><input class="input" [attr.aria-label]="'Door ' + (i + 1) + ' description'" [ngModel]="d.desc" (ngModelChange)="store.set(d, 'desc', $event)" /></td>
+                <td class="num"><input class="input" type="number" min="0" step="0.05" [attr.aria-label]="'Door ' + (i + 1) + ' width'" [class.is-invalid]="err('doors.' + i + '.width')" [ngModel]="d.width" (ngModelChange)="store.set(d, 'width', $event)" /></td>
+                <td>
+                  <select class="select" [attr.aria-label]="'Door ' + (i + 1) + ' location'" [ngModel]="d.location" (ngModelChange)="store.set(d, 'location', $event)">
+                    @for (dir of store.lookups()!.directions; track dir.code) { <option [value]="dir.code">{{ dir.name }}</option> }
+                  </select>
+                </td>
+                <td><button type="button" class="btn btn--ghost btn--sm btn--icon" (click)="store.removeRow(b, 'doors', i)" [attr.aria-label]="'Remove door ' + (i + 1)"><app-icon name="trash" size="14"></app-icon></button></td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </section>
+
+  <section class="form-section">
+    <h3>Total Means of Escape (per floor)</h3>
+    <div class="table-scroll">
+      <table class="table">
+        <thead><tr><th>Floor Type</th><th>Floor</th><th class="num">Built-up (sq.m)</th><th>Occupancy</th><th class="num">Occupants (Table 20)</th><th class="num">Declared</th><th class="num">Aggregate width required (m)</th><th class="num">Aggregate width proposed (m)</th><th></th></tr></thead>
+        <tbody>
+          @for (f of b.floors; track f.floor_id; let i = $index) {
+            @let reqd = fn.stairsByLoad(f);
+            @let prop = fn.floorEscapeWidth(b, f.floor_id);
+            <tr [class.row-invalid]="err('floors.' + i + '.esc_width')">
+              <td>{{ fn.floorTypeName(f.flr_type) }}</td>
+              <td>{{ f.flr_name }}</td>
+              <td class="num">{{ f.built_area }}</td>
+              <td>{{ fn.floorOccuName(f.occ_type) }}</td>
+              <td class="num">{{ fn.t20OccCount(f) || '--' }}</td>
+              <td class="num">{{ f.occ_c_app }}</td>
+              <td class="num computed">{{ reqd === null ? '--' : reqd }}</td>
+              <td class="num">{{ prop }}</td>
+              <td>
+                @if (reqd !== null && reqd > 0) {
+                  @if (prop >= reqd) { <span class="ok-text"><app-icon name="check-circle" size="14"></app-icon></span> }
+                  @else { <span class="bad-text"><app-icon name="x-circle" size="14"></app-icon></span> }
+                }
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="form-section">
+    <div class="section-title">
+      <h3>Entrances / Exits</h3>
+      <button type="button" class="btn btn--ghost btn--sm" (click)="store.addRow(b, 'exits')"><app-icon name="plus" size="14"></app-icon> Add Entrance/Exit</button>
+    </div>
+    <p class="form-section__intro">Minimum width {{ rules.exit_min_width }} m, abutting road at least {{ rules.exit_min_abutting_road }} m and head-room clearance at least {{ rules.headroom_min }} m.</p>
+    @if (err('exits'); as e) { <p class="field__error">{{ e }}</p> }
+    @if (b.exits.length) {
+      <div class="table-scroll">
+        <table class="table">
+          <thead><tr><th>Sl.</th><th>Description</th><th class="num">Width (m)</th><th class="num">Abutting Road Width (m)</th><th>Side</th><th></th></tr></thead>
+          <tbody>
+            @for (x of b.exits; track x.exit_id; let i = $index) {
+              <tr>
+                <td>{{ i + 1 }}</td>
+                <td><input class="input" [attr.aria-label]="'Exit ' + (i + 1) + ' description'" [ngModel]="x.ename" (ngModelChange)="store.set(x, 'ename', $event)" /></td>
+                <td class="num"><input class="input" type="number" min="0" step="0.1" [attr.aria-label]="'Exit ' + (i + 1) + ' width'" [class.is-invalid]="err('exits.' + i + '.width')" [ngModel]="x.width" (ngModelChange)="store.set(x, 'width', $event)" /></td>
+                <td class="num"><input class="input" type="number" min="0" step="0.1" [attr.aria-label]="'Exit ' + (i + 1) + ' abutting road width'" [class.is-invalid]="err('exits.' + i + '.awidth')" [ngModel]="x.awidth" (ngModelChange)="store.set(x, 'awidth', $event)" /></td>
+                <td>
+                  <select class="select" [attr.aria-label]="'Exit ' + (i + 1) + ' side'" [ngModel]="x.direc" (ngModelChange)="store.set(x, 'direc', $event)">
+                    @for (s of b.sides; track s.bside_id) { <option [value]="s.direc">{{ fn.directionName(s.direc) }}</option> }
+                  </select>
+                </td>
+                <td><button type="button" class="btn btn--ghost btn--sm btn--icon" (click)="store.removeRow(b, 'exits', i)" [attr.aria-label]="'Remove exit ' + (i + 1)"><app-icon name="trash" size="14"></app-icon></button></td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+    <div class="form-grid">
+      <div class="field">
+        <label class="field__label" for="hrclear">Head Room Clearance (m)</label>
+        <input id="hrclear" class="input" type="number" min="0" step="0.1" [class.is-invalid]="err('hrclear')" [ngModel]="b.hrclear" (ngModelChange)="store.set(b, 'hrclear', $event)" />
+        @if (err('hrclear'); as e) { <span class="field__error">{{ e }}</span> }
+      </div>
+    </div>
+  </section>
+
+  @if (refugeNeeded(b)) {
+    <section class="form-section">
+      <div class="section-title">
+        <h3>Refuge Area</h3>
+        <button type="button" class="btn btn--ghost btn--sm" (click)="store.addRow(b, 'refuges')"><app-icon name="plus" size="14"></app-icon> Add Refuge Area</button>
+      </div>
+      <p class="form-section__intro">Refuge area is mandatory for buildings higher than {{ rules.refuge_min_height }} m: {{ rules.refuge_area_per_person }} sq.m per person for the occupants of two consecutive floors (minimum {{ rules.refuge_min_area }} sq.m).</p>
+      @if (err('refuges'); as e) { <p class="field__error">{{ e }}</p> }
+      @if (b.refuges.length) {
+        <div class="table-scroll">
+          <table class="table">
+            <thead><tr><th>Sl.</th><th>Floor</th><th class="num">Required Area (sq.m)</th><th class="num">Proposed Area (sq.m)</th><th></th></tr></thead>
+            <tbody>
+              @for (r of b.refuges; track r.refuge_id; let i = $index) {
+                <tr>
+                  <td>{{ i + 1 }}</td>
+                  <td>
+                    <select class="select" [attr.aria-label]="'Refuge ' + (i + 1) + ' floor'" [ngModel]="r.floor_id" (ngModelChange)="store.set(r, 'floor_id', +$event)">
+                      @for (f of b.floors; track f.floor_id) { <option [ngValue]="f.floor_id">{{ f.flr_name }}</option> }
+                    </select>
+                  </td>
+                  <td class="num computed">{{ refugeReqd(b, r.floor_id) }}</td>
+                  <td class="num"><input class="input" type="number" min="0" [attr.aria-label]="'Refuge ' + (i + 1) + ' area'" [class.is-invalid]="err('refuges.' + i + '.area')" [ngModel]="r.area" (ngModelChange)="store.set(r, 'area', $event)" /></td>
+                  <td><button type="button" class="btn btn--ghost btn--sm btn--icon" (click)="store.removeRow(b, 'refuges', i)" [attr.aria-label]="'Remove refuge ' + (i + 1)"><app-icon name="trash" size="14"></app-icon></button></td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+    </section>
+  }
+
+  <section class="form-section">
+    <div class="section-title">
+      <h3>Fire Lifts</h3>
+      <button type="button" class="btn btn--ghost btn--sm" (click)="store.addRow(b, 'lifts')"><app-icon name="plus" size="14"></app-icon> Add Lift</button>
+    </div>
+    <p class="form-section__intro">Required from 15 m: one per 1200 sq.m of the largest floor; capacity not less than 545 kg / 8 persons (NBC 2016 Part 4). Required: <strong>{{ fn.fireLiftsReqd(b) }}</strong>, provided: <strong>{{ b.lifts.length }}</strong>.</p>
+    @if (err('lifts'); as e) { <p class="field__error">{{ e }}</p> }
+    @if (b.lifts.length) {
+      <div class="table-scroll">
+        <table class="table">
+          <thead><tr><th>Sl.</th><th>Lift Type</th><th>Lift Number</th><th class="num">Capacity (kg)</th><th></th></tr></thead>
+          <tbody>
+            @for (l of b.lifts; track l.lift_id; let i = $index) {
+              <tr>
+                <td>{{ i + 1 }}</td>
+                <td>
+                  <select class="select" [attr.aria-label]="'Lift ' + (i + 1) + ' type'" [ngModel]="l.ltype" (ngModelChange)="store.set(l, 'ltype', $event)">
+                    @for (t of opts.liftTypes; track t.code) { <option [value]="t.code">{{ t.name }}</option> }
+                  </select>
+                </td>
+                <td><input class="input" [attr.aria-label]="'Lift ' + (i + 1) + ' number'" [ngModel]="l.lname" (ngModelChange)="store.set(l, 'lname', $event)" /></td>
+                <td class="num"><input class="input" type="number" min="0" [attr.aria-label]="'Lift ' + (i + 1) + ' capacity'" [class.is-invalid]="err('lifts.' + i + '.capacity')" [ngModel]="l.capacity" (ngModelChange)="store.set(l, 'capacity', $event)" /></td>
+                <td><button type="button" class="btn btn--ghost btn--sm btn--icon" (click)="store.removeRow(b, 'lifts', i)" [attr.aria-label]="'Remove lift ' + (i + 1)"><app-icon name="trash" size="14"></app-icon></button></td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </section>
+
+  <section class="form-section">
+    <div class="section-title">
+      <h3>Car Parking</h3>
+      <button type="button" class="btn btn--ghost btn--sm" (click)="store.addRow(b, 'carparks')"><app-icon name="plus" size="14"></app-icon> Add Parking</button>
+    </div>
+    @if (b.carparks.length) {
+      <div class="table-scroll">
+        <table class="table">
+          <thead><tr><th>Sl.</th><th>Floor</th><th class="num">Capacity (Nos.)</th><th></th></tr></thead>
+          <tbody>
+            @for (c of b.carparks; track c.cpark_id; let i = $index) {
+              <tr>
+                <td>{{ i + 1 }}</td>
+                <td>
+                  <select class="select" [attr.aria-label]="'Parking ' + (i + 1) + ' floor'" [ngModel]="c.floor" (ngModelChange)="store.set(c, 'floor', $event)">
+                    @for (f of b.floors; track f.floor_id) { <option [value]="f.flr_name">{{ f.flr_name }}</option> }
+                  </select>
+                </td>
+                <td class="num"><input class="input" type="number" min="0" [attr.aria-label]="'Parking ' + (i + 1) + ' capacity'" [ngModel]="c.capacity" (ngModelChange)="store.set(c, 'capacity', $event)" /></td>
+                <td><button type="button" class="btn btn--ghost btn--sm btn--icon" (click)="store.removeRow(b, 'carparks', i)" [attr.aria-label]="'Remove parking ' + (i + 1)"><app-icon name="trash" size="14"></app-icon></button></td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    } @else {
+      <p class="field__hint">No car parking areas added.</p>
+    }
+  </section>
+}

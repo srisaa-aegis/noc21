@@ -1,0 +1,252 @@
+@let a = store.app()!;
+@let l = store.lookups()!;
+
+@if (a.appl_type === 'R' || a.appl_type === 'D') {
+  <section class="form-section">
+    <h3>Occupancy NOC Reference</h3>
+    <p class="form-section__intro">
+      @if (a.parent_id > 0) {
+        This application is linked to your Occupancy NOC issued on this portal.
+      } @else {
+        Enter the reference (R.C.) number of the Occupancy NOC being renewed.
+      }
+    </p>
+    <div class="form-grid">
+      <div class="field">
+        <label class="field__label field__required" for="ref_no">Occupancy NOC No.</label>
+        <input id="ref_no" class="input" [disabled]="a.parent_id > 0" [class.is-invalid]="store.fieldError('ref_no')" [ngModel]="a.ref_no" (ngModelChange)="store.set(a, 'ref_no', $event)" placeholder="ONOC R.C. Number" />
+        @if (store.fieldError('ref_no'); as e) { <span class="field__error">{{ e }}</span> }
+      </div>
+      @if (a.appl_type === 'D' && !(a.parent_id > 0)) {
+        <div class="field">
+          <label class="field__label field__required" for="noc_level">Occupancy NOC issued at</label>
+          <select id="noc_level" class="select" [class.is-invalid]="store.fieldError('noc_level')" [ngModel]="a.noc_level ?? ''" (ngModelChange)="store.set(a, 'noc_level', $event || undefined)">
+            <option value="">Select…</option>
+            <option value="MSB">Head Office (DG / DFS)</option>
+            <option value="RFO">Regional Fire Office (RFO)</option>
+            <option value="DFO">District Fire Office (DFO)</option>
+          </select>
+          <span class="field__hint">The declaration is processed at the level of the NOC being renewed.</span>
+          @if (store.fieldError('noc_level'); as e) { <span class="field__error">{{ e }}</span> }
+        </div>
+      }
+      @if (a.appl_type === 'D') {
+        <div class="field">
+          <label class="field__label field__required" for="last_inspect">Last Fire Safety Inspection Date</label>
+          <input id="last_inspect" class="input" type="date" [class.is-invalid]="store.fieldError('last_inspect_date')" [ngModel]="inspectIso()" (ngModelChange)="setInspectDate($event)" />
+          @if (store.fieldError('last_inspect_date'); as e) { <span class="field__error">{{ e }}</span> }
+        </div>
+      }
+    </div>
+  </section>
+}
+
+<section class="form-section">
+  <h3>Site Information</h3>
+  <p class="form-section__intro">The site address should include the survey numbers of the plot. All communication is sent to the correspondence address.</p>
+  <div class="form-grid">
+    <div class="field">
+      <label class="field__label field__required" for="site_name">Site / Building Name</label>
+      <input id="site_name" class="input" [class.is-invalid]="store.fieldError('site_name')" [ngModel]="a.site_name" (ngModelChange)="store.set(a, 'site_name', $event)" />
+      @if (store.fieldError('site_name'); as e) { <span class="field__error">{{ e }}</span> }
+    </div>
+    <div class="field span-2">
+      <label class="field__label field__required" for="site_addr">Site Address (with survey number)</label>
+      <input id="site_addr" class="input" [class.is-invalid]="store.fieldError('site_addr')" [ngModel]="a.site_addr" (ngModelChange)="store.set(a, 'site_addr', $event)" />
+      @if (store.fieldError('site_addr'); as e) { <span class="field__error">{{ e }}</span> }
+    </div>
+    <div class="field">
+      <label class="field__label field__required" for="district">District</label>
+      <select id="district" class="select" [class.is-invalid]="store.fieldError('district')" [ngModel]="a.district" (ngModelChange)="onDistrictChange($event)">
+        <option [ngValue]="0">Select district…</option>
+        @for (d of l.districts; track d.id) {
+          <option [ngValue]="d.id">{{ d.desc }}</option>
+        }
+      </select>
+      @if (store.fieldError('district'); as e) { <span class="field__error">{{ e }}</span> }
+    </div>
+    <div class="field">
+      <label class="field__label field__required" for="firestation">Nearest Fire Station</label>
+      <select id="firestation" class="select" [disabled]="!a.district" [class.is-invalid]="store.fieldError('fire_station_id')" [ngModel]="a.fire_station_id" (ngModelChange)="store.set(a, 'fire_station_id', +$event)">
+        <option [ngValue]="0">{{ a.district ? 'Select fire station…' : 'Select a district first' }}</option>
+        @for (s of stations(); track s.id) {
+          <option [ngValue]="s.id">{{ s.name }}</option>
+        }
+      </select>
+      @if (store.fieldError('fire_station_id'); as e) { <span class="field__error">{{ e }}</span> }
+    </div>
+    <div class="field span-2">
+      <label class="field__label field__required" for="corr_addr">Address for Correspondence</label>
+      <input id="corr_addr" class="input" [class.is-invalid]="store.fieldError('corr_addr')" [ngModel]="a.corr_addr" (ngModelChange)="store.set(a, 'corr_addr', $event)" />
+      @if (store.fieldError('corr_addr'); as e) { <span class="field__error">{{ e }}</span> }
+    </div>
+  </div>
+
+  @if (showPlotDetails()) {
+    <div class="form-grid">
+      <div class="field">
+        <label class="field__label field__required" for="plot_area">Plot Area (sq.m)</label>
+        <input id="plot_area" class="input" type="number" min="0" [class.is-invalid]="store.fieldError('plot_area')" [ngModel]="a.plot_area" (ngModelChange)="store.set(a, 'plot_area', $event)" />
+        @if (store.fieldError('plot_area'); as e) { <span class="field__error">{{ e }}</span> }
+      </div>
+      <div class="field">
+        <label class="field__label field__required" for="perimeter">Plot Perimeter (m)</label>
+        <input id="perimeter" class="input" type="number" min="0" [class.is-invalid]="store.fieldError('perimeter')" [ngModel]="a.perimeter" (ngModelChange)="store.set(a, 'perimeter', $event)" />
+        <span class="field__hint">Distance along the plot boundary — used for yard hydrant requirements.</span>
+        @if (store.fieldError('perimeter'); as e) { <span class="field__error">{{ e }}</span> }
+      </div>
+      <div class="field">
+        <label class="field__label" for="lat">Latitude (optional)</label>
+        <input id="lat" class="input" type="number" step="0.0001" [ngModel]="a.loc_lat" (ngModelChange)="store.set(a, 'loc_lat', $event)" />
+      </div>
+      <div class="field">
+        <label class="field__label" for="lng">Longitude (optional)</label>
+        <input id="lng" class="input" type="number" step="0.0001" [ngModel]="a.loc_lng" (ngModelChange)="store.set(a, 'loc_lng', $event)" />
+      </div>
+    </div>
+  }
+</section>
+
+@if (a.appl_type === 'O') {
+  <section class="form-section">
+    <h3>Provisional NOC Reference</h3>
+    @if (a.parent_id > 0) {
+      <p class="form-section__intro">
+        This Occupancy application is linked to the Provisional NOC <strong>{{ a.ref_no }}</strong> issued on this portal; its approved values are
+        shown as "as per PNOC" on the following pages.
+      </p>
+    } @else {
+      <p class="form-section__intro">
+        How did you obtain the Provisional NOC? If it was issued on this portal, use <strong>Apply for Occupancy</strong> on it from My Applications
+        instead, so its details are carried forward.
+      </p>
+      <div class="mode-choice" role="radiogroup" aria-label="Provisional NOC">
+        <label class="radio"><input type="radio" name="onocmode" value="M" [checked]="a.appl_mode === 'M'" (change)="setMode('M')" /> Manual Provisional NOC (issued outside this portal)</label>
+        <label class="radio"><input type="radio" name="onocmode" value="N" [checked]="a.appl_mode === 'N'" (change)="setMode('N')" /> Provisional NOC not applied for</label>
+      </div>
+      <div class="form-grid">
+        @if (a.appl_mode === 'M') {
+          <div class="field">
+            <label class="field__label field__required" for="pnoc_ref">Provisional NOC Rc. No.</label>
+            <input id="pnoc_ref" class="input" [class.is-invalid]="store.fieldError('ref_no')" [ngModel]="a.ref_no" (ngModelChange)="store.set(a, 'ref_no', $event)" />
+            @if (store.fieldError('ref_no'); as e) { <span class="field__error">{{ e }}</span> }
+          </div>
+        } @else {
+          <div class="field">
+            <label class="field__label field__required" for="mcapprove">Date of Approval from the Municipal Authority</label>
+            <input id="mcapprove" class="input" type="date" [class.is-invalid]="store.fieldError('mcapprove_date')" [ngModel]="mcIso()" (ngModelChange)="setMcDate($event)" />
+            <span class="field__hint">Applying without a Provisional NOC attracts an additional fee and a penalty for every year since this date.</span>
+            @if (store.fieldError('mcapprove_date'); as e) { <span class="field__error">{{ e }}</span> }
+          </div>
+        }
+      </div>
+    }
+  </section>
+}
+
+@if (showPlotDetails()) {
+  <section class="form-section">
+    <h3>Licensing Authority</h3>
+    <p class="form-section__intro">The Municipal Corporation or other authority to which the Fire NOC will be addressed. Include the designation of the officer.</p>
+    <div class="form-grid">
+      <div class="field">
+        <label class="field__label field__required" for="lic_auth">Licensing Authority</label>
+        <input id="lic_auth" class="input" [class.is-invalid]="store.fieldError('lic_auth')" [ngModel]="a.lic_auth" (ngModelChange)="store.set(a, 'lic_auth', $event)" placeholder="e.g. Commissioner, GVMC" />
+        @if (store.fieldError('lic_auth'); as e) { <span class="field__error">{{ e }}</span> }
+      </div>
+      <div class="field span-2">
+        <label class="field__label field__required" for="lic_addr">Licensing Authority Address</label>
+        <input id="lic_addr" class="input" [class.is-invalid]="store.fieldError('lic_addr')" [ngModel]="a.lic_addr" (ngModelChange)="store.set(a, 'lic_addr', $event)" />
+        @if (store.fieldError('lic_addr'); as e) { <span class="field__error">{{ e }}</span> }
+      </div>
+    </div>
+  </section>
+}
+
+<section class="form-section">
+  <h3>Builder / Owner / Developer</h3>
+  <div class="form-grid">
+    <div class="field">
+      <label class="field__label field__required" for="build_name">Name</label>
+      <input id="build_name" class="input" [class.is-invalid]="store.fieldError('build_name')" [ngModel]="a.build_name" (ngModelChange)="store.set(a, 'build_name', $event)" />
+      @if (store.fieldError('build_name'); as e) { <span class="field__error">{{ e }}</span> }
+    </div>
+    <div class="field">
+      <label class="field__label field__required" for="build_mobile">Mobile</label>
+      <input id="build_mobile" class="input" maxlength="10" inputmode="numeric" [class.is-invalid]="store.fieldError('build_mobile')" [ngModel]="a.build_mobile" (ngModelChange)="store.set(a, 'build_mobile', $event)" />
+      @if (store.fieldError('build_mobile'); as e) { <span class="field__error">{{ e }}</span> }
+    </div>
+    <div class="field">
+      <label class="field__label" for="build_landline">Office Landline</label>
+      <input id="build_landline" class="input" [class.is-invalid]="store.fieldError('build_landline')" [ngModel]="a.build_landline" (ngModelChange)="store.set(a, 'build_landline', $event)" />
+      @if (store.fieldError('build_landline'); as e) { <span class="field__error">{{ e }}</span> }
+    </div>
+    <div class="field">
+      <label class="field__label field__required" for="build_email">E-mail</label>
+      <input id="build_email" class="input" type="email" [class.is-invalid]="store.fieldError('build_email')" [ngModel]="a.build_email" (ngModelChange)="store.set(a, 'build_email', $event)" />
+      @if (store.fieldError('build_email'); as e) { <span class="field__error">{{ e }}</span> }
+    </div>
+    <div class="field">
+      <label class="field__label" for="build_aadhar">Aadhar Number</label>
+      <input id="build_aadhar" class="input" [ngModel]="a.build_aadhar" (ngModelChange)="store.set(a, 'build_aadhar', $event)" />
+      <span class="field__hint">For your privacy only the last 4 digits are kept.</span>
+    </div>
+  </div>
+</section>
+
+@if (a.appl_type !== 'D') {
+  <section class="form-section">
+    <h3>Technical Personnel</h3>
+    <p class="form-section__intro">Name, phone, e-mail and license number of the professionals involved. Roles marked * are mandatory for this application type.</p>
+    <div class="table-scroll">
+      <table class="table">
+        <thead>
+          <tr><th>Role</th><th>Name</th><th>Phone</th><th>E-mail</th><th>License No.</th></tr>
+        </thead>
+        <tbody>
+          @for (p of a.parties; track p.sl_no; let i = $index) {
+            <tr>
+              <td><span [class.field__required]="isRequiredParty(p.role_name)">{{ p.role_name }}</span></td>
+              <td>
+                <input class="input" [attr.aria-label]="p.role_name + ' name'" [class.is-invalid]="store.fieldError('parties.' + i + '.party_name')" [ngModel]="p.party_name" (ngModelChange)="store.set(p, 'party_name', $event)" />
+              </td>
+              <td>
+                <input class="input" [attr.aria-label]="p.role_name + ' phone'" [class.is-invalid]="store.fieldError('parties.' + i + '.phone_number')" [ngModel]="p.phone_number" (ngModelChange)="store.set(p, 'phone_number', $event)" />
+              </td>
+              <td>
+                <input class="input" type="email" [attr.aria-label]="p.role_name + ' email'" [class.is-invalid]="store.fieldError('parties.' + i + '.email')" [ngModel]="p.email" (ngModelChange)="store.set(p, 'email', $event)" />
+              </td>
+              <td>
+                <input class="input" [attr.aria-label]="p.role_name + ' license number'" [class.is-invalid]="store.fieldError('parties.' + i + '.license_no')" [ngModel]="p.license_no" (ngModelChange)="store.set(p, 'license_no', $event)" />
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+}
+
+@if (a.appl_type === 'O' && a.appl_mode !== 'N' && a.conditions?.length) {
+  <section class="form-section">
+    <h3>Conditions of Provisional NOC</h3>
+    <p class="form-section__intro">Please state whether each condition of the Provisional NOC has been complied with, with reference to the Provisional NOC. The answers are printed on the Occupancy NOC.</p>
+    <div class="table-scroll">
+      <table class="table">
+        <thead><tr><th>Sl.</th><th>Condition</th><th>Complied</th></tr></thead>
+        <tbody>
+          @for (c of a.conditions; track c.checklist_id; let i = $index) {
+            <tr [class.row-invalid]="store.fieldError('conditions.' + i)">
+              <td>{{ i + 1 }}</td>
+              <td>{{ c.item_desc }}</td>
+              <td class="nowrap">
+                <label class="radio"><input type="radio" [name]="'cond' + c.checklist_id" [checked]="c.selected === true" (change)="setCondition(i, true)" /> Yes</label>
+                <label class="radio"><input type="radio" [name]="'cond' + c.checklist_id" [checked]="c.selected === false" (change)="setCondition(i, false)" /> No</label>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+}

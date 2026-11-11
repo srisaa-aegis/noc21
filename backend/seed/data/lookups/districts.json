@@ -1,0 +1,80 @@
+[
+  {
+    "id": 1,
+    "desc": "Srikakulam",
+    "ddocode": "01011005001",
+    "distcode": "0101"
+  },
+  {
+    "id": 2,
+    "desc": "Vizianagaram",
+    "ddocode": "22011005001",
+    "distcode": "2201"
+  },
+  {
+    "id": 3,
+    "desc": "Visakhapatnam",
+    "ddocode": "02011005001",
+    "distcode": "0201"
+  },
+  {
+    "id": 4,
+    "desc": "East Godavari",
+    "ddocode": "03011005001",
+    "distcode": "0301"
+  },
+  {
+    "id": 5,
+    "desc": "West Godavari",
+    "ddocode": "04011005001",
+    "distcode": "0401"
+  },
+  {
+    "id": 6,
+    "desc": "Krishna",
+    "ddocode": "05161005001",
+    "distcode": "0516"
+  },
+  {
+    "id": 7,
+    "desc": "Guntur",
+    "ddocode": "06011005001",
+    "distcode": "0601"
+  },
+  {
+    "id": 8,
+    "desc": "Prakasam",
+    "ddocode": "07011005001",
+    "distcode": "0701"
+  },
+  {
+    "id": 9,
+    "desc": "Nellore",
+    "ddocode": "08011005001",
+    "distcode": "0801"
+  },
+  {
+    "id": 10,
+    "desc": "Chittoor",
+    "ddocode": "11011005001",
+    "distcode": "1101"
+  },
+  {
+    "id": 11,
+    "desc": "Anantapur",
+    "ddocode": "10011005001",
+    "distcode": "1001"
+  },
+  {
+    "id": 12,
+    "desc": "Kadapa",
+    "ddocode": "12011005001",
+    "distcode": "1201"
+  },
+  {
+    "id": 13,
+    "desc": "Kurnool",
+    "ddocode": "09011005001",
+    "distcode": "0901"
+  }
+]

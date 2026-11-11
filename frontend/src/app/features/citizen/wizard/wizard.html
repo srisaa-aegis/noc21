@@ -1,0 +1,161 @@
+<div class="page wizard">
+  <a routerLink="/citizen/dashboard" class="back-link"><app-icon name="chevron-left" size="14"></app-icon> My Applications</a>
+
+  @if (store.loadError()) {
+    <div class="card empty-state">
+      <p>{{ store.loadError() }}</p>
+      @if (id() !== 'new') {
+        <a class="btn btn--primary" [routerLink]="['/citizen/applications', id()]">View application</a>
+      }
+    </div>
+  } @else if (!store.app()) {
+    <p class="empty-state">Loading application…</p>
+  } @else {
+    @let app = store.app()!;
+    <header class="wizard__header">
+      <div>
+        <p class="page-header__eyebrow"><app-appl-type-badge [applType]="app.appl_type"></app-appl-type-badge></p>
+        <h2>{{ title() }} application</h2>
+        <p class="wizard__sub">
+          {{ app.site_name || 'New application' }} ·
+          @if (store.isNew()) {
+            <strong>not saved yet</strong>
+          } @else {
+            Draft #{{ app.appl_id }}
+          }
+          @if (app.appl_number) {
+            · No. {{ app.appl_number }}
+          }
+          @if (app.revision > 1) {
+            · <strong>Revision {{ app.revision }}</strong>
+          }
+        </p>
+      </div>
+      <div class="wizard__save">
+        <span class="save-indicator" [attr.data-state]="store.saveState()" aria-live="polite">
+          @switch (store.saveState()) {
+            @case ('new') { Not saved yet }
+            @case ('dirty') { Unsaved changes }
+            @case ('saving') { Saving… }
+            @case ('error') { Save failed }
+            @default { <app-icon name="check" size="14"></app-icon> Saved }
+          }
+        </span>
+        <button type="button" class="btn btn--primary" (click)="save()"><app-icon name="save" size="16"></app-icon> Save</button>
+      </div>
+    </header>
+
+    <p class="wizard__note">
+      You can save and update the application over a period of time at your pace — only the <strong>Site Name</strong> and
+      <strong>Site Address</strong> are needed to save. Fields marked in red are required or incorrect; they must be corrected
+      before the application can be submitted.
+    </p>
+
+    @if (revisionRemarks()) {
+      <div class="banner banner--warning">
+        <app-icon name="alert-triangle" size="18"></app-icon>
+        <div><strong>Department remarks to address:</strong> {{ revisionRemarks() }}</div>
+      </div>
+    }
+
+    <nav class="stepper" aria-label="Application pages">
+      @for (s of store.steps(); track s.id; let i = $index) {
+        @let errs = store.errorsFor(s.id).length;
+        <button
+          type="button"
+          class="stepper__item"
+          [class.is-current]="s.id === currentStep()"
+          [attr.aria-current]="s.id === currentStep() ? 'page' : null"
+          (click)="goStep(s.id)"
+        >
+          <span class="stepper__num">{{ i + 1 }}</span>
+          <span class="stepper__text">
+            <span class="stepper__label">{{ s.label }}@if (s.id === 'blocks') { ({{ app.blocks.length }}) }</span>
+            <span class="stepper__desc">{{ s.description }}</span>
+          </span>
+          @if (s.id !== 'submit') {
+            @if (errs > 0) {
+              <span class="stepper__badge stepper__badge--err" [attr.aria-label]="errs + ' items to complete'">{{ errs }}</span>
+            } @else {
+              <span class="stepper__badge stepper__badge--ok" aria-label="complete"><app-icon name="check" size="12"></app-icon></span>
+            }
+          }
+        </button>
+      }
+    </nav>
+
+    @if (currentBlock(); as b) {
+      <section class="block-flow" aria-label="Block">
+        <div class="block-flow__head">
+          <button type="button" class="link-button block-flow__back" (click)="goStep('blocks')"><app-icon name="chevron-left" size="14"></app-icon> All blocks</button>
+          <h3 class="block-flow__title">
+            <app-icon name="building" size="18"></app-icon>
+            {{ b.block_name || 'Block ' + (blockIndex() + 1) }}
+            <span class="block-flow__count">Block {{ blockIndex() + 1 }} of {{ app.blocks.length }}</span>
+          </h3>
+        </div>
+        <nav class="block-stepper" aria-label="Block pages">
+          @for (p of blockSteps; track p.id; let i = $index) {
+            @let errs = store.blockErrorsFor(blockIndex(), p.id).length;
+            <button
+              type="button"
+              class="block-stepper__item"
+              [class.is-current]="p.id === currentBlockStep()"
+              [class.is-done]="errs === 0"
+              [attr.aria-current]="p.id === currentBlockStep() ? 'step' : null"
+              (click)="goBlockStep(p.id)"
+            >
+              <span class="block-stepper__num">{{ i + 1 }}</span>
+              <span class="block-stepper__label">{{ p.label }}</span>
+              @if (errs > 0) {
+                <span class="block-stepper__badge" [attr.aria-label]="errs + ' items to complete'">{{ errs }}</span>
+              } @else {
+                <app-icon name="check" size="12"></app-icon>
+              }
+            </button>
+          }
+        </nav>
+      </section>
+    }
+
+    @if ((inBlock() || (currentStep() !== 'submit' && currentStep() !== 'blocks')) && pageErrors() > 0) {
+      <div class="banner banner--info">
+        <app-icon name="alert-circle" size="18"></app-icon>
+        <div>
+          <strong>{{ pageErrors() }} item(s) on this page need attention before submission</strong> (highlighted in red).
+          You can still save and move between pages.
+        </div>
+      </div>
+    }
+
+    <section class="wizard__body">
+      @if (inBlock()) {
+        @switch (currentBlockStep()) {
+          @case ('details') { <app-step-block-details [index]="blockIndex()"></app-step-block-details> }
+          @case ('floors') { <app-step-floors [index]="blockIndex()"></app-step-floors> }
+          @case ('escapes') { <app-step-escapes [index]="blockIndex()"></app-step-escapes> }
+          @case ('ffe') { <app-step-ffe [index]="blockIndex()"></app-step-ffe> }
+          @case ('plans') { <app-step-block-plans [index]="blockIndex()"></app-step-block-plans> }
+        }
+      } @else {
+        @switch (currentStep()) {
+          @case ('basic') { <app-step-basic></app-step-basic> }
+          @case ('blocks') { <app-step-blocks-list (open)="go($event)"></app-step-blocks-list> }
+          @case ('documents') { <app-step-documents (open)="go($event)"></app-step-documents> }
+          @case ('submit') { <app-step-submit (goTo)="go($event)"></app-step-submit> }
+        }
+      }
+    </section>
+
+    <footer class="wizard__footer">
+      <button type="button" class="btn btn--ghost" [disabled]="!inBlock() && stepIndex() <= 0" (click)="back()">
+        <app-icon name="chevron-left" size="14"></app-icon> {{ inBlock() && blockStepIndex() === 0 ? 'All blocks' : 'Previous' }}
+      </button>
+      <button type="button" class="btn btn--ghost" (click)="close()">Close</button>
+      <button type="button" class="btn btn--secondary" (click)="save()"><app-icon name="save" size="14"></app-icon> Save</button>
+      @if (!isLastPage()) {
+        <button type="button" class="btn btn--primary" (click)="next()">{{ nextLabel() }} <app-icon name="chevron-right" size="14"></app-icon></button>
+      }
+    </footer>
+  }
+</div>

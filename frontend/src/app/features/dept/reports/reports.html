@@ -1,0 +1,371 @@
+<div class="page page--reports">
+  <div class="layout">
+    <nav class="side no-print" aria-label="Reports">
+      <p class="side__title">Reports</p>
+      @for (r of reports; track r.id) {
+        <a class="side__link" [routerLink]="['/dept/reports', r.id]" [class.is-active]="def().id === r.id" [attr.aria-current]="def().id === r.id ? 'page' : null">
+          <app-icon [name]="r.icon" size="14"></app-icon> {{ r.title }}
+        </a>
+      }
+      <select class="select side__select" aria-label="Report" [value]="def().id" (change)="go($any($event.target).value)">
+        @for (r of reports; track r.id) {
+          <option [value]="r.id">{{ r.title }}</option>
+        }
+      </select>
+    </nav>
+
+    <main class="content">
+      <div class="page-header">
+        <div>
+          <p class="page-header__eyebrow">Department reports</p>
+          <h2>{{ def().title }}</h2>
+          <p class="muted">{{ def().description }}</p>
+        </div>
+        <div class="actions no-print">
+          <button type="button" class="btn btn--ghost btn--sm" (click)="exportCsv()"><app-icon name="download" size="14"></app-icon> Export CSV</button>
+          <button type="button" class="btn btn--secondary btn--sm" (click)="print()"><app-icon name="printer" size="14"></app-icon> Print</button>
+        </div>
+      </div>
+
+      <div class="card filters no-print">
+        @if (has('level')) {
+          <label class="f">
+            <span>Level</span>
+            <select class="select" [value]="level()" (change)="level.set($any($event.target).value)">
+              <option value="">All levels</option>
+              @for (l of levels; track l) {
+                <option [value]="l">{{ levelNames[l] }}</option>
+              }
+            </select>
+          </label>
+        }
+        @if (has('type')) {
+          <label class="f">
+            <span>Type</span>
+            <select class="select" [value]="type()" (change)="type.set($any($event.target).value)">
+              <option value="">All types</option>
+              @for (t of types; track t) {
+                <option [value]="t">{{ typeNames[t] }}</option>
+              }
+            </select>
+          </label>
+        }
+        @if (has('region')) {
+          <label class="f">
+            <span>Region</span>
+            <select class="select" [value]="region()" (change)="region.set($any($event.target).value)">
+              <option value="">All regions</option>
+              @for (r of regions(); track r.code) {
+                <option [value]="r.code">{{ r.name }} ({{ r.code }})</option>
+              }
+            </select>
+          </label>
+        }
+        @if (has('status')) {
+          <label class="f">
+            <span>Status</span>
+            <select class="select" [value]="status()" (change)="onStatus($any($event.target).value)">
+              <option value="0">All statuses</option>
+              @for (s of statuses; track s) {
+                <option [value]="s">{{ statusLabel(s) }}</option>
+              }
+            </select>
+          </label>
+        }
+        @if (has('host')) {
+          <label class="f">
+            <span>Applied through</span>
+            <select class="select" [value]="host() ?? '*'" (change)="onHost($any($event.target).value)">
+              <option value="*">All portals</option>
+              <option value="">Fire portal</option>
+              <option value="SDP">SDP</option>
+              <option value="MAUD">MAUD</option>
+            </select>
+          </label>
+        }
+        @if (has('from')) {
+          <label class="f">
+            <span>{{ def().id === 'sms' ? 'Sent' : def().id === 'feedback' ? 'Rated' : 'Applied' }} from</span>
+            <input class="input" type="date" [value]="from()" (change)="from.set($any($event.target).value)" />
+          </label>
+          <label class="f">
+            <span>to</span>
+            <input class="input" type="date" [value]="to()" (change)="to.set($any($event.target).value)" />
+          </label>
+        }
+        @if (districtReport()) {
+          <label class="checkbox-row f-check"><input type="checkbox" [checked]="hideEmpty()" (change)="hideEmpty.set($any($event.target).checked)" /> Hide districts without applications</label>
+        }
+        <button type="button" class="btn btn--ghost btn--sm" (click)="clear()">Clear</button>
+      </div>
+
+      <p class="print-meta">{{ filterText() }}@if (jurisdictional()) { · files of your fire stations only } · generated {{ now.toLocaleString() }}</p>
+
+      @if (loading()) {
+        <p class="empty-state">Loading…</p>
+      } @else {
+        @switch (def().id) {
+          @case ('pendency') {
+            @if (pendency(); as p) {
+              <div class="kpis">
+                <div class="kpi"><span class="kpi__value">{{ p.total }}</span><span class="kpi__label">Files in process</span></div>
+                <div class="kpi" [class.kpi--bad]="p.overdue > 0"><span class="kpi__value">{{ p.overdue }}</span><span class="kpi__label">Past the processing SLA</span></div>
+                @for (l of levels; track l) {
+                  <div class="kpi"><span class="kpi__value">{{ p.matrix[l].total }}</span><span class="kpi__label">{{ levelNames[l] }}</span></div>
+                }
+              </div>
+              <div class="charts">
+                <section class="card chart-card">
+                  <h3>Pending files by level and type</h3>
+                  <app-bar-chart title="Pending files by level and type" [categories]="levelCategories" [series]="pendencySeries()"></app-bar-chart>
+                </section>
+                <section class="card chart-card">
+                  <h3>All submitted files by status</h3>
+                  <app-bar-chart title="Submitted files by status" [categories]="statusCategories" [series]="statusSeries()"></app-bar-chart>
+                </section>
+              </div>
+              @for (g of p.byType; track g.type) {
+                <section class="card block">
+                  @let n = typeTotal(p, g.type);
+                  <h3><span class="dot" [style.background]="typeColors[g.type]"></span> {{ typeNames[g.type] }} <span class="count">{{ n }}</span></h3>
+                  @if (n > g.rows.length) {
+                    <p class="field__hint">The {{ g.rows.length }} longest-pending files are listed; Export CSV for all {{ n }}.</p>
+                  }
+                  @if (g.rows.length === 0) {
+                    <p class="muted">No file pending.</p>
+                  } @else {
+                    <div class="table-scroll">
+                      <table class="table">
+                        <thead><tr><th>#</th><th>Appl. No.</th><th>Level</th><th>District</th><th>Building</th><th>Builder / address</th><th>Pending with</th><th>Status</th><th>Days</th></tr></thead>
+                        <tbody>
+                          @for (r of g.rows; track r.appl_id; let i = $index) {
+                            <tr>
+                              <td>{{ i + 1 }}</td>
+                              <td class="nowrap"><a [routerLink]="['/dept/applications', r.appl_id]">{{ r.appl_number }}</a>@if (r.revision > 1) { [{{ r.revision }}] }</td>
+                              <td>{{ r.level }}</td>
+                              <td>{{ r.dist_name }}</td>
+                              <td>{{ r.site_name }}</td>
+                              <td>{{ r.build_name }}<div class="muted">{{ r.site_addr }}</div></td>
+                              <td>{{ r.pending_with || '—' }}</td>
+                              <td>{{ r.stage_label || statusLabel(r.status_id) }}<div class="muted">on {{ r.since }}</div></td>
+                              <td class="nowrap"><span class="sla" [class.sla--bad]="r.overdue">{{ r.days }} / {{ r.sla ?? '—' }}</span></td>
+                            </tr>
+                          }
+                        </tbody>
+                      </table>
+                    </div>
+                  }
+                </section>
+              }
+            }
+          }
+
+          @case ('statistics') {
+            @let s = statistics();
+            <div class="charts">
+              <section class="card chart-card">
+                <h3>By status</h3>
+                <app-bar-chart title="Applications by status" [categories]="statusCategories" [series]="statusSeries()"></app-bar-chart>
+              </section>
+              <section class="card chart-card">
+                <h3>By approval level and type</h3>
+                <app-bar-chart title="Applications by level and type" [categories]="levelCategories" [series]="statisticsLevelSeries()"></app-bar-chart>
+              </section>
+            </div>
+            <section class="card">
+              <div class="table-scroll">
+                <table class="table num-table">
+                  <thead><tr><th>Type</th>@for (st of statuses; track st; let si = $index) { <th class="num" [attr.title]="statusLabel(st)">{{ statusCategories[si] }}</th> }<th class="num">Total</th></tr></thead>
+                  <tbody>
+                    @for (r of s.rows; track r.type) {
+                      <tr><th>{{ typeNames[r.type] }}</th>@for (st of statuses; track st) { <td class="num">{{ r.byStatus[st] }}</td> }<td class="num"><strong>{{ r.total }}</strong></td></tr>
+                    }
+                  </tbody>
+                  <tfoot><tr><th>Total</th>@for (st of statuses; track st) { <td class="num">{{ s.totals[st] }}</td> }<td class="num"><strong>{{ s.totals.total }}</strong></td></tr></tfoot>
+                </table>
+              </div>
+            </section>
+          }
+
+          @case ('consolidated') {
+            @let c = consolidated();
+            <div class="charts charts--single">
+              <section class="card chart-card">
+                <h3>Outcome</h3>
+                <app-bar-chart title="Consolidated status" [categories]="['Approved', 'Returned', 'Rejected', 'In process']" [series]="consolidatedSeries()" [height]="200"></app-bar-chart>
+              </section>
+            </div>
+            <section class="card">
+              <table class="table num-table">
+                <thead><tr><th>#</th><th>District</th><th class="num">Approved</th><th class="num">Returned</th><th class="num">Rejected</th><th class="num">In process</th><th class="num">Total</th></tr></thead>
+                <tbody>
+                  @for (r of visible(c.rows); track r.district; let i = $index) {
+                    <tr [class.zero]="!r.values.total"><td>{{ i + 1 }}</td><td>{{ r.name }}</td><td class="num">{{ r.values.approved }}</td><td class="num">{{ r.values.returned }}</td><td class="num">{{ r.values.rejected }}</td><td class="num">{{ r.values.in_process }}</td><td class="num"><strong>{{ r.values.total }}</strong></td></tr>
+                  }
+                </tbody>
+                <tfoot><tr><th></th><th>Total</th><td class="num">{{ c.totals.approved }}</td><td class="num">{{ c.totals.returned }}</td><td class="num">{{ c.totals.rejected }}</td><td class="num">{{ c.totals.in_process }}</td><td class="num"><strong>{{ c.totals.total }}</strong></td></tr></tfoot>
+              </table>
+            </section>
+          }
+
+          @case ('applications') {
+            <section class="card">
+              <p class="muted">{{ applicationList().length }} block row(s).</p>
+              <div class="table-scroll">
+                <table class="table">
+                  <thead><tr><th>#</th><th>Appl. No.</th><th>Block</th><th>Applicant</th><th>Address</th><th>Type</th><th class="num">Plot area</th><th class="num">Built-up area</th><th class="num">Height</th><th class="num">Challan (Rs.)</th><th>Status</th></tr></thead>
+                  <tbody>
+                    @for (r of applicationList(); track $index; let i = $index) {
+                      <tr>
+                        <td>{{ i + 1 }}</td>
+                        <td class="nowrap"><a [routerLink]="['/dept/applications', r.appl_id]">{{ r.appl_number }}</a></td>
+                        <td>{{ r.block_name }}</td>
+                        <td>{{ r.builder }}</td>
+                        <td>{{ r.address }}</td>
+                        <td>{{ typeNames[r.type] }} <span class="muted">{{ r.level }}</span></td>
+                        <td class="num">{{ r.plot_area | number: '1.0-2' }}</td>
+                        <td class="num">{{ r.built_area | number: '1.0-2' }}</td>
+                        <td class="num">{{ r.height ?? '—' }}</td>
+                        <td class="num">{{ r.challan ? (r.challan | number) : '' }}</td>
+                        <td><app-status-badge [statusId]="r.status_id"></app-status-badge></td>
+                      </tr>
+                    } @empty {
+                      <tr><td colspan="11" class="muted">No application matches.</td></tr>
+                    }
+                  </tbody>
+                </table>
+              </div>
+            </section>
+          }
+
+          @case ('overdue') {
+            @if (overdue(); as o) {
+              <section class="card">
+                <table class="table num-table">
+                  <thead><tr><th>#</th><th>District</th>@for (t of types; track t) { <th class="num">{{ typeNames[t] }}</th> }<th class="num">Total</th></tr></thead>
+                  <tbody>
+                    @for (r of visible(o.rows); track r.district; let i = $index) {
+                      <tr [class.zero]="!r.values.total"><td>{{ i + 1 }}</td><td>{{ r.name }}</td>@for (t of types; track t) { <td class="num" [class.hot]="r.values[t] > 0">{{ r.values[t] }}</td> }<td class="num"><strong>{{ r.values.total }}</strong></td></tr>
+                    }
+                  </tbody>
+                  <tfoot><tr><th></th><th>Total</th>@for (t of types; track t) { <td class="num">{{ o.totals[t] }}</td> }<td class="num"><strong>{{ o.totals.total }}</strong></td></tr></tfoot>
+                </table>
+              </section>
+              <section class="card block">
+                <h3>Overdue files</h3>
+                <div class="table-scroll">
+                  <table class="table">
+                    <thead><tr><th>Appl. No.</th><th>Type</th><th>District</th><th>Building</th><th>Pending with</th><th>Days / SLA</th></tr></thead>
+                    <tbody>
+                      @for (r of o.list; track r.appl_id) {
+                        <tr><td><a [routerLink]="['/dept/applications', r.appl_id]">{{ r.appl_number }}</a></td><td>{{ typeNames[r.type] }} <span class="muted">{{ r.level }}</span></td><td>{{ r.dist_name }}</td><td>{{ r.site_name }}</td><td>{{ r.pending_with }}</td><td><span class="sla sla--bad">{{ r.days }} / {{ r.sla }}</span></td></tr>
+                      } @empty {
+                        <tr><td colspan="6" class="muted">No file is past its processing SLA.</td></tr>
+                      }
+                    </tbody>
+                  </table>
+                </div>
+              </section>
+            }
+          }
+
+          @case ('sms') {
+            @if (smsRows().length >= screenRows) {
+              <p class="field__hint">The {{ screenRows }} most recent messages are listed; Export CSV for all of them.</p>
+            }
+            <section class="card">
+              <table class="table">
+                <thead><tr><th>#</th><th>Appl. No.</th><th>Building</th><th>Mobile</th><th>Message</th><th>Sent by</th><th>Sent on</th></tr></thead>
+                <tbody>
+                  @for (r of smsRows(); track $index; let i = $index) {
+                    <tr><td>{{ i + 1 }}</td><td class="nowrap"><a [routerLink]="['/dept/applications', r.appl_id]">{{ r.appl_number }}</a></td><td>{{ r.site_name }}</td><td>{{ r.mobile }}</td><td>{{ r.message }}</td><td>{{ r.sent_by }}</td><td class="nowrap">{{ r.sent_on }}</td></tr>
+                  } @empty {
+                    <tr><td colspan="7" class="muted">No SMS sent.</td></tr>
+                  }
+                </tbody>
+              </table>
+            </section>
+          }
+
+          @case ('feedback') {
+            @let fb = feedback();
+            <div class="kpis">
+              <div class="kpi"><span class="kpi__value">{{ fb.count ? fb.average.toFixed(2) : '—' }}</span><span class="kpi__label">Average rating</span></div>
+              <div class="kpi"><span class="kpi__value">{{ fb.count }}</span><span class="kpi__label">Ratings</span></div>
+            </div>
+            @if (fb.count > fb.rows.length) {
+              <p class="field__hint">The {{ fb.rows.length }} most recent ratings are listed; Export CSV for all {{ fb.count }}.</p>
+            }
+            <section class="card">
+              <table class="table">
+                <thead><tr><th>#</th><th>Application</th><th>Applicant</th><th>Description</th><th>Rating</th><th>Submitted on</th></tr></thead>
+                <tbody>
+                  @for (r of fb.rows; track r.appl_id; let i = $index) {
+                    <tr><td>{{ i + 1 }}</td><td class="nowrap">{{ r.appl_number }} <span class="muted">{{ r.level }}</span></td><td>{{ r.applicant }}</td><td>{{ r.description }}</td><td class="nowrap"><app-star-rating [value]="r.rating" [readonly]="true" label="Rating"></app-star-rating></td><td class="nowrap">{{ r.submitted_on }}</td></tr>
+                  } @empty {
+                    <tr><td colspan="6" class="muted">No feedback.</td></tr>
+                  }
+                </tbody>
+              </table>
+            </section>
+          }
+
+          @case ('challan') {
+            @let ch = challan();
+            <section class="card">
+              <div class="table-scroll">
+                <table class="table num-table challan">
+                  <thead><tr><th>#</th><th>District</th><th></th>@for (t of types; track t) { <th class="num">{{ typeNames[t] }}</th> }<th class="num">Total</th></tr></thead>
+                  @for (r of visible(ch.rows); track r.district; let i = $index) {
+                    <tbody [class.zero]="!r.values.applied.total">
+                      <tr><td rowspan="3">{{ i + 1 }}</td><td rowspan="3"><strong>{{ r.name }}</strong></td><td>Issued</td>@for (t of types; track t) { <td class="num">{{ r.values.issued[t] }}</td> }<td class="num">{{ r.values.issued.total }}</td></tr>
+                      <tr><td>Applied</td>@for (t of types; track t) { <td class="num">{{ r.values.applied[t] }}</td> }<td class="num">{{ r.values.applied.total }}</td></tr>
+                      <tr><td>Challan (Rs.)</td>@for (t of types; track t) { <td class="num">{{ r.values.amount[t] | number }}</td> }<td class="num"><strong>{{ r.values.amount.total | number }}</strong></td></tr>
+                    </tbody>
+                  }
+                  <tfoot>
+                    <tr><td rowspan="3"></td><td rowspan="3">Total</td><td>Issued</td>@for (t of types; track t) { <td class="num">{{ ch.totals.issued[t] }}</td> }<td class="num">{{ ch.totals.issued.total }}</td></tr>
+                    <tr><td>Applied</td>@for (t of types; track t) { <td class="num">{{ ch.totals.applied[t] }}</td> }<td class="num">{{ ch.totals.applied.total }}</td></tr>
+                    <tr><td>Challan (Rs.)</td>@for (t of types; track t) { <td class="num">{{ ch.totals.amount[t] | number }}</td> }<td class="num"><strong>{{ ch.totals.amount.total | number }}</strong></td></tr>
+                  </tfoot>
+                </table>
+              </div>
+            </section>
+          }
+
+          @case ('district') {
+            @let dw = districtWise();
+            <section class="card">
+              <table class="table num-table">
+                <thead><tr><th>#</th><th>District</th>@for (t of types; track t) { <th class="num">{{ typeNames[t] }}</th> }<th class="num">Total</th></tr></thead>
+                <tbody>
+                  @for (r of visible(dw.rows); track r.district; let i = $index) {
+                    <tr [class.zero]="!r.values.total"><td>{{ i + 1 }}</td><td>{{ r.name }}</td>@for (t of types; track t) { <td class="num">{{ r.values[t] }}</td> }<td class="num"><strong>{{ r.values.total }}</strong></td></tr>
+                  }
+                </tbody>
+                <tfoot><tr><th></th><th>Total</th>@for (t of types; track t) { <td class="num">{{ dw.totals[t] }}</td> }<td class="num"><strong>{{ dw.totals.total }}</strong></td></tr></tfoot>
+              </table>
+            </section>
+          }
+
+          @case ('levels') {
+            @for (p of particulars(); track p.level; let i = $index) {
+              <section class="card block">
+                <h3>({{ 'abc'[i] }}) Particulars of online NOC — {{ p.title }}</h3>
+                <table class="table num-table">
+                  <thead><tr><th>Type of NOC</th><th class="num">Received</th><th class="num">Approved</th><th class="num">Rejected</th><th class="num">Addl. information / rectification</th><th class="num">Under process</th></tr></thead>
+                  <tbody>
+                    @for (r of p.rows; track r.type) {
+                      <tr><th>{{ typeNames[r.type] }}</th><td class="num">{{ r.received }}</td><td class="num">{{ r.approved }}</td><td class="num">{{ r.rejected }}</td><td class="num">{{ r.returned }}</td><td class="num">{{ r.under_process }}</td></tr>
+                    }
+                  </tbody>
+                  <tfoot><tr><th>Total</th><td class="num">{{ p.totals.received }}</td><td class="num">{{ p.totals.approved }}</td><td class="num">{{ p.totals.rejected }}</td><td class="num">{{ p.totals.returned }}</td><td class="num">{{ p.totals.under_process }}</td></tr></tfoot>
+                </table>
+              </section>
+            }
+          }
+        }
+      }
+    </main>
+  </div>
+</div>

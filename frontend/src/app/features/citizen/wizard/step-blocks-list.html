@@ -1,0 +1,82 @@
+<section class="form-section">
+  <div class="section-title">
+    <h3>Blocks</h3>
+    <button type="button" class="btn btn--primary btn--sm" (click)="openAdd()"><app-icon name="plus" size="14"></app-icon> Add Block</button>
+  </div>
+  <p class="form-section__intro">
+    Add every building (block) on the plot — e.g. residential towers and a club house; for a Tower &amp; Podium building add both parts.
+    Then complete each block in its own flow: <strong>Block Details → Floors → Means of Escape → Fire Fighting Equipment → Plans</strong>.
+  </p>
+  @if (store.fieldError('blocks'); as e) { <p class="field__error">{{ e }}</p> }
+
+  @if (blocks().length === 0) {
+    <div class="empty-blocks">
+      <app-icon name="building" size="28"></app-icon>
+      <p>No blocks yet. Click <strong>Add Block</strong> to describe the first building.</p>
+    </div>
+  }
+
+  <div class="block-cards">
+    @for (b of blocks(); track b.block_id; let i = $index) {
+      @let open = count(i);
+      <article class="block-card" [class.is-complete]="open === 0">
+        <header class="block-card__head">
+          <div class="block-card__title">
+            <span class="block-card__sl">{{ i + 1 }}</span>
+            <div>
+              <h4>
+                {{ b.block_name || 'Block ' + (i + 1) }}
+                @if (b.block_type === 'T' || b.block_type === 'P') { <span class="tag">{{ b.block_type === 'T' ? 'Tower' : 'Podium' }}</span> }
+              </h4>
+              <p class="block-card__meta">
+                {{ typeName(b.site_type) }}@if (b.site_stype) { ({{ b.site_stype }}) } · {{ b.height || 0 }} m ·
+                {{ floorDisplay(b) || b.floors.length + ' floor(s)' }} · {{ blockBuiltUp(b) | number: '1.0-2' }} sq.m · {{ levelName(b) }}
+              </p>
+            </div>
+          </div>
+          <div class="block-card__status">
+            @if (open === 0) {
+              <span class="status-ok"><app-icon name="check-circle" size="16"></app-icon> Complete</span>
+            } @else {
+              <span class="status-open">{{ open }} item(s) to complete</span>
+            }
+          </div>
+        </header>
+        <nav class="block-card__pages" [attr.aria-label]="'Pages of ' + b.block_name">
+          @for (p of pages; track p.id; let n = $index) {
+            @let c = count(i, p.id);
+            <button type="button" class="page-chip" [class.has-errors]="c > 0" (click)="go(b, p.id)">
+              <span class="page-chip__num">{{ n + 1 }}</span> {{ p.label }}
+              @if (c > 0) { <span class="page-chip__count">{{ c }}</span> } @else { <app-icon name="check" size="12"></app-icon> }
+            </button>
+          }
+        </nav>
+        <footer class="block-card__actions">
+          <button type="button" class="btn btn--ghost btn--sm" (click)="removeBlock(i)"><app-icon name="trash" size="14"></app-icon> Delete Block</button>
+          <button type="button" class="btn btn--secondary btn--sm" (click)="go(b, firstOpenPage(i))">
+            <app-icon name="edit" size="14"></app-icon> {{ open === 0 ? 'Review block' : 'Continue block' }}
+          </button>
+        </footer>
+      </article>
+    }
+  </div>
+</section>
+
+<app-modal [open]="adding()" title="Add Block" (closed)="adding.set(false)">
+  <p>Please select the type of the block:</p>
+  <label class="radio block-choice"><input type="radio" name="btype" value="N" [(ngModel)]="newBlockType" /> Normal Block</label>
+  @if (newBlockType === 'N') {
+    <div class="field"><label class="field__label" for="nb-name">Name of the Block</label><input id="nb-name" class="input" [(ngModel)]="newBlockName" /></div>
+  }
+  <label class="radio block-choice"><input type="radio" name="btype" value="T" [(ngModel)]="newBlockType" /> Tower and Podium Block</label>
+  @if (newBlockType === 'T') {
+    <div class="form-grid">
+      <div class="field"><label class="field__label" for="nb-tower">Name of the Tower</label><input id="nb-tower" class="input" [(ngModel)]="newTowerName" /></div>
+      <div class="field"><label class="field__label" for="nb-podium">Name of the Podium</label><input id="nb-podium" class="input" [(ngModel)]="newPodiumName" /></div>
+    </div>
+  }
+  <div modal-footer>
+    <button type="button" class="btn btn--ghost" (click)="adding.set(false)">Cancel</button>
+    <button type="button" class="btn btn--primary" (click)="confirmAdd()">Ready to Start</button>
+  </div>
+</app-modal>

@@ -1,0 +1,60 @@
+@let d = data();
+@let a = app();
+<p class="form-section__intro">
+  Cross-checks the applicant, licensing authority, committee and survey details, the plan documents and the fee against the challan, before the file
+  goes for inspection.
+</p>
+
+<div class="yn-grid">
+  <div class="yn-row">
+    <span>Applicant, licensing authority and committee details are in order</span>
+    <label class="radio"><input type="radio" name="applicant_ok" [checked]="yn('applicant_ok') === 'Y'" (change)="set('applicant_ok', 'Y')" /> Yes</label>
+    <label class="radio"><input type="radio" name="applicant_ok" [checked]="yn('applicant_ok') === 'N'" (change)="set('applicant_ok', 'N')" /> No</label>
+  </div>
+  <div class="yn-row">
+    <span>Survey / revenue details are in order</span>
+    <label class="radio"><input type="radio" name="survey_ok" [checked]="yn('survey_ok') === 'Y'" (change)="set('survey_ok', 'Y')" /> Yes</label>
+    <label class="radio"><input type="radio" name="survey_ok" [checked]="yn('survey_ok') === 'N'" (change)="set('survey_ok', 'N')" /> No</label>
+  </div>
+  <div class="yn-row">
+    <span>Plan documents (site / section / elevation / floor plans) are in order and signed</span>
+    <label class="radio"><input type="radio" name="plans_ok" [checked]="yn('plans_ok') === 'Y'" (change)="set('plans_ok', 'Y')" /> Yes</label>
+    <label class="radio"><input type="radio" name="plans_ok" [checked]="yn('plans_ok') === 'N'" (change)="set('plans_ok', 'N')" /> No</label>
+  </div>
+  <div class="field">
+    <label class="field__label" for="plans_signed_by">Plans countersigned by</label>
+    <input id="plans_signed_by" class="input" [ngModel]="d.plans_signed_by" (ngModelChange)="set('plans_signed_by', $event)" placeholder="e.g. Licensed Technical Personnel" />
+  </div>
+  <div class="yn-row">
+    <span>Fee due (Rs. {{ a.payment.amount }}) has been paid in full@if (a.payment.mode === 'challan') { (challan {{ a.payment.challan_num }}) }</span>
+    <label class="radio"><input type="radio" name="fee_ok" [checked]="yn('fee_ok') === 'Y'" (change)="set('fee_ok', 'Y')" /> Yes</label>
+    <label class="radio"><input type="radio" name="fee_ok" [checked]="yn('fee_ok') === 'N'" (change)="set('fee_ok', 'N')" /> No</label>
+  </div>
+  @if (a.appl_type === 'P') {
+    <div class="yn-row">
+      <span>15% bank guarantee for 5 years is in order</span>
+      <label class="radio"><input type="radio" name="bank_guarantee_ok" [checked]="yn('bank_guarantee_ok') === 'Y'" (change)="set('bank_guarantee_ok', 'Y')" /> Yes</label>
+      <label class="radio"><input type="radio" name="bank_guarantee_ok" [checked]="yn('bank_guarantee_ok') === 'N'" (change)="set('bank_guarantee_ok', 'N')" /> No</label>
+    </div>
+    <div class="yn-row">
+      <span>Estimate of the fire fighting equipment is in order</span>
+      <label class="radio"><input type="radio" name="ffe_estimate_ok" [checked]="yn('ffe_estimate_ok') === 'Y'" (change)="set('ffe_estimate_ok', 'Y')" /> Yes</label>
+      <label class="radio"><input type="radio" name="ffe_estimate_ok" [checked]="yn('ffe_estimate_ok') === 'N'" (change)="set('ffe_estimate_ok', 'N')" /> No</label>
+    </div>
+  }
+</div>
+
+<div class="form-grid">
+  <div class="field span-2">
+    <label class="field__label" for="deficiencies">Deficiencies noticed (if any)</label>
+    <textarea id="deficiencies" class="textarea" [ngModel]="d.deficiencies" (ngModelChange)="set('deficiencies', $event)"></textarea>
+  </div>
+  <div class="field">
+    <label class="field__label" for="submitted_by">Submitted by</label>
+    <input id="submitted_by" class="input" [ngModel]="d.submitted_by" (ngModelChange)="set('submitted_by', $event)" />
+  </div>
+  <div class="field span-2">
+    <label class="field__label field__required" for="sn_remark">Remarks</label>
+    <textarea id="sn_remark" class="textarea" [ngModel]="d.remark" (ngModelChange)="set('remark', $event)"></textarea>
+  </div>
+</div>

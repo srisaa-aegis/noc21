@@ -1,0 +1,339 @@
+{
+ "start": "types",
+ "types": {
+  "check": "@site_type",
+  "dtype": "s",
+  "decisions": [
+   {
+    "oper": "EQ",
+    "check": "res",
+    "action": "goto",
+    "value": "res"
+   },
+   {
+    "oper": "EQ",
+    "check": "edu",
+    "action": "goto",
+    "value": "edu"
+   },
+   {
+    "oper": "EQ",
+    "check": "ins",
+    "action": "goto",
+    "value": "ins"
+   },
+   {
+    "oper": "EQ",
+    "check": "asm",
+    "action": "goto",
+    "value": "asm"
+   },
+   {
+    "oper": "EQ",
+    "check": "biz",
+    "action": "goto",
+    "value": "biz"
+   },
+   {
+    "oper": "EQ",
+    "check": "mer",
+    "action": "goto",
+    "value": "mer"
+   },
+   {
+    "oper": "EQ",
+    "check": "ind",
+    "action": "goto",
+    "value": "ind"
+   },
+   {
+    "oper": "EQ",
+    "check": "sto",
+    "action": "goto",
+    "value": "sto"
+   },
+   {
+    "oper": "EQ",
+    "check": "haz",
+    "action": "goto",
+    "value": "haz"
+   },
+   {
+    "oper": "DEF",
+    "check": "",
+    "action": "return",
+    "value": ""
+   }
+  ]
+ },
+ "res": {
+  "check": "@site_stype",
+  "dtype": "s",
+  "decisions": [
+   {
+    "oper": "EQ",
+    "check": "A1",
+    "action": "goto",
+    "value": "A_LH"
+   },
+   {
+    "oper": "EQ",
+    "check": "A3",
+    "action": "goto",
+    "value": "A_LH"
+   },
+   {
+    "oper": "EQ",
+    "check": "A4",
+    "action": "goto",
+    "value": "A_LH"
+   },
+   {
+    "oper": "EQ",
+    "check": "A5",
+    "action": "goto",
+    "value": "A_LH"
+   },
+   {
+    "oper": "EQ",
+    "check": "A6",
+    "action": "goto",
+    "value": "A_MH"
+   },
+   {
+    "oper": "DEF",
+    "check": "",
+    "action": "return",
+    "value": ""
+   }
+  ]
+ },
+ "edu": {
+  "check": "@site_stype",
+  "dtype": "s",
+  "decisions": [
+   {
+    "oper": "DEF",
+    "check": "",
+    "action": "goto",
+    "value": "A_MH"
+   }
+  ]
+ },
+ "ins": {
+  "check": "@site_stype",
+  "dtype": "s",
+  "decisions": [
+   {
+    "oper": "DEF",
+    "check": "",
+    "action": "goto",
+    "value": "A_MH"
+   }
+  ]
+ },
+ "asm": {
+  "check": "@site_stype",
+  "dtype": "s",
+  "decisions": [
+   {
+    "oper": "EQ",
+    "check": "D1",
+    "action": "goto",
+    "value": "A_HH"
+   },
+   {
+    "oper": "EQ",
+    "check": "D2",
+    "action": "goto",
+    "value": "A_MH"
+   },
+   {
+    "oper": "EQ",
+    "check": "D3",
+    "action": "goto",
+    "value": "A_MH"
+   },
+   {
+    "oper": "EQ",
+    "check": "D4",
+    "action": "goto",
+    "value": "A_LH"
+   },
+   {
+    "oper": "EQ",
+    "check": "D5",
+    "action": "goto",
+    "value": "A_LH"
+   },
+   {
+    "oper": "EQ",
+    "check": "D6",
+    "action": "goto",
+    "value": "A_LH"
+   },
+   {
+    "oper": "DEF",
+    "check": "",
+    "action": "return",
+    "value": ""
+   }
+  ]
+ },
+ "biz": {
+  "check": "@site_stype",
+  "dtype": "s",
+  "decisions": [
+   {
+    "oper": "EQ",
+    "check": "E1",
+    "action": "goto",
+    "value": "A_SH"
+   },
+   {
+    "oper": "EQ",
+    "check": "E2",
+    "action": "goto",
+    "value": "B_MH"
+   },
+   {
+    "oper": "EQ",
+    "check": "E3",
+    "action": "goto",
+    "value": "A_SH"
+   },
+   {
+    "oper": "DEF",
+    "check": "",
+    "action": "return",
+    "value": ""
+   }
+  ]
+ },
+ "mer": {
+  "check": "@site_stype",
+  "dtype": "s",
+  "decisions": [
+   {
+    "oper": "DEF",
+    "check": "",
+    "action": "goto",
+    "value": "A_MH"
+   }
+  ]
+ },
+ "ind": {
+  "check": "@site_stype",
+  "dtype": "s",
+  "decisions": [
+   {
+    "oper": "EQ",
+    "check": "G1",
+    "action": "goto",
+    "value": "A_LH"
+   },
+   {
+    "oper": "EQ",
+    "check": "G2",
+    "action": "goto",
+    "value": "A_MH"
+   },
+   {
+    "oper": "EQ",
+    "check": "G3",
+    "action": "goto",
+    "value": "A_HH"
+   },
+   {
+    "oper": "DEF",
+    "check": "",
+    "action": "return",
+    "value": ""
+   }
+  ]
+ },
+ "sto": {
+  "check": "@site_stype",
+  "dtype": "s",
+  "decisions": [
+   {
+    "oper": "DEF",
+    "check": "",
+    "action": "goto",
+    "value": "A_MH"
+   }
+  ]
+ },
+ "haz": {
+  "check": "@site_stype",
+  "dtype": "s",
+  "decisions": [
+   {
+    "oper": "DEF",
+    "check": "",
+    "action": "goto",
+    "value": "A_HH"
+   }
+  ]
+ },
+ "A_LH": {
+  "check": "@floor_area",
+  "dtype": "n",
+  "decisions": [
+   {
+    "oper": "DEF",
+    "check": "",
+    "action": "return",
+    "value": "D,floor_area,200"
+   }
+  ]
+ },
+ "A_MH": {
+  "check": "@floor_area",
+  "dtype": "n",
+  "decisions": [
+   {
+    "oper": "DEF",
+    "check": "",
+    "action": "return",
+    "value": "D,floor_area,100"
+   }
+  ]
+ },
+ "A_HH": {
+  "check": "@floor_area",
+  "dtype": "n",
+  "decisions": [
+   {
+    "oper": "DEF",
+    "check": "",
+    "action": "return",
+    "value": "D,floor_area,100"
+   }
+  ]
+ },
+ "A_SH": {
+  "check": "@floor_area",
+  "dtype": "n",
+  "decisions": [
+   {
+    "oper": "DEF",
+    "check": "",
+    "action": "return",
+    "value": "D,floor_area,100"
+   }
+  ]
+ },
+ "B_MH": {
+  "check": "@floor_area",
+  "dtype": "n",
+  "decisions": [
+   {
+    "oper": "DEF",
+    "check": "",
+    "action": "return",
+    "value": "D,floor_area,100,"
+   }
+  ]
+ }
+}

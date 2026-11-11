@@ -1,0 +1,17 @@
+@for (q of visible(); track q.key) {
+  <div class="field">
+    <label class="field__label" [class.field__required]="q.required" [for]="q.key">{{ q.label }}</label>
+    @switch (q.kind) {
+      @case ('choice') {
+        <div>
+          @for (o of q.options; track o.value) {
+            <label class="radio"><input type="radio" [name]="q.key" [checked]="data()[q.key] === o.value" (change)="set(q.key, o.value)" /> {{ o.label }}</label>
+          }
+        </div>
+      }
+      @default {
+        <textarea [id]="q.key" class="textarea" [ngModel]="data()[q.key]" (ngModelChange)="set(q.key, $event)"></textarea>
+      }
+    }
+  </div>
+}

@@ -1,0 +1,66 @@
+@let a = app();
+<p class="lh">Government of Andhra Pradesh</p>
+<p class="lh">A.P. State Disaster Response and Fire Services Department</p>
+<p class="doc-title">Annual Periodical Renewal Fire Certificate</p>
+
+<div class="addr-row">
+  <div>From:<br />@for (l of from(); track $index) { {{ l }}<br /> }</div>
+  <div>To:<br />{{ a.lic_auth }},<br />{{ a.lic_addr }}</div>
+</div>
+<div class="center">
+  <b><u>File No: {{ a.appl_number }}, Date:{{ issueDate() }}</u></b><br />
+  <b><u>Occupancy NoC RC Number: {{ a.ref_no || parent()?.appl_number }}</u></b>
+</div>
+<table class="sub-ref">
+  <tr>
+    <td>Sub:</td>
+    <td>
+      Andhra Pradesh State Disaster Response and Fire Services Department - Annual Periodical Fire Certificate to the constructed @if (!msb()) { Non }Multi Storeyed
+      Building of <b>{{ a.site_name }}, represented by {{ a.build_name }}, {{ a.site_addr }}</b> - Regarding.
+    </td>
+  </tr>
+  <tr>
+    <td>Ref:</td>
+    <td>
+      <ol>
+        <li>G.O.Ms.NO.71 Home (Prisons-A) Department, Dated.01-04-2010 &amp; G.O.Ms.NO.140 Home(Prison &amp; Fire Services) Department, Dt.04-09-2015.</li>
+        <li>This Office Delegation of Powers Rc.No.3350/Audit/NOC/2012, Dated.09-03-2017.</li>
+        <li>This Office NOC for Occupancy Rc No. {{ a.ref_no || parent()?.appl_number }}@if (ocDate()) {, Dt.{{ ocDate() }}}</li>
+        @if (lastRenewalDate()) {
+          <li>Renewal NOC For Occupancy {{ a.ref_no }}, Dt.{{ lastRenewalDate() }}</li>
+        }
+        <li>Online Application for Renewal NOC of {{ a.build_name }}, {{ a.site_addr }} - Inspection report called for Regarding.</li>
+        <li>Online Inspection Report submitted by Officers of this Department on {{ inspectionDate() }}.</li>
+      </ol>
+    </td>
+  </tr>
+</table>
+<div class="center">&lt;&lt; 0 &gt;&gt;</div>
+<p class="para indent">
+  The Management of {{ a.site_name }}, represented by {{ a.build_name }}, {{ a.site_addr }} has requested to issue Annual Periodical Fire Certificate for period
+  {{ period() }} duly remitting the Fire Precautionary fee for Rs.{{ a.payment.amount }}/- {{ paymentText() }}.
+</p>
+@for (b of a.blocks; track b.block_id; let i = $index) {
+  <h3 class="block-name">@if (i !== 0) {, }{{ b.block_name }}</h3>
+}
+<div class="para">
+  1. This certificate is being issued as per G.O.Ms.No 140 Home (prisons &amp; Fire Services) Department, Dt: 04.09.2015.<br />
+  2. The No Objection Certificate for Occupancy was issued vide reference cited (3)@if (lastRenewalDate()) { and the Management has also obtained Annual Periodical
+  Renewal Fire Certificate for vide reference 4th cited} to the constructed @if (!msb()) { Non }Multi Storeyed Building.<br />
+  3. The Officers of the department have recommended to issue The Annual Periodical Renewal Fire Certificate <b>{{ a.build_name }} {{ a.site_addr }}</b>,
+  subject to the following conditions.
+</div>
+
+<div class="terms" [innerHTML]="terms('R')"></div>
+
+<div class="para">4. This Annual Periodical Renewal Fire Certificate is valid from {{ letterDate(a.valid_from) }} to {{ letterDate(a.valid_to) }}.</div>
+<div class="para">
+  5. The Responsibility/liability of the owner/occupier or both to maintain Fire safety measures in good condition in all times, in accordance with AP Fire safety
+  Act 1999 and Rules, 2006.
+</div>
+<div class="para">
+  The following deficiencies are identified by the officers of the department and needs to be attended to by the management.
+  <pre class="deficiencies">{{ deficiencies() }}</pre>
+</div>
+
+<app-letter-signature [fileNo]="a.appl_number" [lines]="signatory('R')" [copyTo]="copyTo('R')"></app-letter-signature>

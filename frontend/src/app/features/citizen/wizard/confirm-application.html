@@ -1,0 +1,47 @@
+<div class="page confirm">
+  <a [routerLink]="['/citizen/applications', id(), 'edit', 'submit']" class="back-link"><app-icon name="chevron-left" size="14"></app-icon> Back to the application</a>
+
+  @if (store.loadError()) {
+    <div class="card empty-state">
+      <p>{{ store.loadError() }}</p>
+      <a class="btn btn--primary" [routerLink]="['/citizen/applications', id()]">View application</a>
+    </div>
+  } @else if (!store.app() || !store.lookups()) {
+    <p class="empty-state">Loading application…</p>
+  } @else {
+    @let a = store.app()!;
+    <header class="page-header">
+      <div>
+        <p class="page-header__eyebrow"><app-appl-type-badge [applType]="a.appl_type"></app-appl-type-badge></p>
+        <h2>{{ title() }} — Confirmation before Submission</h2>
+        <p>Please verify every detail below. After submission the application can no longer be modified.</p>
+      </div>
+    </header>
+
+    @if (store.errors().length > 0) {
+      <div class="banner banner--warning">
+        <app-icon name="alert-triangle" size="18"></app-icon>
+        <div>
+          <strong>{{ store.errors().length }} item(s) must be corrected before this application can be submitted.</strong>
+          <button type="button" class="link-button" (click)="backToEdit()">Go back and correct them</button>
+        </div>
+      </div>
+    } @else {
+      <app-application-sheet [app]="a" [lookups]="store.lookups()!"></app-application-sheet>
+
+      <section class="sheet-panel undertaking">
+        <h3>Undertaking by Applicant</h3>
+        @for (u of undertakings(); track u.id; let i = $index) {
+          <label class="checkbox-row"><input type="checkbox" [(ngModel)]="ticks[i]" (ngModelChange)="onTick()" /> <span>{{ u.text }}@if (!u.required) { <em class="field__hint"> (optional)</em> }</span></label>
+        }
+        <p class="undertaking__hint">Clicking <strong>Submit</strong> will submit the application; you will not be able to modify the information afterwards.</p>
+        <div class="undertaking__actions">
+          <button type="button" class="btn btn--ghost" (click)="backToEdit()"><app-icon name="edit" size="14"></app-icon> Back to edit</button>
+          <button type="button" class="btn btn--primary btn--lg" [disabled]="!allTicked() || submitting()" (click)="confirm()">
+            <app-icon name="shield" size="16"></app-icon> {{ submitting() ? 'Submitting…' : 'Confirm & Submit' }}
+          </button>
+        </div>
+      </section>
+    }
+  }
+</div>

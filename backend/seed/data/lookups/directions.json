@@ -1,0 +1,38 @@
+[
+  {
+    "code": "N",
+    "name": "North"
+  },
+  {
+    "code": "E",
+    "name": "East"
+  },
+  {
+    "code": "S",
+    "name": "South"
+  },
+  {
+    "code": "W",
+    "name": "West"
+  },
+  {
+    "code": "NE",
+    "name": "North East"
+  },
+  {
+    "code": "SE",
+    "name": "South East"
+  },
+  {
+    "code": "SW",
+    "name": "South West"
+  },
+  {
+    "code": "NW",
+    "name": "North West"
+  },
+  {
+    "code": "C",
+    "name": "Center"
+  }
+]

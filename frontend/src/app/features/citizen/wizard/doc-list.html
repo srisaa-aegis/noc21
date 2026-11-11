@@ -1,0 +1,29 @@
+<ul class="doc-list">
+  @for (d of docs(); track d.code) {
+    @let uploaded = store.documentFor(d.code);
+    <li class="doc" [class.doc--missing]="!uploaded && !d.optional && store.fieldError('doc.' + d.code)">
+      <div class="doc__info">
+        <span class="doc__label">{{ d.label }}</span>
+        <span class="doc__tag" [class.doc__tag--optional]="d.optional">{{ d.optional ? 'Optional' : 'Required' }}</span>
+        @if (uploaded) {
+          <span class="doc__file">
+            <app-icon name="paperclip" size="14"></app-icon>
+            <app-file-link [fileId]="uploaded.file_id" [name]="uploaded.file_name"></app-file-link> · {{ (uploaded.size ?? 0) / 1024 | number: '1.0-0' }} KB · {{ uploaded.uploaded_on }}
+          </span>
+        }
+        @if (store.uploadProgress()[d.code] !== undefined) {
+          <span class="doc__file" role="status">Uploading… {{ store.uploadProgress()[d.code] }}%</span>
+        }
+      </div>
+      <div class="doc__actions">
+        <label class="btn btn--ghost btn--sm">
+          <app-icon name="upload" size="14"></app-icon> {{ uploaded ? 'Replace' : 'Upload' }}
+          <input type="file" accept="application/pdf,.pdf" class="visually-hidden" [attr.aria-label]="'Upload ' + d.label" (change)="onFile(d, $event)" />
+        </label>
+        @if (uploaded) {
+          <button type="button" class="btn btn--ghost btn--sm" (click)="remove(d)" [attr.aria-label]="'Remove ' + d.label"><app-icon name="trash" size="14"></app-icon></button>
+        }
+      </div>
+    </li>
+  }
+</ul>

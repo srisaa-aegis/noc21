@@ -1,0 +1,38 @@
+@let a = app();
+<p class="lh">Government of Andhra Pradesh</p>
+<p class="lh">A.P. State Disaster Response and Fire Services Department</p>
+
+<div class="addr-row">
+  <div>From,<br />@for (l of from(); track $index) { {{ l }}<br /> }</div>
+  <div>To<br />{{ a.build_name }}<br />{{ a.corr_addr }}</div>
+</div>
+<div class="center"><u><b>{{ a.appl_number }}</b> dated <b>{{ date() }}</b></u></div>
+<div>Sir/Madam,</div>
+<table class="sub-ref">
+  <tr>
+    <td>Sub:</td>
+    <td>
+      Andhra Pradesh State Disaster Response and Fire Services Department - Issue of {{ kindText() }} No Objection Certificate for the
+      {{ a.appl_type === 'P' ? 'Proposed Construction of' : 'Existing' }} @if (!msb()) { Non }Multi Storeyed Building of
+      <b>({{ a.site_name }})&nbsp;{{ a.build_name }}, {{ a.site_addr }}</b> - <b>{{ statusText() }}</b>- Regarding.
+    </td>
+  </tr>
+  <tr>
+    <td>Ref:</td>
+    <td>
+      <ol>
+        <li>Online Application Dt. {{ a.applied_date }} , {{ a.build_name }}, {{ a.site_addr }}</li>
+        <li>Inspection Report submitted by Officers of the Department on {{ inspectionDate() }}.</li>
+      </ol>
+    </td>
+  </tr>
+</table>
+<div class="para">
+  1. With reference to the Application 1st cited, it is to inform that the Multi Storey Building Inspection Committee vide their report 2nd cited has noticed the
+  following deficiencies.
+  <pre class="deficiencies">{{ deficiencies() }}</pre>
+</div>
+<div class="para">2. Therefore, the Management is hereby is requested to rectify the above deficiencies and re-submit the proposal for taking further necessary action.</div>
+<div class="para">3. The proposal received in the reference 1st cited, is returned herewith along with Plans</div>
+
+<app-letter-signature [fileNo]="a.appl_number" [lines]="signatory('REJECTION')" [copyTo]="copyTo('REJECTION')"></app-letter-signature>

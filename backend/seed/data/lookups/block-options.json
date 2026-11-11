@@ -1,0 +1,50 @@
+{
+  "blockTypes": [
+    { "code": "N", "name": "Normal Block" },
+    { "code": "T", "name": "Tower (of a Tower & Podium block)" },
+    { "code": "P", "name": "Podium (of a Tower & Podium block)" }
+  ],
+  "floorTypes": [
+    { "code": "B", "name": "Basement / Cellar" },
+    { "code": "S", "name": "Stilt" },
+    { "code": "G", "name": "Ground" },
+    { "code": "F", "name": "Floor" },
+    { "code": "T", "name": "Terrace" }
+  ],
+  "floorOccupancies": [
+    { "code": "PAR", "name": "Parking" },
+    { "code": "RES", "name": "Residential" },
+    { "code": "EDU1", "name": "Educational" },
+    { "code": "EDU2", "name": "Educational - Engineering and Technology" },
+    { "code": "INS1", "name": "Institutional - Outdoor Patients Area" },
+    { "code": "INS2", "name": "Institutional - Indoor Patients Area" },
+    { "code": "ASM1", "name": "Assembly with fixed seats" },
+    { "code": "ASM2", "name": "Assembly without seating facility" },
+    { "code": "ASM3", "name": "Assembly - Concentrated use without fixed seating" },
+    { "code": "ASM4", "name": "Assembly - Less concentrated use without fixed seating" },
+    { "code": "ASM5", "name": "Assembly - Dining areas & restaurants with seating & table" },
+    { "code": "ASM6", "name": "Assembly - Mixed" },
+    { "code": "MER1", "name": "Mercantile - Street floor and Sale Basement" },
+    { "code": "MER2", "name": "Mercantile - Upper sale floors" },
+    { "code": "MER3", "name": "Mercantile - Storage / Warehouse" },
+    { "code": "BIZ", "name": "Business" },
+    { "code": "IND", "name": "Industrial" },
+    { "code": "STO", "name": "Storage" },
+    { "code": "MLCP", "name": "Multilevel Car parking" },
+    { "code": "HAZ", "name": "Hazardous" },
+    { "code": "OTH", "name": "Other Non-Occupancies" }
+  ],
+  "escapeTypes": [
+    { "code": "I", "name": "Internal Staircase" },
+    { "code": "E", "name": "External Staircase" },
+    { "code": "R", "name": "Ramp (above Ground)" },
+    { "code": "C", "name": "Basement Ramp" }
+  ],
+  "sidePropertyTypes": [
+    { "code": "R", "name": "Street / Road" },
+    { "code": "B", "name": "Building" },
+    { "code": "S", "name": "Open Space" },
+    { "code": "O", "name": "Others" }
+  ],
+  "liftTypes": [{ "code": "F", "name": "Fire" }]
+}

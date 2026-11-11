@@ -1,0 +1,10 @@
+{
+  "portal_charges": 800,
+  "declaration_fee": 2000,
+  "rates_per_sqm": { "P": 10, "O": 10, "R": 2 },
+  "occupancy_without_provisional": {
+    "additional_per_sqm": 0.1,
+    "penalty_per_sqm_per_year": 0.24
+  },
+  "_source": "applicationController.js reqd_challan_o (commented): total_built_up*10 + total_built_up*10/100 + (total_built_up*24/100)*years since municipal approval"
+}

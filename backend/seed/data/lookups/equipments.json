@@ -1,0 +1,93 @@
+[
+  {
+    "id": 2,
+    "desc": "Fire Extinguishers",
+    "short": "Fire Ext.",
+    "level": "F",
+    "suffix": " Nos. "
+  },
+  {
+    "id": 3,
+    "desc": "Hose Reel Systems",
+    "short": "Hose Reel",
+    "level": "F",
+    "suffix": " Nos. "
+  },
+  {
+    "id": 10,
+    "desc": "Wet Riser",
+    "short": "Wet Riser",
+    "level": "B",
+    "suffix": " Nos (For Each Floor)"
+  },
+  {
+    "id": 9,
+    "desc": "Down Comer",
+    "short": "Down Comer",
+    "level": "B",
+    "suffix": " Nos (For Each Floor)"
+  },
+  {
+    "id": 5,
+    "desc": "Automatic Sprinkler System",
+    "short": "Sprinklers",
+    "level": "F",
+    "suffix": " Nos. "
+  },
+  {
+    "id": 4,
+    "desc": "Manually Operated Electric Fire Alarm System",
+    "short": "MCP",
+    "level": "F",
+    "suffix": " Nos. "
+  },
+  {
+    "id": 1,
+    "desc": "Automatic Detection & Alarm System",
+    "short": "Auto. Det.",
+    "level": "F",
+    "suffix": " Nos. "
+  },
+  {
+    "id": 11,
+    "desc": "Terrace Tank",
+    "short": "Terrace Tank",
+    "level": "B",
+    "suffix": " Ltrs "
+  },
+  {
+    "id": 12,
+    "desc": "Underground Tank",
+    "short": "Underground Tank",
+    "level": "B",
+    "suffix": " Ltrs "
+  },
+  {
+    "id": 6,
+    "desc": "Booster Pump",
+    "short": "Booster Pump",
+    "level": "B",
+    "suffix": " "
+  },
+  {
+    "id": 7,
+    "short": "Fire Pump",
+    "desc": "Fire Pump",
+    "level": "B",
+    "suffix": ""
+  },
+  {
+    "id": 8,
+    "desc": "Yard Hydrants",
+    "short": "Yard Hydrants",
+    "level": "B",
+    "suffix": " Nos. "
+  },
+  {
+    "id": 13,
+    "desc": "Additional Fire Safety measures",
+    "short": "Addl",
+    "level": "B",
+    "suffix": ""
+  }
+]

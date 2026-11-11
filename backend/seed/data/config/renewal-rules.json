@@ -1,0 +1,6 @@
+[
+  { "id": 1, "label": "Residential buildings up to 60 m, other than hotels", "site_types": ["res"], "site_stypes": ["A1", "A2", "A3", "A4"], "max_height": 60, "years": 5 },
+  { "id": 2, "label": "Educational buildings below 30 m", "site_types": ["edu"], "site_stypes": [], "max_height": 30, "years": 5 },
+  { "id": 3, "label": "All other non-residential buildings below 18 m", "site_types": ["ins", "asm", "biz", "mer", "ind", "sto", "haz"], "site_stypes": [], "max_height": 18, "years": 3 },
+  { "id": 4, "label": "All other buildings (18 m and above)", "site_types": [], "site_stypes": [], "max_height": null, "years": 1 }
+]

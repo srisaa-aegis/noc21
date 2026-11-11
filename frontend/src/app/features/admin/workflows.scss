@@ -1,0 +1,118 @@
+.matrix {
+  display: grid;
+  grid-template-columns: 160px repeat(3, minmax(0, 1fr));
+  gap: var(--space-3);
+  align-items: stretch;
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+
+    .matrix__corner,
+    .matrix__col {
+      display: none;
+    }
+  }
+}
+
+.matrix__col,
+.matrix__row {
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--gray-500);
+}
+
+.matrix__col {
+  align-self: end;
+}
+
+.matrix__row {
+  align-self: center;
+  color: var(--gray-800);
+}
+
+.wf-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  text-decoration: none;
+  color: var(--gray-900);
+  transition: border-color 0.15s, box-shadow 0.15s;
+
+  &:hover {
+    border-color: var(--brand-500);
+    box-shadow: var(--shadow-md);
+  }
+
+  &--missing {
+    color: var(--status-rejected-fg);
+    border-style: dashed;
+  }
+}
+
+.wf-card__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.wf-card__id {
+  font-weight: 700;
+  font-size: var(--font-size-sm);
+}
+
+.wf-card__version {
+  font-size: var(--font-size-xs);
+  background: var(--gray-100);
+  border-radius: var(--radius-pill);
+  padding: 0 8px;
+}
+
+.wf-card__stages {
+  margin: 0;
+  padding-left: 18px;
+  font-size: var(--font-size-xs);
+  color: var(--gray-700);
+
+  li {
+    padding: 1px 0;
+  }
+
+  .is-ondemand {
+    color: var(--gray-500);
+    font-style: italic;
+  }
+}
+
+.par {
+  display: inline-block;
+  margin-left: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--brand-700);
+  background: var(--brand-50);
+  border-radius: var(--radius-pill);
+  padding: 0 6px;
+}
+
+.wf-card__foot {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+  font-size: var(--font-size-xs);
+  color: var(--gray-600);
+
+  span {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+}
+
+.wf-card__meta {
+  font-size: 11px;
+  color: var(--gray-400);
+}

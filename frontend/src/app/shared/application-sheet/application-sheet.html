@@ -1,0 +1,302 @@
+@let a = app();
+@let l = lookups();
+
+@if (show('general')) {
+  <section class="sheet-panel">
+    <h3 class="sheet-panel__head">General Information</h3>
+    <dl class="sheet-kv">
+      <div><dt>Building / Site Name</dt><dd>{{ a.site_name || '—' }}</dd></div>
+      <div><dt>Site Address (with survey number)</dt><dd>{{ a.site_addr || '—' }}</dd></div>
+      <div><dt>District / Fire Station</dt><dd>{{ a.dist_name || '—' }} / {{ stationName() }}</dd></div>
+      <div><dt>Address for Correspondence</dt><dd>{{ a.corr_addr || '—' }}</dd></div>
+      @if (a.appl_type === 'P' || a.appl_type === 'O') {
+        <div><dt>Licensing Authority</dt><dd>{{ a.lic_auth || '—' }}</dd></div>
+        <div><dt>Address of Licensing Authority</dt><dd>{{ a.lic_addr || '—' }}</dd></div>
+        <div><dt>Plot Area / Perimeter</dt><dd>{{ a.plot_area | number: '1.0-2' }} sq.m / {{ a.perimeter | number: '1.0-2' }} m</dd></div>
+      }
+      @if (a.appl_type !== 'D') {
+        <div><dt>Total Built-up Area</dt><dd>{{ totalBuiltUp() | number: '1.0-2' }} sq.m</dd></div>
+      }
+      @if (a.ref_no) {
+        <div><dt>Occupancy NOC Reference</dt><dd>{{ a.ref_no }}</dd></div>
+      }
+      @if (a.last_inspect_date) {
+        <div><dt>Last Inspection Date</dt><dd>{{ a.last_inspect_date }}</dd></div>
+      }
+      @if (a.appl_type === 'O' && a.appl_mode === 'N') {
+        <div><dt>Municipal Approval Date</dt><dd>{{ a.mcapprove_date || '—' }}</dd></div>
+      }
+      <div><dt>Builder / Owner / Developer</dt><dd>{{ a.build_name || '—' }}</dd></div>
+      <div><dt>Contact Number</dt><dd>{{ a.build_landline || '—' }}</dd></div>
+      <div><dt>Mobile</dt><dd>{{ a.build_mobile || '—' }}</dd></div>
+      <div><dt>Email</dt><dd>{{ a.build_email || '—' }}</dd></div>
+      @if (a.appl_type !== 'D') {
+        <div><dt>Approval Level</dt><dd>{{ levelName() }}</dd></div>
+      }
+    </dl>
+  </section>
+}
+
+@if (show('parties') && a.parties.length) {
+  <section class="sheet-panel">
+    <h3 class="sheet-panel__head">Technical Staff of the Building</h3>
+    <div class="table-scroll">
+      <table class="table">
+        <thead><tr><th>Sl.</th><th>Role</th><th>Name</th><th>Phone</th><th>Email</th><th>License</th></tr></thead>
+        <tbody>
+          @for (p of a.parties; track p.sl_no; let i = $index) {
+            <tr><td>{{ i + 1 }}</td><td>{{ p.role_name }}</td><td>{{ p.party_name || '—' }}</td><td>{{ p.phone_number }}</td><td>{{ p.email }}</td><td>{{ p.license_no }}</td></tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+}
+
+@if (show('blocks')) {
+  @for (b of a.blocks; track b.block_id) {
+    <details class="sheet-panel sheet-block" [open]="!collapsible() || a.blocks.length === 1">
+      <summary class="sheet-panel__head">
+        Block: {{ b.block_name }}
+        <span class="sheet-block__meta">{{ typeName(b.site_type) }} ({{ b.site_stype }}) · {{ b.height }} m · {{ fn.floorDisplay(b) || b.floors.length + ' floor(s)' }} · {{ fn.blockArea(b) | number: '1.0-2' }} sq.m</span>
+      </summary>
+
+      <dl class="sheet-kv">
+        <div><dt>Occupancy Type</dt><dd>{{ typeName(b.site_type) }}</dd></div>
+        <div><dt>Sub Type</dt><dd>{{ subTypeName(b.site_type, b.site_stype) }}</dd></div>
+        <div><dt>Block Type</dt><dd>{{ blockTypeName(b.block_type) }}@if (b.is_multiplex) { · Multiplex }@if (b.is_miniplex) { · Miniplex }</dd></div>
+        <div><dt>Height</dt><dd>{{ b.height }} m@if (b.permissible_height && b.permissible_height !== b.height) { (permissible {{ b.permissible_height }} m) }</dd></div>
+        <div><dt>Floors</dt><dd>{{ b.floors.length }}</dd></div>
+        <div><dt>Total Built-up Area</dt><dd>{{ fn.blockArea(b) | number: '1.0-2' }} sq.m</dd></div>
+        <div><dt>Front Direction</dt><dd>{{ fn.directionName(b.front_dir) || '—' }}</dd></div>
+        @if (b.site_type === 'ins') {
+          <div><dt>In-patient beds</dt><dd>{{ b.beds === 'Y' ? 'Yes' : 'No' }}</dd></div>
+        }
+        <div><dt>Land surrendered for road widening</dt><dd>{{ b.road_wide ? 'Yes' : 'No' }}</dd></div>
+      </dl>
+
+      @if (b.sides.length) {
+        <h4 class="sheet-sub">Surroundings of the Building</h4>
+        <div class="table-scroll">
+          <table class="table">
+            <thead><tr><th>Sl.</th><th>Side</th><th>Type of Property</th><th>Name</th><th class="num">Width of Abutting Road</th></tr></thead>
+            <tbody>
+              @for (s of b.sides; track s.bside_id; let i = $index) {
+                <tr>
+                  <td>{{ i + 1 }}</td><td>{{ fn.directionName(s.direc) }}</td><td>{{ sideType(s.ptype) }}</td><td>{{ s.pname }}</td>
+                  <td class="num">@if (s.ptype === 'R') { {{ s.width }} m }</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+
+      @if (b.ospaces.length) {
+        <h4 class="sheet-sub">Open Spaces {{ a.appl_type === 'P' ? 'Required & Proposed' : 'provided around the building' }}</h4>
+        <div class="table-scroll">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Direction</th>
+                @if (showsRequiredOpenSpace()) { <th class="num">Required (m)</th> }
+                @if (hasParent()) { <th class="num">Proposed as per PNOC (m)</th> }
+                <th class="num">{{ a.appl_type === 'P' ? 'Proposed' : 'Provided' }} (m)</th>
+                @if (showsRequiredOpenSpace()) { <th></th> }
+              </tr>
+            </thead>
+            <tbody>
+              @for (o of b.ospaces; track o.ospace_id) {
+                @let r = reqdOs(b, o.direc);
+                <tr>
+                  <td>{{ fn.directionName(o.direc) }}</td>
+                  @if (showsRequiredOpenSpace()) {
+                    <td class="num">@if (r >= 0) { {{ r }} } @else { <span class="bad-text">{{ fn.openSpaceMessage(r) }}</span> }</td>
+                  }
+                  @if (hasParent()) { <td class="num">{{ o.parent_proposed ?? '—' }}</td> }
+                  <td class="num">{{ o.proposed }}</td>
+                  @if (showsRequiredOpenSpace()) {
+                    <td>@if (osOk(b, o.direc, o.proposed)) { <span class="ok-text">✓</span> } @else { <span class="bad-text">✗</span> }</td>
+                  }
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+
+      @if (b.road_wide && b.roadwidening.length) {
+        <h4 class="sheet-sub">Road Widening</h4>
+        <div class="table-scroll">
+          <table class="table">
+            <thead><tr><th>Direction</th><th class="num">Open space required after surrender (m)</th></tr></thead>
+            <tbody>
+              @for (r of b.roadwidening; track r.rw_direc) { <tr><td>{{ fn.directionName(r.rw_direc) }}</td><td class="num">{{ r.rw_reqd }}</td></tr> }
+            </tbody>
+          </table>
+        </div>
+      }
+
+      @if (b.floors.length) {
+        <h4 class="sheet-sub">Floors</h4>
+        <div class="table-scroll">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Sl.</th><th>Floor Type</th><th>Floor</th>
+                @if (hasParent()) { <th class="num">Area as per PNOC</th><th class="num">Occupants as per PNOC (NBC)</th> }
+                <th class="num">Built-up Area (sq.m)</th><th>Occupancy</th><th class="num">Occupants declared</th><th class="num">Occupants (NBC Table 20)</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (f of b.floors; track f.floor_id; let i = $index) {
+                <tr>
+                  <td>{{ i + 1 }}</td><td>{{ fn.floorTypeName(f.flr_type) }}</td><td>{{ f.flr_name }}</td>
+                  @if (hasParent()) { <td class="num">{{ f.parent_built_area ?? '—' }}</td><td class="num">{{ fn.t20OccCountO(f) }}</td> }
+                  <td class="num">{{ f.built_area | number: '1.0-2' }}</td><td>{{ fn.floorOccuName(f.occ_type) }}</td>
+                  <td class="num">{{ f.occ_c_app }}</td><td class="num">{{ fn.t20OccCount(f) }}</td>
+                </tr>
+              }
+            </tbody>
+            <tfoot>
+              <tr>
+                <th colspan="3">Total</th>
+                @if (hasParent()) { <th class="num">{{ fn.blockBuiltUpO(b) }}</th><th class="num">{{ fn.blockTotalNbcOccLoadO(b) }}</th> }
+                <th class="num">{{ fn.blockArea(b) | number: '1.0-2' }}</th><th></th>
+                <th class="num">{{ fn.blockTotalOccLoad(b) }}</th><th class="num">{{ fn.blockTotalNbcOccLoad(b) }}</th>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      }
+
+      @if (b.escapes.length) {
+        <h4 class="sheet-sub">Means of Escape Required &amp; Proposed</h4>
+        <div class="table-scroll">
+          <table class="table">
+            <thead><tr><th>Sl.</th><th>Escape Type</th><th>Description</th><th>Floors</th><th class="num">Min. Width (m)</th><th class="num">Width (m)</th><th>Location</th></tr></thead>
+            <tbody>
+              @for (e of b.escapes; track e.escape_id; let i = $index) {
+                <tr>
+                  <td>{{ i + 1 }}</td><td>{{ fn.stairTypeName(e.etype) }}</td><td>{{ e.desc }}</td>
+                  <td>{{ floorName(b, e.from_floor) }}@if (e.to_floor && e.to_floor !== e.from_floor) { – {{ floorName(b, e.to_floor) }} }</td>
+                  <td class="num">{{ minWidth(b, e.etype) }}</td><td class="num">{{ e.width }}</td><td>{{ fn.directionName(e.location) }}</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+        <dl class="sheet-kv sheet-kv--inline">
+          <div><dt>Travel distance to staircase</dt><dd>{{ b.ta_dist || '—' }} m</dd></div>
+          <div><dt>Dead-end travel distance</dt><dd>{{ b.ta_dead || '—' }} m</dd></div>
+          @if (b.hrclear) { <div><dt>Head-room clearance at entrance</dt><dd>{{ b.hrclear }} m</dd></div> }
+        </dl>
+      }
+
+      @if (b.exits.length || b.doors.length || b.lifts.length || b.refuges.length) {
+        <div class="sheet-minis">
+          @if (b.exits.length) {
+            <div>
+              <h4 class="sheet-sub">Entrances / Exits</h4>
+              <table class="table table--compact">
+                <thead><tr><th>Name</th><th class="num">Width (m)</th><th class="num">Abutting road (m)</th></tr></thead>
+                <tbody>@for (x of b.exits; track x.exit_id) { <tr><td>{{ x.ename }}</td><td class="num">{{ x.width }}</td><td class="num">{{ x.awidth }}</td></tr> }</tbody>
+              </table>
+            </div>
+          }
+          @if (b.doors.length) {
+            <div>
+              <h4 class="sheet-sub">Exit Doors</h4>
+              <table class="table table--compact">
+                <thead><tr><th>Door</th><th class="num">Width (m)</th></tr></thead>
+                <tbody>@for (d of b.doors; track d.door_id) { <tr><td>{{ d.desc }}</td><td class="num">{{ d.width }}</td></tr> }</tbody>
+              </table>
+            </div>
+          }
+          @if (b.lifts.length) {
+            <div>
+              <h4 class="sheet-sub">Fire Lifts</h4>
+              <table class="table table--compact">
+                <thead><tr><th>Lift</th><th class="num">Capacity (kg)</th></tr></thead>
+                <tbody>@for (x of b.lifts; track x.lift_id) { <tr><td>{{ x.lname }}</td><td class="num">{{ x.capacity }}</td></tr> }</tbody>
+              </table>
+            </div>
+          }
+          @if (b.refuges.length) {
+            <div>
+              <h4 class="sheet-sub">Refuge Areas</h4>
+              <table class="table table--compact">
+                <thead><tr><th>Floor</th><th class="num">Area (sq.m)</th></tr></thead>
+                <tbody>@for (r of b.refuges; track r.refuge_id) { <tr><td>{{ floorName(b, r.floor_id) }}</td><td class="num">{{ r.area }}</td></tr> }</tbody>
+              </table>
+            </div>
+          }
+        </div>
+      }
+
+      @if (b.ffe && b.ffe.items.length) {
+        <h4 class="sheet-sub">Fire Safety Systems</h4>
+        <app-ffe-grid [block]="b" [columns]="ffeCols()" [equipments]="l.equipments" [notes]="l.ffeNotes" [readonly]="true" [compact]="true"></app-ffe-grid>
+        @if (a.appl_type === 'P' || (a.appl_type === 'O' && a.appl_mode === 'N')) {
+          <p class="sheet-note">{{ b.ffe.agree_reqt ? '✓' : '✗' }} The applicant confirmed that the construction shall adhere to the minimum quantities of the fire equipment specified above.</p>
+        }
+      }
+    </details>
+  }
+}
+
+@if (show('conditions') && a.appl_type === 'O' && a.appl_mode !== 'N' && a.conditions?.length) {
+  <section class="sheet-panel">
+    <h3 class="sheet-panel__head">Compliance of Provisional NOC Conditions</h3>
+    <div class="table-scroll">
+      <table class="table">
+        <thead><tr><th>Sl.</th><th>Condition</th><th>Complied</th></tr></thead>
+        <tbody>
+          @for (c of a.conditions; track c.checklist_id; let i = $index) {
+            <tr><td>{{ i + 1 }}</td><td>{{ c.item_desc }}</td><td>{{ c.selected === true ? 'Yes' : c.selected === false ? 'No' : '—' }}</td></tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+}
+
+@if (show('documents')) {
+  <section class="sheet-panel">
+    <h3 class="sheet-panel__head">Documents</h3>
+    <div class="table-scroll">
+      <table class="table">
+        <thead><tr><th>Document</th><th>Block</th><th>File</th></tr></thead>
+        <tbody>
+          @for (d of docs(); track d.code) {
+            <tr>
+              <td>{{ d.label }}@if (d.optional) { <span class="field__hint"> (optional)</span> }</td>
+              <td>{{ d.blockName || '' }}</td>
+              <td>@if (d.file) { <span class="ok-text">✓</span> <app-file-link [fileId]="d.file.file_id" [name]="d.file.file_name"></app-file-link> } @else { <span class="bad-text">✗ not uploaded</span> }</td>
+            </tr>
+          }
+          @for (d of extraDocs(); track d.doc_id) {
+            <tr><td>{{ d.category }}</td><td></td><td><span class="ok-text">✓</span> <app-file-link [fileId]="d.file_id" [name]="d.file_name"></app-file-link></td></tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+}
+
+@if (show('payment')) {
+  <section class="sheet-panel">
+    <h3 class="sheet-panel__head">{{ a.payment.mode === 'challan' ? 'Challan Information' : 'Payment Information' }}</h3>
+    <dl class="sheet-kv">
+      <div><dt>Amount</dt><dd>Rs. {{ a.payment.amount | number }} — {{ a.payment.status === 'paid' ? 'Paid' : 'Not paid' }}</dd></div>
+      @if (a.payment.mode === 'challan') {
+        <div><dt>Challan Number</dt><dd>{{ a.payment.challan_num }}</dd></div>
+        <div><dt>Date</dt><dd>{{ a.payment.challan_date }}</dd></div>
+        <div><dt>Bank / Branch</dt><dd>{{ a.payment.challan_bnk }} / {{ a.payment.challan_brch }}</dd></div>
+      } @else if (a.payment.mode === 'online') {
+        <div><dt>Transaction</dt><dd>{{ a.payment.txn_ref }}</dd></div>
+        <div><dt>Paid On</dt><dd>{{ a.payment.paid_on }}</dd></div>
+      }
+    </dl>
+  </section>
+}

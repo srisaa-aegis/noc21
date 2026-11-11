@@ -1,0 +1,36 @@
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--font-size-sm);
+  margin-bottom: var(--space-3);
+}
+
+.sheet-panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4) var(--space-5);
+  margin-bottom: var(--space-4);
+}
+
+.undertaking {
+  border-color: var(--brand-500);
+
+  .checkbox-row {
+    margin-bottom: var(--space-3);
+    line-height: 1.5;
+  }
+}
+
+.undertaking__hint {
+  font-size: var(--font-size-sm);
+  color: var(--gray-600);
+  text-align: center;
+}
+
+.undertaking__actions {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-3);
+}

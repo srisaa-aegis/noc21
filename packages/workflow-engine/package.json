@@ -1,0 +1,38 @@
+{
+  "name": "@srisaa/workflow-engine",
+  "version": "1.0.0",
+  "description": "Generic, versioned human-workflow engine: sequential stages of parallel tasks ending in a decision, with send back, bypass, reassignment, on-demand stages, SLA due dates and an event log.",
+  "license": "MIT",
+  "author": "Srisaa Technologies Private Limited",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./testing": {
+      "types": "./dist/testing/index.d.ts",
+      "default": "./dist/testing/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:deep": "WF_PROPERTY_RUNS=10000 vitest run --testTimeout=120000",
+    "coverage": "vitest run --coverage --coverage.include='src/**' --coverage.exclude='src/testing/**' --coverage.exclude='src/index.ts' --coverage.exclude='src/types.ts'"
+  },
+  "devDependencies": {
+    "@vitest/coverage-v8": "^4.1.12",
+    "fast-check": "^4.3.0",
+    "typescript": "~5.9.2",
+    "vitest": "^4.0.8"
+  }
+}

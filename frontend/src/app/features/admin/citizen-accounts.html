@@ -1,0 +1,92 @@
+<div class="page">
+  <div class="page-header">
+    <div>
+      <p class="page-header__eyebrow">Admin</p>
+      <h2>Citizen Accounts</h2>
+      <p>Citizens register themselves from the login page; here you can correct their profile, set a new password or deactivate the login.</p>
+    </div>
+  </div>
+
+  <div class="card toolbar">
+    <input class="input" placeholder="Search name, username, e-mail or mobile…" [value]="query()" (input)="query.set($any($event.target).value)" aria-label="Search citizen accounts" />
+    <select class="select" [value]="statusFilter()" (change)="statusFilter.set($any($event.target).value)" aria-label="Status filter">
+      <option value="all">All accounts</option>
+      <option value="active">Active</option>
+      <option value="inactive">Deactivated</option>
+    </select>
+  </div>
+
+  <section class="card">
+    @if (total() > rows().length) {
+      <p class="field__hint">{{ total() }} accounts match; the first {{ rows().length }} are listed — refine the search.</p>
+    }
+    @if (rows().length === 0) {
+      <p class="empty-state">No citizen accounts match.</p>
+    } @else {
+      <div class="table-scroll">
+        <table class="table">
+          <thead>
+            <tr><th>Name</th><th>Username</th><th>E-mail</th><th>Mobile</th><th>Registered</th><th>Status</th><th>Actions</th></tr>
+          </thead>
+          <tbody>
+            @for (a of rows(); track a.id) {
+              <tr [class.is-inactive]="!a.active">
+                <td><strong>{{ a.displayName }}</strong></td>
+                <td>{{ a.username }}</td>
+                <td>{{ a.email }}</td>
+                <td>{{ a.mobile }}</td>
+                <td>{{ a.created_on }}</td>
+                <td><span class="pill" [class.pill--on]="a.active" [class.pill--off]="!a.active">{{ a.active ? 'Active' : 'Deactivated' }}</span></td>
+                <td class="actions">
+                  <button type="button" class="btn btn--ghost btn--sm" (click)="openEdit(a)"><app-icon name="edit" size="14"></app-icon> Modify</button>
+                  <button type="button" class="btn btn--ghost btn--sm" (click)="openPassword(a)"><app-icon name="key" size="14"></app-icon> Change Password</button>
+                  <button type="button" class="btn btn--sm" [class.btn--danger-outline]="a.active" [class.btn--ghost]="!a.active" (click)="toggleActive(a)">
+                    <app-icon [name]="a.active ? 'user-x' : 'user-check'" size="14"></app-icon> {{ a.active ? 'Deactivate' : 'Reactivate' }}
+                  </button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </section>
+</div>
+
+<app-modal [open]="!!editing()" [title]="'Modify account — ' + (editing()?.username ?? '')" (closed)="editing.set(null)">
+  @if (formError()) {
+    <p class="form-error" role="alert">{{ formError() }}</p>
+  }
+  <div class="field"><label class="field__label" for="c-name">Name</label><input id="c-name" class="input" [(ngModel)]="form.displayName" /></div>
+  <div class="form-grid">
+    <div class="field"><label class="field__label" for="c-email">E-mail</label><input id="c-email" class="input" type="email" [(ngModel)]="form.email" /></div>
+    <div class="field"><label class="field__label" for="c-mobile">Mobile</label><input id="c-mobile" class="input" maxlength="10" [(ngModel)]="form.mobile" /></div>
+    <div class="field">
+      <label class="field__label" for="c-gender">Gender</label>
+      <select id="c-gender" class="select" [(ngModel)]="form.gender">
+        <option value="">—</option><option value="M">Male</option><option value="F">Female</option><option value="O">Other</option>
+      </select>
+    </div>
+    <div class="field"><label class="field__label" for="c-dob">Date of Birth</label><input id="c-dob" class="input" type="date" [(ngModel)]="form.dobIso" /></div>
+    <div class="field"><span class="field__label">Aadhaar</span><p class="field__hint">{{ editing()?.aadhar_last4 ? 'XXXX XXXX ' + editing()?.aadhar_last4 : 'Not given' }} — only the last 4 digits are kept.</p></div>
+  </div>
+  <div class="field"><label class="field__label" for="c-addr">Address</label><textarea id="c-addr" class="textarea" [(ngModel)]="form.address"></textarea></div>
+  <p class="field__hint">The username ({{ editing()?.username }}) cannot be changed.</p>
+  <div modal-footer>
+    <button type="button" class="btn btn--ghost" (click)="editing.set(null)">Cancel</button>
+    <button type="button" class="btn btn--primary" (click)="saveEdit()">Save Changes</button>
+  </div>
+</app-modal>
+
+<app-modal [open]="!!pwdFor()" [title]="'Change password — ' + (pwdFor()?.username ?? '')" (closed)="pwdFor.set(null)">
+  @if (pwdError()) {
+    <p class="form-error" role="alert">{{ pwdError() }}</p>
+  }
+  <div class="field"><label class="field__label" for="p-new">New password</label><input id="p-new" class="input" type="password" autocomplete="new-password" [(ngModel)]="newPassword" /></div>
+  <div class="field"><label class="field__label" for="p-confirm">Confirm new password</label><input id="p-confirm" class="input" type="password" autocomplete="new-password" [(ngModel)]="confirmPassword" /></div>
+  <p class="field__hint">{{ passwordRules }} Tell the citizen the password through an official channel; they must choose their own at the next sign-in.</p>
+  <div modal-footer>
+    <button type="button" class="btn btn--ghost" (click)="pwdFor.set(null)">Cancel</button>
+    <button type="button" class="btn btn--primary" (click)="savePassword()">Change Password</button>
+  </div>
+</app-modal>

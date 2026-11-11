@@ -1,0 +1,11 @@
+@let d = data();
+<p class="form-section__intro">See the Application and Workflow tabs for the Chairman's inspection report before answering.</p>
+<div class="yn-row">
+  <span>I agree with the report submitted by the Chairman of the Inspection Committee</span>
+  <label class="radio"><input type="radio" name="agree" [checked]="d.agree === 'Y'" (change)="set('agree', 'Y')" /> Yes</label>
+  <label class="radio"><input type="radio" name="agree" [checked]="d.agree === 'N'" (change)="set('agree', 'N')" /> No</label>
+</div>
+<div class="field">
+  <label class="field__label field__required" for="cc_remark">Remarks</label>
+  <textarea id="cc_remark" class="textarea" [ngModel]="d.remark" (ngModelChange)="set('remark', $event)"></textarea>
+</div>

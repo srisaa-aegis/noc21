@@ -1,0 +1,39 @@
+.filters {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr auto;
+  gap: var(--space-3);
+  align-items: end;
+  margin-bottom: var(--space-4);
+
+  .field {
+    margin-bottom: 0;
+  }
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.filters__check {
+  padding-bottom: 10px;
+}
+
+.filters__actions {
+  display: flex;
+  gap: var(--space-2);
+  grid-column: 1 / -1;
+}
+
+.muted {
+  color: var(--gray-500);
+  font-size: var(--font-size-xs);
+}
+
+.stale {
+  color: var(--status-rejected-fg);
+  font-weight: 700;
+}
+
+tr.is-selected {
+  background: var(--brand-50);
+}

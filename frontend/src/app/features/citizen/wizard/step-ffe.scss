@@ -1,0 +1,54 @@
+.section-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-bottom: var(--space-3);
+
+  p {
+    margin: 0;
+    font-size: var(--font-size-sm);
+  }
+}
+
+.issue-list {
+  margin: 0 0 var(--space-3);
+  padding-left: var(--space-5);
+}
+
+.agree {
+  margin-top: var(--space-3);
+  padding: var(--space-3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--gray-50);
+
+  &.is-invalid {
+    border-color: var(--status-rejected-fg);
+    background: var(--status-rejected-bg);
+  }
+}
+
+.equip-choices {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-2);
+}
+
+.table7__body {
+  margin-top: var(--space-3);
+  overflow-x: auto;
+  font-size: 11px;
+}
+
+:host ::ng-deep .table7__body table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+:host ::ng-deep .table7__body td,
+:host ::ng-deep .table7__body th {
+  border: 1px solid var(--border);
+  padding: 3px;
+  vertical-align: top;
+}

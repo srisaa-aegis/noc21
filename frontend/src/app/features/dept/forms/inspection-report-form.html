@@ -1,0 +1,96 @@
+@let d = data();
+@let a = app();
+<p class="form-section__intro">Site inspection by the Committee Chairman (and, for the committee member, their concurrence on a separate task). One set of observations per block.</p>
+
+@if (!d.blocks.length) {
+  <div class="yn-row">
+    <span>The installed fire safety systems are maintained in working condition (Declaration)</span>
+    <label class="radio"><input type="radio" name="systems_maintained_ok" [checked]="d.systems_maintained_ok === 'Y'" (change)="set('systems_maintained_ok', 'Y')" /> Yes</label>
+    <label class="radio"><input type="radio" name="systems_maintained_ok" [checked]="d.systems_maintained_ok === 'N'" (change)="set('systems_maintained_ok', 'N')" /> No</label>
+  </div>
+  <div class="field">
+    <label class="field__label" for="systems_remarks">Remarks on the condition of the installed systems</label>
+    <textarea id="systems_remarks" class="textarea" [ngModel]="d.systems_remarks" (ngModelChange)="set('systems_remarks', $event)"></textarea>
+  </div>
+}
+
+@for (b of d.blocks; track b.block_id) {
+  <section class="block-card">
+    <h4>Block: {{ b.block_name }}</h4>
+    <div class="field">
+      <label class="field__label" [for]="'disc' + b.block_id">Discrepancy (if any) between the declared data and the site</label>
+      <input [id]="'disc' + b.block_id" class="input" [ngModel]="b.discrepancy" (ngModelChange)="setBlock(b, 'discrepancy', $event)" />
+    </div>
+
+    <div class="yn-grid">
+      <div class="yn-row">
+        <span>Open spaces are as declared</span>
+        <label class="radio"><input type="radio" [name]="'os' + b.block_id" [checked]="yn(b, 'open_spaces_ok') === 'Y'" (change)="setBlock(b, 'open_spaces_ok', 'Y')" /> Yes</label>
+        <label class="radio"><input type="radio" [name]="'os' + b.block_id" [checked]="yn(b, 'open_spaces_ok') === 'N'" (change)="setBlock(b, 'open_spaces_ok', 'N')" /> No</label>
+        <input class="input" style="max-width: 320px" placeholder="Remarks" [ngModel]="b.open_spaces_remarks" (ngModelChange)="setBlock(b, 'open_spaces_remarks', $event)" />
+      </div>
+      <div class="yn-row">
+        <span>Means of escape (staircases, exits) are as declared</span>
+        <label class="radio"><input type="radio" [name]="'esc' + b.block_id" [checked]="yn(b, 'escapes_ok') === 'Y'" (change)="setBlock(b, 'escapes_ok', 'Y')" /> Yes</label>
+        <label class="radio"><input type="radio" [name]="'esc' + b.block_id" [checked]="yn(b, 'escapes_ok') === 'N'" (change)="setBlock(b, 'escapes_ok', 'N')" /> No</label>
+        <input class="input" style="max-width: 320px" placeholder="Remarks" [ngModel]="b.escapes_remarks" (ngModelChange)="setBlock(b, 'escapes_remarks', $event)" />
+      </div>
+      <div class="yn-row">
+        <span>Floors / occupancy are as declared</span>
+        <label class="radio"><input type="radio" [name]="'flr' + b.block_id" [checked]="yn(b, 'floors_ok') === 'Y'" (change)="setBlock(b, 'floors_ok', 'Y')" /> Yes</label>
+        <label class="radio"><input type="radio" [name]="'flr' + b.block_id" [checked]="yn(b, 'floors_ok') === 'N'" (change)="setBlock(b, 'floors_ok', 'N')" /> No</label>
+        <input class="input" style="max-width: 320px" placeholder="Remarks" [ngModel]="b.floors_remarks" (ngModelChange)="setBlock(b, 'floors_remarks', $event)" />
+      </div>
+      <div class="yn-row">
+        <span>Fire fighting equipment is installed as required (see the Application tab for the floor-wise grid)</span>
+        <label class="radio"><input type="radio" [name]="'ffe' + b.block_id" [checked]="yn(b, 'ffe_ok') === 'Y'" (change)="setBlock(b, 'ffe_ok', 'Y')" /> Yes</label>
+        <label class="radio"><input type="radio" [name]="'ffe' + b.block_id" [checked]="yn(b, 'ffe_ok') === 'N'" (change)="setBlock(b, 'ffe_ok', 'N')" /> No</label>
+        <input class="input" style="max-width: 320px" placeholder="Remarks" [ngModel]="b.ffe_remarks" (ngModelChange)="setBlock(b, 'ffe_remarks', $event)" />
+      </div>
+      @if (a.appl_type === 'O') {
+        <div class="yn-row">
+          <span>Remarks on photographs taken at site vs the declared construction</span>
+          <input class="input" style="max-width: 420px" [ngModel]="b.images_remarks" (ngModelChange)="setBlock(b, 'images_remarks', $event)" />
+        </div>
+        @if (hasPnocConditions()) {
+          <div class="yn-row">
+            <span>The conditions of the Provisional NOC are complied with</span>
+            <label class="radio"><input type="radio" [name]="'pnoc' + b.block_id" [checked]="yn(b, 'pnoc_complied') === 'Y'" (change)="setBlock(b, 'pnoc_complied', 'Y')" /> Yes</label>
+            <label class="radio"><input type="radio" [name]="'pnoc' + b.block_id" [checked]="yn(b, 'pnoc_complied') === 'N'" (change)="setBlock(b, 'pnoc_complied', 'N')" /> No</label>
+          </div>
+        }
+      }
+      @if (a.appl_type === 'R') {
+        <div class="yn-row">
+          <span>Remarks on the documents produced at site</span>
+          <input class="input" style="max-width: 420px" [ngModel]="b.documents_remarks" (ngModelChange)="setBlock(b, 'documents_remarks', $event)" />
+        </div>
+        <div class="yn-row">
+          <span>Compliance of the specific conditions of the previous NOC</span>
+          <input class="input" style="max-width: 420px" [ngModel]="b.specific_conditions" (ngModelChange)="setBlock(b, 'specific_conditions', $event)" />
+        </div>
+      }
+    </div>
+  </section>
+}
+
+<div class="form-grid">
+  <div class="field span-2">
+    <label class="field__label" for="any_other_action">Any other action to be taken by the owner / applicant</label>
+    <textarea id="any_other_action" class="textarea" [ngModel]="d.any_other_action" (ngModelChange)="set('any_other_action', $event)"></textarea>
+  </div>
+  <div class="field">
+    <label class="field__label field__required" for="insp_date">Date of inspection</label>
+    <input id="insp_date" class="input" type="date" [ngModel]="inspectionDateIso()" (ngModelChange)="setInspectionDate($event)" />
+  </div>
+  <div class="field">
+    <span class="field__label">Recommendation (computed)</span>
+    <p class="computed" [class.ok-text]="recommendation() === 'Y'" [class.bad-text]="recommendation() === 'N'">
+      {{ recommendation() === 'Y' ? 'Recommend' : 'Do not recommend' }}
+    </p>
+  </div>
+  <div class="field span-2">
+    <label class="field__label field__required" for="insp_remark">Remarks</label>
+    <textarea id="insp_remark" class="textarea" [ngModel]="d.remark" (ngModelChange)="set('remark', $event)"></textarea>
+  </div>
+</div>

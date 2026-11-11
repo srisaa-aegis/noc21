@@ -1,0 +1,59 @@
+@if (!result()) {
+  <form class="register-form" (ngSubmit)="submit()">
+    @if (error()) {
+      <p class="msg msg--error" role="alert">{{ error() }}</p>
+    }
+    <div class="field">
+      <label class="field__label" for="name">Full Name / Firm Name</label>
+      <input id="name" class="input" name="name" [ngModel]="model().name" (ngModelChange)="update('name', $event)" />
+    </div>
+    <div class="grid-2">
+      <div class="field">
+        <label class="field__label" for="mobile">Mobile Number</label>
+        <input id="mobile" class="input" name="mobile" inputmode="numeric" maxlength="10" [ngModel]="model().mobile" (ngModelChange)="update('mobile', $event)" />
+      </div>
+      <div class="field">
+        <label class="field__label" for="gender">Gender</label>
+        <select id="gender" class="select" name="gender" [ngModel]="model().gender" (ngModelChange)="update('gender', $event)">
+          <option value="">—</option>
+          <option value="M">Male</option>
+          <option value="F">Female</option>
+          <option value="O">Other</option>
+        </select>
+      </div>
+    </div>
+    <div class="field">
+      <label class="field__label" for="email">E-mail (this becomes your username)</label>
+      <input id="email" class="input" type="email" name="email" [ngModel]="model().email" (ngModelChange)="update('email', $event)" />
+    </div>
+    <div class="grid-2">
+      <div class="field">
+        <label class="field__label" for="dob">Date of Birth</label>
+        <input id="dob" class="input" type="date" name="dob" [ngModel]="model().dobIso" (ngModelChange)="update('dobIso', $event)" />
+      </div>
+      <div class="field">
+        <label class="field__label" for="aadhar">Aadhar Number</label>
+        <input id="aadhar" class="input" name="aadhar" maxlength="12" [ngModel]="model().aadhar" (ngModelChange)="update('aadhar', $event)" />
+      </div>
+    </div>
+    <div class="field">
+      <label class="field__label" for="address">Address</label>
+      <textarea id="address" class="textarea" name="address" [ngModel]="model().address" (ngModelChange)="update('address', $event)"></textarea>
+    </div>
+
+    <button type="submit" class="btn btn--primary btn--block" [disabled]="!isValid || submitting()">Register</button>
+    <a class="register-form__back" routerLink="/auth/login">&larr; Back to Sign In</a>
+  </form>
+} @else {
+  <div class="register-success">
+    <p><strong>Registration successful.</strong></p>
+    <p>Your username is <code>{{ result()!.username }}</code>.</p>
+    <p>We have e-mailed you a link to <strong>choose your password</strong>. It is valid for 24 hours and can be used once.</p>
+    @if (result()!.setPasswordUrl; as link) {
+      <p class="hint dev-link">
+        Demonstration environment (no mail server): <a [href]="link">open the "set your password" link</a>.
+      </p>
+    }
+    <button type="button" class="btn btn--primary" (click)="backToLogin()">Go to Sign In</button>
+  </div>
+}

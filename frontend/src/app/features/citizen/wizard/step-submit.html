@@ -1,0 +1,131 @@
+@let a = store.app()!;
+@let fee = store.fee()!;
+
+<section class="form-section">
+  <h3>Fire Precautionary Fee</h3>
+  <p class="form-section__intro">Calculated on the total built-up area of all blocks. Rates are set by the department.</p>
+  <table class="table fee-table">
+    <tbody>
+      @if (a.appl_type === 'D') {
+        <tr><td>Declaration fee</td><td class="num">Rs. {{ fee.baseFee | number }}</td></tr>
+      } @else {
+        <tr>
+          <td>Fee: {{ fee.builtUpArea | number: '1.0-2' }} sq.m × Rs. {{ fee.ratePerSqm }} per sq.m</td>
+          <td class="num">Rs. {{ fee.baseFee | number }}</td>
+        </tr>
+        @if (a.appl_type === 'O' && a.appl_mode === 'N') {
+          <tr><td>Additional fee for not obtaining a Provisional NOC</td><td class="num">Rs. {{ fee.additional | number }}</td></tr>
+          <tr>
+            <td>
+              Penalty for {{ fee.penaltyYears }} year(s) since municipal approval
+              @if (a.mcapprove_date) { ({{ a.mcapprove_date }}) } @else { <span class="bad-text">(enter the municipal approval date on the Application page)</span> }
+            </td>
+            <td class="num">Rs. {{ fee.penalty | number }}</td>
+          </tr>
+        }
+      }
+      <tr class="fee-table__total"><td>Total payable</td><td class="num">Rs. {{ fee.total | number }}</td></tr>
+      <tr class="fee-table__split"><td>of which Portal Charges / Fire Department fee</td><td class="num">Rs. {{ fee.portalCharges | number }} / Rs. {{ fee.departmentFee | number }}</td></tr>
+    </tbody>
+  </table>
+  @if (a.appl_type !== 'D') {
+    <p class="field__hint">Approval level for this application: <strong>{{ levelName() }}</strong> (by height and occupancy of the blocks).</p>
+  }
+</section>
+
+<section class="form-section">
+  <h3>Payment</h3>
+  @if (a.payment.status === 'paid') {
+    <div class="paid">
+      <app-icon name="check-circle" size="22"></app-icon>
+      <div>
+        <strong>Rs. {{ a.payment.amount | number }} paid</strong>
+        @if (a.payment.mode === 'online') {
+          online on {{ a.payment.paid_on }} · Transaction {{ a.payment.txn_ref }}
+        } @else {
+          by bank challan {{ a.payment.challan_num }} dated {{ a.payment.challan_date }} ({{ a.payment.challan_bnk }}, {{ a.payment.challan_brch }})
+        }
+        @if (!store.isNew()) {
+          <br /><a [routerLink]="['/citizen/applications', a.appl_id, 'print', 'receipt']">View payment receipt</a>
+        }
+        @if (store.fieldError('payment'); as e) { <p class="field__error">{{ e }}</p> }
+      </div>
+    </div>
+  } @else {
+    <div class="pay-tabs" role="tablist">
+      <button type="button" role="tab" [class.is-active]="payMode() === 'online'" [attr.aria-selected]="payMode() === 'online'" (click)="payMode.set('online')">
+        <app-icon name="credit-card" size="16"></app-icon> Pay Online
+      </button>
+      <button type="button" role="tab" [class.is-active]="payMode() === 'challan'" [attr.aria-selected]="payMode() === 'challan'" (click)="payMode.set('challan')">
+        <app-icon name="file" size="16"></app-icon> Bank Challan
+      </button>
+    </div>
+    @if (payMode() === 'online') {
+      <p>Pay by net banking, card or UPI through the payment gateway.</p>
+      <button type="button" class="btn btn--primary" [disabled]="paying() || fee.total <= 0" (click)="payOnline()">Pay Rs. {{ fee.total | number }} Online</button>
+    } @else {
+      <p>Pay at the bank using a challan and record its details here. Then upload the scanned challan under <em>Documents &amp; Plans</em>.</p>
+      @if (challanError()) { <p class="field__error">{{ challanError() }}</p> }
+      <div class="form-grid">
+        <div class="field"><label class="field__label" for="ch-num">Challan No.</label><input id="ch-num" class="input" [(ngModel)]="challan.num" /></div>
+        <div class="field"><label class="field__label" for="ch-date">Challan Date</label><input id="ch-date" class="input" type="date" [(ngModel)]="challan.dateIso" /></div>
+        <div class="field"><label class="field__label" for="ch-bank">Bank</label><input id="ch-bank" class="input" [(ngModel)]="challan.bank" /></div>
+        <div class="field"><label class="field__label" for="ch-branch">Branch</label><input id="ch-branch" class="input" [(ngModel)]="challan.branch" /></div>
+      </div>
+      <button type="button" class="btn btn--primary" [disabled]="fee.total <= 0" (click)="recordChallan()">Record Challan of Rs. {{ fee.total | number }}</button>
+    }
+    @if (store.fieldError('payment'); as e) { <p class="field__error">{{ e }}</p> }
+  }
+</section>
+
+@if (warnings().length > 0) {
+  <section class="form-section warnings">
+    <h3><app-icon name="alert-triangle" size="18"></app-icon> Please double-check ({{ warnings().length }})</h3>
+    <p class="form-section__intro">These do not prevent submission but may lead the department to return the application.</p>
+    <ul>
+      @for (w of warnings(); track w.field + w.message) { <li>{{ w.message }}</li> }
+    </ul>
+  </section>
+}
+
+<section class="form-section">
+  <h3>Verification</h3>
+  <label class="checkbox-row declaration" [class.is-invalid]="store.fieldError('declaration_accepted')">
+    <input type="checkbox" [ngModel]="a.declaration_accepted" (ngModelChange)="setDeclaration($event)" />
+    <span>
+      I have verified all the information provided in this application. By checking this box I confirm that information provided here
+      is correct to the best of my knowledge.
+    </span>
+  </label>
+</section>
+
+<div class="submit-bar">
+  <p>
+    @if (store.errors().length === 0) {
+      Everything is complete. Submit to see the final confirmation page.
+    } @else {
+      {{ store.errors().length }} item(s) still need attention — Submit lists them with links to the pages to correct.
+    }
+  </p>
+  <button type="button" class="btn btn--primary submit-btn" [disabled]="!a.declaration_accepted || validating()" (click)="submit()">
+    <app-icon name="shield" size="16"></app-icon> {{ validating() ? 'Checking…' : a.revision > 1 ? 'Resubmit' : 'Submit' }}
+  </button>
+</div>
+
+<app-modal [open]="submitProblems() !== null" title="The application cannot be submitted yet" [wide]="true" (closed)="submitProblems.set(null)">
+  <p>Please correct the following and submit again. Your application has been saved.</p>
+  @for (g of submitProblems() ?? []; track g.key) {
+    <div class="problem-group">
+      <div class="problem-group__head">
+        <h4>{{ g.label }} <span class="count">{{ g.issues.length }}</span></h4>
+        <button type="button" class="btn btn--ghost btn--sm" (click)="fix(g.target)">Go to page <app-icon name="chevron-right" size="12"></app-icon></button>
+      </div>
+      <ul>
+        @for (i of g.issues; track i.field + i.message) { <li>{{ i.message }}</li> }
+      </ul>
+    </div>
+  }
+  <div modal-footer>
+    <button type="button" class="btn btn--primary" (click)="submitProblems.set(null)">OK</button>
+  </div>
+</app-modal>

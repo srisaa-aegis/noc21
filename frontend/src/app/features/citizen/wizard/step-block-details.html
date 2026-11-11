@@ -1,0 +1,166 @@
+@let a = store.app()!;
+@let opts = store.lookups()!.blockOptions;
+
+@if (block(); as b) {
+  <section class="form-section">
+    <h3>Building Details</h3>
+    <div class="form-grid">
+      <div class="field">
+        <label class="field__label field__required" for="block_name">Block Name</label>
+        <input id="block_name" class="input" [class.is-invalid]="err('block_name')" [ngModel]="b.block_name" (ngModelChange)="store.set(b, 'block_name', $event)" />
+        @if (err('block_name'); as e) { <span class="field__error">{{ e }}</span> }
+      </div>
+      <div class="field">
+        <label class="field__label" for="block_type">Block Type</label>
+        <select id="block_type" class="select" [ngModel]="b.block_type" (ngModelChange)="store.set(b, 'block_type', $event)">
+          @for (t of opts.blockTypes; track t.code) { <option [value]="t.code">{{ t.name }}</option> }
+        </select>
+      </div>
+      <div class="field">
+        <label class="field__label field__required" for="site_type">Occupancy Type</label>
+        <select id="site_type" class="select" [class.is-invalid]="err('site_type')" [ngModel]="b.site_type" (ngModelChange)="onTypeChange(b, $event)">
+          <option value="">Select…</option>
+          @for (t of store.lookups()!.buildTypes; track t.code) { <option [value]="t.code">{{ t.name }} — {{ t.desc }}</option> }
+        </select>
+        @if (err('site_type'); as e) { <span class="field__error">{{ e }}</span> }
+      </div>
+      <div class="field">
+        <label class="field__label field__required" for="site_stype">Sub-type</label>
+        <select id="site_stype" class="select" [disabled]="!b.site_type" [class.is-invalid]="err('site_stype')" [ngModel]="b.site_stype" (ngModelChange)="store.set(b, 'site_stype', $event)">
+          <option value="">Select…</option>
+          @for (s of buildType(b.site_type)?.sub ?? []; track s.code) { <option [value]="s.code">{{ s.code }} — {{ s.name }}</option> }
+        </select>
+        @if (err('site_stype'); as e) { <span class="field__error">{{ e }}</span> }
+      </div>
+      <div class="field">
+        <label class="field__label field__required" for="height">Height (m)</label>
+        <input id="height" class="input" type="number" min="0" step="0.01" [class.is-invalid]="err('height')" [ngModel]="b.height" (ngModelChange)="store.set(b, 'height', $event)" />
+        @if (err('height'); as e) { <span class="field__error">{{ e }}</span> }
+      </div>
+      @if (usesPermissibleHeight()) {
+        <div class="field">
+          <label class="field__label field__required" for="permissible_height">Permissible Height (m)</label>
+          <input id="permissible_height" class="input" type="number" min="0" step="0.01" placeholder="Excluding stilt height" [class.is-invalid]="err('permissible_height')" [ngModel]="b.permissible_height" (ngModelChange)="store.set(b, 'permissible_height', $event)" />
+          <span class="field__hint">Excluding stilt height — used for the required open spaces.</span>
+          @if (err('permissible_height'); as e) { <span class="field__error">{{ e }}</span> }
+        </div>
+      }
+      @if (b.site_type === 'ins' && b.site_stype === 'C1') {
+        <div class="field">
+          <label class="field__label field__required" for="beds">In-patient beds provided?</label>
+          <select id="beds" class="select" [class.is-invalid]="err('beds')" [ngModel]="b.beds" (ngModelChange)="store.set(b, 'beds', $event)">
+            <option value="">Select…</option><option value="Y">Yes</option><option value="N">No</option>
+          </select>
+          @if (err('beds'); as e) { <span class="field__error">{{ e }}</span> }
+        </div>
+      }
+    </div>
+    <div class="checks">
+      <label class="checkbox-row"><input type="checkbox" [ngModel]="b.is_mixed" (ngModelChange)="store.set(b, 'is_mixed', $event)" /> Mixed occupancy</label>
+      @if (b.site_type === 'asm' && b.site_stype === 'D6') {
+        @if (b.height >= 15) {
+          <label class="checkbox-row"><input type="checkbox" [ngModel]="b.is_multiplex" (ngModelChange)="store.set(b, 'is_multiplex', $event)" /> Is Multiplex</label>
+        } @else {
+          <label class="checkbox-row"><input type="checkbox" [ngModel]="b.is_miniplex" (ngModelChange)="store.set(b, 'is_miniplex', $event)" /> Is Miniplex</label>
+        }
+      }
+      <label class="checkbox-row"><input type="checkbox" [ngModel]="b.road_wide" (ngModelChange)="store.set(b, 'road_wide', $event)" /> Land has been surrendered for road widening (setback relaxation claimed — proof required)</label>
+    </div>
+  </section>
+
+  <section class="form-section">
+    <h3>Surroundings of the Building</h3>
+    <div class="form-grid">
+      <div class="field">
+        <label class="field__label field__required" for="front_dir">Front side (abutting road)</label>
+        <select id="front_dir" class="select" [class.is-invalid]="err('front_dir')" [ngModel]="b.front_dir" (ngModelChange)="store.set(b, 'front_dir', $event)">
+          <option value="">Select…</option>
+          @for (s of b.sides; track s.bside_id) { <option [value]="s.direc">{{ directionName(s.direc) }}</option> }
+        </select>
+        @if (err('front_dir'); as e) { <span class="field__error">{{ e }}</span> }
+      </div>
+    </div>
+    <div class="table-scroll">
+      <table class="table">
+        <thead><tr><th>Side</th><th>Type of Property</th><th>Name</th><th class="num">Width of Abutting Road (m)</th></tr></thead>
+        <tbody>
+          @for (s of b.sides; track s.bside_id; let i = $index) {
+            <tr>
+              <td><strong>{{ directionName(s.direc) }}</strong>@if (s.direc === b.front_dir) { <span class="tag">Front</span> }</td>
+              <td>
+                <select class="select" [attr.aria-label]="directionName(s.direc) + ' type of property'" [class.is-invalid]="err('sides.' + i + '.ptype')" [ngModel]="s.ptype" (ngModelChange)="store.set(s, 'ptype', $event)">
+                  <option value="">Select…</option>
+                  @for (p of opts.sidePropertyTypes; track p.code) { <option [value]="p.code">{{ p.name }}</option> }
+                </select>
+              </td>
+              <td><input class="input" [attr.aria-label]="directionName(s.direc) + ' name'" [class.is-invalid]="err('sides.' + i + '.pname')" [ngModel]="s.pname" (ngModelChange)="store.set(s, 'pname', $event)" placeholder="e.g. 100 ft Road / Block C" /></td>
+              <td class="num"><input class="input" type="number" min="0" [attr.aria-label]="directionName(s.direc) + ' road width'" [disabled]="s.ptype !== 'R'" [class.is-invalid]="err('sides.' + i + '.width')" [ngModel]="s.width" (ngModelChange)="store.set(s, 'width', $event)" /></td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="form-section">
+    <h3>Open Spaces Required &amp; Proposed</h3>
+    <p class="form-section__intro">
+      Required open spaces are calculated as per G.O.Ms.No.119 (APBR 2017) from the {{ usesPermissibleHeight() ? 'permissible height' : 'height' }}, the plot area
+      ({{ a.plot_area || 0 }} sq.m) and the width of the front road ({{ frontAbutting(b) }} m). Nothing except cornices, chajjas / weather shades not exceeding 0.75 m is allowed in the mandatory setbacks.
+    </p>
+    <div class="table-scroll">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Direction</th>
+            <th class="num">Required</th>
+            @if (showParent()) { <th class="num">Proposed as per PNOC</th> }
+            <th class="num">{{ a.appl_type === 'P' ? 'Proposed' : 'Provided' }} (m)</th>
+            <th class="num">Projection (m)</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (o of b.ospaces; track o.ospace_id; let i = $index) {
+            @let reqd = reqdOs(b, o.direc);
+            <tr>
+              <td>{{ directionName(o.direc) }}</td>
+              <td class="num computed">{{ reqd >= 0 ? reqd + ' m' : '—' }}</td>
+              @if (showParent()) { <td class="num">{{ o.parent_proposed ?? '—' }} m</td> }
+              <td class="num"><input class="input" type="number" min="0" step="0.1" [attr.aria-label]="directionName(o.direc) + ' open space'" [class.is-invalid]="err('ospaces.' + i + '.proposed')" [ngModel]="o.proposed" (ngModelChange)="store.set(o, 'proposed', $event)" /></td>
+              <td class="num"><input class="input" type="number" min="0" step="0.05" [attr.aria-label]="directionName(o.direc) + ' projection'" [class.is-invalid]="err('ospaces.' + i + '.projection')" [ngModel]="o.projection" (ngModelChange)="store.set(o, 'projection', $event)" /></td>
+              <td>
+                @if (osMessage(reqd); as m) {
+                  <span class="bad-text"><app-icon name="x-circle" size="14"></app-icon> {{ m }}</span>
+                } @else if (reqd > o.proposed) {
+                  <span class="bad-text"><app-icon name="x-circle" size="14"></app-icon> Less than the required open space</span>
+                } @else {
+                  <span class="ok-text"><app-icon name="check-circle" size="14"></app-icon></span>
+                }
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    @if (b.road_wide) {
+      <h4 class="sub-heading">Open space required after road widening</h4>
+      <p class="field__hint">Enter the open space required on each side after the land surrendered for road widening (overrides the calculated value).</p>
+      <div class="table-scroll">
+        <table class="table">
+          <thead><tr><th>Direction</th><th class="num">Open Space Required (m)</th></tr></thead>
+          <tbody>
+            @for (rw of b.roadwidening; track rw.rw_direc; let i = $index) {
+              <tr>
+                <td>{{ directionName(rw.rw_direc) }}</td>
+                <td class="num"><input class="input" type="number" min="0" step="0.1" [attr.aria-label]="'Road widening ' + directionName(rw.rw_direc)" [class.is-invalid]="err('roadwidening.' + i + '.rw_reqd')" [ngModel]="rw.rw_reqd" (ngModelChange)="store.set(rw, 'rw_reqd', $event)" /></td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </section>
+
+}

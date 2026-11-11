@@ -1,0 +1,29 @@
+@let a = app();
+<p class="lh">Government of Andhra Pradesh</p>
+<p class="lh">A.P. State Disaster Response and Fire Services Department</p>
+<p class="doc-title">Acceptance of Self-Declaration for Renewal of Fire NOC</p>
+
+<div class="addr-row">
+  <div>To<br /><strong>{{ a.build_name }}</strong><br />{{ a.corr_addr }}</div>
+  <div>File No: {{ a.appl_number }}<br />Date: {{ issueDate() }}</div>
+</div>
+<div>Sir/Madam,</div>
+<p class="para indent">
+  The self-declaration submitted by {{ a.build_name }} for renewal of the Fire NOC (Occupancy NOC RC Number {{ a.ref_no }}) of {{ a.site_name }},
+  {{ a.site_addr }}, last inspected on {{ a.last_inspect_date }}, is accepted and taken on record.
+  @if (a.valid_to) {
+    The Fire NOC stands renewed from {{ a.valid_from }} to {{ a.valid_to }}.
+  }
+</p>
+<p class="para">
+  The responsibility / liability of the owner / occupier, or both, to maintain the fire safety measures in good condition at all times, in accordance with
+  the A.P. Fire Services Act 1999 and Rules 2006, remains.
+</p>
+@if (deficiencies() !== '-Nil-') {
+  <div class="para">
+    The following remarks were recorded by the officers of the department:
+    <pre class="deficiencies">{{ deficiencies() }}</pre>
+  </div>
+}
+
+<app-letter-signature [fileNo]="a.appl_number" [lines]="signatory('D')" [copyTo]="copyTo('D')"></app-letter-signature>

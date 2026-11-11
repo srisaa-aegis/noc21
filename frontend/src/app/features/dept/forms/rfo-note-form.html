@@ -1,0 +1,53 @@
+@let d = data();
+<p class="form-section__intro">Regional review of the Chairman's inspection report and the section note, per NBC guidelines — see the Application tab for the figures.</p>
+
+@for (b of d.blocks; track b.block_id) {
+  <div class="yn-row">
+    <span>Block {{ b.block_name }}: open spaces, staircases, occupant load and fire fighting equipment meet the NBC guidelines</span>
+    <label class="radio"><input type="radio" [name]="'nbc' + b.block_id" [checked]="b.nbc_ok === 'Y'" (change)="setBlock(b, 'nbc_ok', 'Y')" /> Yes</label>
+    <label class="radio"><input type="radio" [name]="'nbc' + b.block_id" [checked]="b.nbc_ok === 'N'" (change)="setBlock(b, 'nbc_ok', 'N')" /> No</label>
+    <input class="input" style="max-width: 320px" placeholder="Deficiency (if any)" [ngModel]="b.deficiency" (ngModelChange)="setBlock(b, 'deficiency', $event)" />
+  </div>
+}
+
+<div class="yn-grid">
+  <div class="yn-row">
+    <span>Approach road width is adequate</span>
+    <label class="radio"><input type="radio" name="approach_road_ok" [checked]="yn('approach_road_ok') === 'Y'" (change)="set('approach_road_ok', 'Y')" /> Yes</label>
+    <label class="radio"><input type="radio" name="approach_road_ok" [checked]="yn('approach_road_ok') === 'N'" (change)="set('approach_road_ok', 'N')" /> No</label>
+    <input class="input" style="max-width: 320px" placeholder="Remarks" [ngModel]="d.approach_road_remark" (ngModelChange)="set('approach_road_remark', $event)" />
+  </div>
+  <div class="yn-row">
+    <span>Parking provided is adequate</span>
+    <label class="radio"><input type="radio" name="parking_ok" [checked]="yn('parking_ok') === 'Y'" (change)="set('parking_ok', 'Y')" /> Yes</label>
+    <label class="radio"><input type="radio" name="parking_ok" [checked]="yn('parking_ok') === 'N'" (change)="set('parking_ok', 'N')" /> No</label>
+    <input class="input" style="max-width: 320px" placeholder="Remarks" [ngModel]="d.parking_remark" (ngModelChange)="set('parking_remark', $event)" />
+  </div>
+  <div class="yn-row">
+    <span>Specific conditions of the file are complied with</span>
+    <label class="radio"><input type="radio" name="conditions_complied" [checked]="yn('conditions_complied') === 'Y'" (change)="set('conditions_complied', 'Y')" /> Yes</label>
+    <label class="radio"><input type="radio" name="conditions_complied" [checked]="yn('conditions_complied') === 'N'" (change)="set('conditions_complied', 'N')" /> No</label>
+  </div>
+</div>
+
+<div class="form-grid">
+  <div class="field">
+    <label class="field__label" for="other_acts">Other applicable acts / rules</label>
+    <input id="other_acts" class="input" [ngModel]="d.other_acts" (ngModelChange)="set('other_acts', $event)" />
+  </div>
+  <div class="field">
+    <label class="field__label" for="points_for_dgfs">Points for the issuing authority</label>
+    <input id="points_for_dgfs" class="input" [ngModel]="d.points_for_dgfs" (ngModelChange)="set('points_for_dgfs', $event)" />
+  </div>
+  <div class="field span-2">
+    <span class="field__label field__required">Recommendation</span>
+    <div>
+      <label class="radio"><input type="radio" name="recommendation" [checked]="yn('recommendation') === 'Y'" (change)="set('recommendation', 'Y')" /> Recommend issue</label>
+      <label class="radio"><input type="radio" name="recommendation" [checked]="yn('recommendation') === 'N'" (change)="set('recommendation', 'N')" /> Do not recommend</label>
+    </div>
+  </div>
+  <div class="field span-2">
+    <label class="field__label field__required" for="rfo_remark">Remarks</label>
+    <textarea id="rfo_remark" class="textarea" [ngModel]="d.remark" (ngModelChange)="set('remark', $event)"></textarea>
+  </div>
+</div>

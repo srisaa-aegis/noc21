@@ -1,0 +1,138 @@
+<div class="page">
+  <div class="page-header">
+    <div>
+      <p class="page-header__eyebrow">Admin</p>
+      <h2>Admin Workbench</h2>
+    </div>
+  </div>
+
+  <div class="stat-cards">
+    <a class="card stat-card" routerLink="/admin/applications">
+      <app-icon name="layers" size="20"></app-icon>
+      <span class="stat-card__value">{{ stats().applications }}</span>
+      <span class="stat-card__label">Applications · {{ stats().drafts }} drafts · {{ stats().staleDrafts }} stale</span>
+    </a>
+    <a class="card stat-card" routerLink="/admin/citizens">
+      <app-icon name="user" size="20"></app-icon>
+      <span class="stat-card__value">{{ stats().citizens }}</span>
+      <span class="stat-card__label">Citizen accounts · {{ stats().citizensInactive }} deactivated</span>
+    </a>
+    <a class="card stat-card" routerLink="/admin/dept-users">
+      <app-icon name="users" size="20"></app-icon>
+      <span class="stat-card__value">{{ stats().deptUsers }}</span>
+      <span class="stat-card__label">Department users · {{ stats().deptInactive }} deactivated</span>
+    </a>
+  </div>
+
+  <div class="action-cards">
+    <div class="card action-card">
+      <app-icon name="bell" size="22"></app-icon>
+      <h3>Send Escalations</h3>
+      <p>Remind the officers (and / or the issuing authority) of tasks past their step or inspection SLA and of files past the processing SLA.</p>
+      <button type="button" class="btn btn--primary" (click)="openEscalations()">Send Escalations</button>
+    </div>
+
+    <div class="card action-card">
+      <app-icon name="layers" size="22"></app-icon>
+      <h3>Workflows</h3>
+      <p>Stages, parallel tasks, roles, forms and permissions per application type and approval level.</p>
+      <a class="btn btn--secondary" routerLink="/admin/workflows">Configure Workflows</a>
+    </div>
+
+    <div class="card action-card">
+      <app-icon name="clock" size="22"></app-icon>
+      <h3>SLA &amp; Escalations</h3>
+      <p>Days allowed per step, for the inspection and for the whole processing; who is reminded and how often.</p>
+      <a class="btn btn--secondary" routerLink="/admin/sla">Configure SLAs</a>
+    </div>
+
+    <div class="card action-card">
+      <app-icon name="search" size="22"></app-icon>
+      <h3>Search &amp; Delete Applications</h3>
+      <p>Find stale drafts or any application by number, site, builder or owner and delete them.</p>
+      <a class="btn btn--secondary" routerLink="/admin/applications">Open Application Search</a>
+    </div>
+
+    <div class="card action-card">
+      <app-icon name="list" size="22"></app-icon>
+      <h3>Statuses</h3>
+      <p>The in-process statuses the workflows set (the system statuses 1, 2, 7, 8 and 9 are fixed).</p>
+      <a class="btn btn--secondary" routerLink="/admin/statuses">Manage Statuses</a>
+    </div>
+  </div>
+
+  @if (unassigned().length) {
+    <section class="card unassigned" aria-labelledby="unassigned-title">
+      <h3 id="unassigned-title"><app-icon name="alert-triangle" size="18"></app-icon> Unassigned tasks <span class="count">{{ unassigned().length }}</span></h3>
+      <p class="field__hint">No active officer of the role is associated with the fire station of these files. Assign an officer, or associate one with the station under Dept Users.</p>
+      <div class="table-scroll">
+        <table class="table">
+          <thead><tr><th>Application</th><th>Task</th><th>State</th><th>Assign to</th><th></th></tr></thead>
+          <tbody>
+            @for (u of unassigned(); track u.appl_id + '/' + u.task.task_id) {
+              <tr>
+                <td class="nowrap">{{ u.appl_number }}<div class="field__hint">{{ u.site_name }}</div></td>
+                <td>{{ u.task.name }}</td>
+                <td>{{ u.task.state === 'active' ? 'Waiting now' : 'Later stage' }}</td>
+                <td>
+                  @if (u.candidates.length) {
+                    <select class="select" [attr.aria-label]="'Officer for ' + u.task.name" (change)="assignTo[u.appl_id + '/' + u.task.task_id] = +$any($event.target).value">
+                      @for (c of u.candidates; track c.id) {
+                        <option [value]="c.id">{{ c.displayName }}</option>
+                      }
+                    </select>
+                  } @else {
+                    <span class="bad-text">No officer holds this role</span>
+                  }
+                </td>
+                <td><button type="button" class="btn btn--primary btn--sm" [disabled]="!u.candidates.length" (click)="assign(u)">Assign</button></td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </section>
+  }
+</div>
+
+<app-modal [open]="!!preview()" title="Send escalations" [wide]="true" (closed)="preview.set(null)">
+  @if (preview(); as p) {
+    <p>
+      <strong>{{ p.counts.overdue }}</strong> item(s) are past their SLA; <strong>{{ p.counts.due }}</strong> are due for a reminder now.
+      @if (p.counts.due > p.due.length) {
+        <span class="field__hint">The {{ p.due.length }} most overdue are listed.</span>
+      }
+      @if (p.last) {
+        <span class="field__hint">Last run {{ p.last.sent_at.slice(0, 10) }}: {{ p.last.notices.length }} item(s).</span>
+      }
+    </p>
+    @if (p.due.length) {
+      <div class="table-scroll escalation-table">
+        <table class="table">
+          <thead>
+            <tr><th>Application</th><th>Item</th><th>Pending with</th><th>Days / SLA</th><th>Notified</th></tr>
+          </thead>
+          <tbody>
+            @for (n of p.due; track n.appl_id + '/' + n.kind + '/' + n.task_id) {
+              <tr>
+                <td class="nowrap">{{ n.appl_number }}</td>
+                <td>{{ n.task }}<div class="field__hint">{{ kindLabel[n.kind] }}</div></td>
+                <td>{{ n.officer_names.join(', ') }}</td>
+                <td class="nowrap bad-text">{{ n.days_pending }} / {{ n.sla_days }}</td>
+                <td>{{ n.recipients.join(', ') }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    } @else {
+      <p class="field__hint">Every overdue item was already reminded within the reminder interval.</p>
+    }
+  }
+  <div modal-footer>
+    <button type="button" class="btn btn--ghost" (click)="preview.set(null)">Cancel</button>
+    <button type="button" class="btn btn--primary" [disabled]="sending() || !preview()?.counts?.due" (click)="sendEscalations()">
+      {{ sending() ? 'Sending…' : 'Send ' + (preview()?.counts?.due ?? 0) + ' reminder(s)' }}
+    </button>
+  </div>
+</app-modal>

@@ -1,0 +1,96 @@
+.progress {
+  height: 8px;
+  background: var(--gray-100);
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+}
+
+.progress__bar {
+  height: 100%;
+  background: var(--status-approved-fg);
+  transition: width 0.2s ease;
+}
+
+.doc-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.doc {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) 0;
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.doc--missing .doc__label {
+  color: var(--status-rejected-fg);
+}
+
+.doc__info {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.doc__label {
+  font-weight: 600;
+  font-size: var(--font-size-sm);
+}
+
+.doc__tag {
+  font-size: 10px;
+  text-transform: uppercase;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: var(--radius-pill);
+  background: var(--status-rejected-bg);
+  color: var(--status-rejected-fg);
+}
+
+.doc__tag--optional {
+  background: var(--gray-100);
+  color: var(--gray-500);
+}
+
+.doc__file {
+  flex-basis: 100%;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--font-size-xs);
+  color: var(--status-approved-fg);
+}
+
+.doc__actions {
+  display: flex;
+  gap: var(--space-1);
+
+  label {
+    cursor: pointer;
+  }
+}
+
+.plan-status {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  li {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) 0;
+    border-bottom: 1px solid var(--border);
+    font-size: var(--font-size-sm);
+  }
+}

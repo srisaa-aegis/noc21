@@ -1,0 +1,28 @@
+<section class="form-section">
+  <h3>Supporting Documents</h3>
+  <p class="form-section__intro">
+    Upload each document as a PDF (max 10 MB). <strong>{{ progress().done }} of {{ progress().total }}</strong> mandatory documents attached.
+    <br />
+    <em>Demo note: only the file name, size and date are recorded — file contents are not stored anywhere.</em>
+  </p>
+  <div class="progress" role="progressbar" [attr.aria-valuenow]="progress().done" [attr.aria-valuemax]="progress().total" aria-label="Mandatory documents attached">
+    <div class="progress__bar" [style.width.%]="progress().total ? (progress().done / progress().total) * 100 : 100"></div>
+  </div>
+  <app-doc-list [docs]="general()"></app-doc-list>
+</section>
+
+@if (blockPlans().length) {
+  <section class="form-section">
+    <h3>Plans &amp; Drawings</h3>
+    <p class="form-section__intro">The site, section, elevation and floor plans are attached in each block's own flow (last page: <em>Plans</em>).</p>
+    <ul class="plan-status">
+      @for (p of blockPlans(); track p.block.block_id) {
+        <li>
+          <app-icon [name]="p.done === p.total ? 'check-circle' : 'alert-circle'" size="16" [class.ok-text]="p.done === p.total" [class.bad-text]="p.done < p.total"></app-icon>
+          <strong>{{ p.block.block_name }}</strong> — {{ p.done }} of {{ p.total }} plans attached
+          <button type="button" class="link-button" (click)="open.emit({ step: 'blocks', blockId: p.block.block_id, blockStep: 'plans' })">Open plans</button>
+        </li>
+      }
+    </ul>
+  </section>
+}

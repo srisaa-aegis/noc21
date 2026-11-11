@@ -1,0 +1,232 @@
+:host {
+  display: block;
+}
+
+.ffe-part {
+  margin-bottom: var(--space-4);
+}
+
+.ffe-title {
+  font-size: var(--font-size-md);
+  margin: 0 0 var(--space-2);
+}
+
+.sl {
+  width: 40px;
+  text-align: center;
+}
+
+.empty {
+  color: var(--gray-500);
+  text-align: center;
+}
+
+.ffe-tag {
+  display: inline-block;
+  margin-left: var(--space-2);
+  font-size: 10px;
+  text-transform: uppercase;
+  background: var(--brand-100);
+  color: var(--brand-700);
+  border-radius: var(--radius-pill);
+  padding: 0 6px;
+}
+
+.ffe-note-ref {
+  display: inline-block;
+  margin-left: var(--space-1);
+  font-size: 10px;
+  color: var(--gray-600);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0 4px;
+}
+
+.ffe-legend {
+  font-size: var(--font-size-xs);
+  color: var(--gray-600);
+  margin-bottom: var(--space-2);
+}
+
+.ffe-grid {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--font-size-sm);
+  text-align: center;
+
+  th,
+  td {
+    border: 1px solid var(--border);
+    padding: 6px;
+    vertical-align: middle;
+  }
+
+  thead th {
+    background: var(--gray-50);
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+    color: var(--gray-700);
+    min-width: 84px;
+    position: relative;
+  }
+
+  .floor {
+    text-align: left;
+    white-space: nowrap;
+    font-weight: 500;
+  }
+
+  &.is-compact {
+    font-size: 11px;
+
+    th,
+    td {
+      padding: 3px;
+    }
+  }
+}
+
+.ffe-total td {
+  background: var(--gray-50);
+  font-weight: 600;
+}
+
+.ffe-cell {
+  display: flex;
+  gap: 4px;
+  justify-content: center;
+  align-items: center;
+}
+
+.ffe-val {
+  min-width: 28px;
+  display: inline-block;
+  padding: 4px 6px;
+  border-radius: var(--radius-sm);
+  background: var(--gray-100);
+  color: var(--gray-800);
+  font-variant-numeric: tabular-nums;
+
+  &.is-note {
+    background: var(--brand-50, var(--gray-100));
+    font-size: 11px;
+  }
+}
+
+.ffe-val--total {
+  background: transparent;
+}
+
+.ffe-input {
+  width: 64px;
+  min-width: 56px;
+  padding: 4px 6px;
+  text-align: center;
+
+  &.is-short {
+    border-color: var(--status-pending-fg);
+    background: var(--status-pending-bg);
+  }
+}
+
+.ffe-remove {
+  border: none;
+  background: none;
+  color: var(--status-rejected-fg);
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1;
+}
+
+.ffe-notes {
+  margin: 0;
+  padding-left: var(--space-5);
+  font-size: var(--font-size-sm);
+
+  li {
+    margin-bottom: var(--space-1);
+  }
+
+  strong {
+    font-weight: 500;
+  }
+}
+
+@media print {
+  .ffe-grid th,
+  .ffe-grid td {
+    border-color: #000;
+  }
+
+  .ffe-val {
+    background: none;
+    padding: 0;
+  }
+}
+
+/* Printed certificates (legacy final_noc_* tables) --------------------------- */
+:host(.ffe--document) {
+  .ffe-summary,
+  .ffe-grid {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+    font-size: 13px;
+    color: #000;
+
+    th,
+    td {
+      border: 1px solid #000;
+      padding: 3px 5px;
+      background: none;
+      text-transform: none;
+      letter-spacing: normal;
+      font-weight: 400;
+      color: #000;
+      text-align: center;
+    }
+
+    th {
+      font-weight: 700;
+      font-size: 13px;
+    }
+  }
+
+  .ffe-summary td:nth-child(2),
+  .ffe-summary th:nth-child(2) {
+    text-align: left;
+  }
+
+  .ffe-val {
+    background: none;
+    padding: 0;
+    min-width: 0;
+  }
+
+  .ffe-cell {
+    gap: 2px;
+
+    .ffe-val + .ffe-val::before {
+      content: '/';
+      margin-right: 2px;
+    }
+  }
+
+  .ffe-note-ref,
+  .ffe-tag {
+    display: none;
+  }
+
+  .ffe-total td {
+    font-weight: 700;
+  }
+
+  .ffe-notes {
+    font-size: 13px;
+    color: #000;
+
+    strong {
+      font-weight: 700;
+    }
+  }
+}

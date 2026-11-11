@@ -1,0 +1,185 @@
+<div class="page">
+  <div class="page-header">
+    <div>
+      <p class="page-header__eyebrow">Admin</p>
+      <h2>Department Users</h2>
+      <p>Officers who review, inspect and issue NOCs. The role and the fire stations decide which tasks an officer receives: the workflow of an application goes to the officers of each role associated with the fire station of the property.</p>
+    </div>
+    <button type="button" class="btn btn--primary" (click)="openAdd()"><app-icon name="plus" size="16"></app-icon> Add User</button>
+  </div>
+
+  <div class="card toolbar">
+    <input class="input" placeholder="Search name, username, e-mail or mobile…" [value]="query()" (input)="query.set($any($event.target).value)" aria-label="Search department users" />
+    <select class="select" [value]="roleFilter()" (change)="roleFilter.set($any($event.target).value)" aria-label="Role filter">
+      <option value="">All roles</option>
+      @for (r of roles(); track r.id) {
+        <option [value]="r.id">{{ r.code }} — {{ r.name }}</option>
+      }
+    </select>
+    <select class="select" [value]="statusFilter()" (change)="statusFilter.set($any($event.target).value)" aria-label="Status filter">
+      <option value="all">All users</option>
+      <option value="active">Active</option>
+      <option value="inactive">Deactivated</option>
+    </select>
+  </div>
+
+  <section class="card">
+    @if (rows().length === 0) {
+      <p class="empty-state">No department users match.</p>
+    } @else {
+      <div class="table-scroll">
+        <table class="table">
+          <thead>
+            <tr><th>Name / Designation</th><th>Role</th><th>Fire stations</th><th>E-mail / Mobile</th><th>Status</th><th>Actions</th></tr>
+          </thead>
+          <tbody>
+            @for (a of rows(); track a.id) {
+              <tr [class.is-inactive]="!a.active">
+                <td><strong>{{ a.displayName }}</strong><br /><span class="field__hint">{{ a.username }}</span></td>
+                <td class="role-cell"><span class="role-code">{{ roleCodeOf(a.role_id) }}</span><span class="field__hint">{{ roleLabel(a.role_id) }}</span></td>
+                <td class="stations-cell">{{ stationSummary(a) }}<br /><span class="field__hint">Office: {{ districtName(a.district) }}</span></td>
+                <td>{{ a.email }}<br /><span class="field__hint">{{ a.mobile }}</span></td>
+                <td><span class="pill" [class.pill--on]="a.active" [class.pill--off]="!a.active">{{ a.active ? 'Active' : 'Deactivated' }}</span></td>
+                <td class="actions">
+                  <button type="button" class="btn btn--ghost btn--sm" (click)="openEdit(a)"><app-icon name="edit" size="14"></app-icon> Modify</button>
+                  <button type="button" class="btn btn--ghost btn--sm" (click)="resetPassword(a)" [attr.aria-label]="'Reset password of ' + a.username"><app-icon name="key" size="14"></app-icon> Password</button>
+                  <button type="button" class="btn btn--sm" [class.btn--danger-outline]="a.active" [class.btn--ghost]="!a.active" (click)="toggleActive(a)">
+                    <app-icon [name]="a.active ? 'user-x' : 'user-check'" size="14"></app-icon> {{ a.active ? 'Deactivate' : 'Reactivate' }}
+                  </button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </section>
+</div>
+
+<app-modal [open]="!!editing()" [wide]="true" [title]="isNew ? 'Add department user' : 'Modify user — ' + form.username" (closed)="editing.set(null)">
+  @if (formError()) {
+    <p class="form-error" role="alert">{{ formError() }}</p>
+  }
+  <div class="form-grid">
+    <div class="field">
+      <label class="field__label" for="d-username">Username</label>
+      <input id="d-username" class="input" [(ngModel)]="form.username" [disabled]="!isNew" placeholder="e.g. dfo.guntur" />
+    </div>
+    <div class="field">
+      <label class="field__label" for="d-name">Name / Designation</label>
+      <input id="d-name" class="input" [(ngModel)]="form.displayName" placeholder="e.g. DFO - Guntur" />
+    </div>
+    <div class="field">
+      <label class="field__label" for="d-role">Role</label>
+      <select id="d-role" class="select" [(ngModel)]="form.role_id">
+        <option [ngValue]="0">Select role…</option>
+        @for (r of roles(); track r.id) {
+          <option [ngValue]="r.id">{{ r.code }} — {{ r.name }}</option>
+        }
+      </select>
+    </div>
+    <div class="field">
+      <label class="field__label" for="d-district">Office / jurisdiction</label>
+      <select id="d-district" class="select" [(ngModel)]="form.district">
+        <option [ngValue]="0">HQ / State-wide</option>
+        @for (d of districts(); track d.id) {
+          <option [ngValue]="d.id">{{ d.desc }}</option>
+        }
+      </select>
+    </div>
+    <div class="field">
+      <label class="field__label" for="d-email">E-mail</label>
+      <input id="d-email" class="input" type="email" [(ngModel)]="form.email" />
+    </div>
+    <div class="field">
+      <label class="field__label" for="d-mobile">Mobile</label>
+      <input id="d-mobile" class="input" maxlength="10" [(ngModel)]="form.mobile" />
+    </div>
+  </div>
+  <fieldset class="stations">
+    <legend class="field__label">Fire stations</legend>
+    <label class="checkbox-row"><input type="checkbox" [checked]="allStations()" (change)="allStations.set($any($event.target).checked)" /> All fire stations (Head Office officers)</label>
+    @if (!allStations()) {
+      <div class="stations__bar">
+        <input class="input" placeholder="Filter districts / stations…" aria-label="Filter fire stations" [value]="stationFilter()" (input)="stationFilter.set($any($event.target).value)" />
+        <span class="field__hint">{{ stationSet().size }} selected</span>
+      </div>
+      <div class="stations__quick">
+        <span class="field__hint">Select a region:</span>
+        @for (r of regions(); track r.code) {
+          <button type="button" class="btn btn--ghost btn--sm" (click)="selectRegion(r.districts)">{{ r.name }} ({{ r.code }})</button>
+        }
+        <button type="button" class="btn btn--ghost btn--sm" (click)="clearStations()">Clear all</button>
+      </div>
+      <div class="stations__list">
+        @for (g of stationGroups(); track g.id) {
+          @let n = selectedIn(g.all);
+          <div class="district">
+            <div class="district__head">
+              <label class="checkbox-row">
+                <input type="checkbox" [checked]="n === g.all.length" [indeterminate]="n > 0 && n < g.all.length" (change)="toggleDistrict(g.all, $any($event.target).checked)" [attr.aria-label]="'All stations of ' + g.name" />
+                <strong>{{ g.name }}</strong>
+              </label>
+              <button type="button" class="link-button" (click)="toggleExpanded(g.id)" [attr.aria-expanded]="expanded().has(g.id) || !!stationFilter()">{{ n }}/{{ g.all.length }} ▾</button>
+            </div>
+            @if (expanded().has(g.id) || stationFilter()) {
+              <div class="district__stations">
+                @for (st of g.stations; track st.id) {
+                  <label class="checkbox-row"><input type="checkbox" [checked]="stationSet().has(st.id)" (change)="toggleStation(st.id, $any($event.target).checked)" /> {{ st.name }}</label>
+                }
+              </div>
+            }
+          </div>
+        }
+      </div>
+    }
+  </fieldset>
+  @if (isNew) {
+    <p class="field__hint">A temporary password is generated and shown once after the user is created.</p>
+  }
+  <div modal-footer>
+    <button type="button" class="btn btn--ghost" (click)="editing.set(null)">Cancel</button>
+    <button type="button" class="btn btn--primary" (click)="save()">{{ isNew ? 'Create User' : 'Save Changes' }}</button>
+  </div>
+</app-modal>
+
+<app-modal [open]="!!issued()" [title]="(issued()?.reason ?? '') + ' — temporary password'" (closed)="issued.set(null)">
+  <p>Temporary password for <strong>{{ issued()?.username }}</strong>:</p>
+  <p><span class="temp-password">{{ issued()?.password }}</span></p>
+  <p class="field__hint">In production this would be sent to the officer by SMS/e-mail and never displayed. Share it securely; it is shown only once.</p>
+  <div modal-footer>
+    <button type="button" class="btn btn--primary" (click)="issued.set(null)">Done</button>
+  </div>
+</app-modal>
+
+<app-modal [open]="!!handover()" [wide]="true" [title]="'Deactivate ' + (handover()?.user?.username ?? '') + ' — move open tasks'" (closed)="handover.set(null)">
+  @if (handover(); as h) {
+    <p><strong>{{ h.user.displayName }}</strong> has {{ h.tasks.length }} pending task(s). Choose the officer of the same role who takes them over; the user is then deactivated.</p>
+    <div class="table-scroll">
+      <table class="table">
+        <thead><tr><th>Application</th><th>Task</th><th>State</th></tr></thead>
+        <tbody>
+          @for (t of h.tasks; track t.appl_id + '/' + t.task.task_id) {
+            <tr><td>{{ t.appl_number }}<div class="field__hint">{{ t.site_name }}</div></td><td>{{ t.task.name }}</td><td>{{ t.task.state === 'active' ? 'In progress' : t.task.state === 'waiting' ? 'Waiting' : 'On demand' }}</td></tr>
+          }
+        </tbody>
+      </table>
+    </div>
+    @if (h.candidates.length) {
+      <div class="field">
+        <label class="field__label" for="handover-to">Move the tasks to</label>
+        <select id="handover-to" class="select" [(ngModel)]="handoverTo">
+          @for (c of h.candidates; track c.id) {
+            <option [ngValue]="c.id">{{ c.displayName }} ({{ c.username }}) — {{ stationSummary(c) }}</option>
+          }
+        </select>
+      </div>
+    } @else {
+      <p class="form-error" role="alert">There is no other active officer with this role. Add or reactivate one first.</p>
+    }
+  }
+  <div modal-footer>
+    <button type="button" class="btn btn--ghost" (click)="handover.set(null)">Cancel</button>
+    <button type="button" class="btn btn--danger" [disabled]="!handoverTo" (click)="confirmHandover()">Move tasks &amp; deactivate</button>
+  </div>
+</app-modal>

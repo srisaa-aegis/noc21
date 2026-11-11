@@ -1,0 +1,50 @@
+<div class="page">
+  <div class="page-header">
+    <div>
+      <p class="page-header__eyebrow">Department Workbench</p>
+      <h2>Search Applications</h2>
+    </div>
+  </div>
+
+  <div class="card">
+    <input
+      class="input"
+      placeholder="Search by application number, site name, builder or district…"
+      [value]="query()"
+      (input)="query.set($any($event.target).value)"
+    />
+  </div>
+
+  @if (loading()) {
+    <p class="empty-state">Loading…</p>
+  } @else if (results().length === 0) {
+    <p class="empty-state">No applications match your search.</p>
+  } @else {
+    <div class="table-scroll card" style="margin-top: 16px">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Type</th>
+            <th>Appl. No.</th>
+            <th>Site</th>
+            <th>District</th>
+            <th>Status</th>
+            <th>Pending with</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (app of results(); track app.appl_id) {
+            <tr>
+              <td><app-appl-type-badge [applType]="app.appl_type"></app-appl-type-badge></td>
+              <td><a [routerLink]="['/dept/applications', app.appl_id]">{{ app.appl_number || '—' }}</a></td>
+              <td>{{ app.site_name }}</td>
+              <td>{{ app.dist_name }}</td>
+              <td><app-status-badge [statusId]="app.status_id"></app-status-badge></td>
+              <td>{{ app.reviewer || '—' }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>

@@ -1,0 +1,9 @@
+[
+  {"id": 1, "level": "MSB", "label": "Hazardous, Storage & Industrial buildings", "site_types": ["haz", "sto", "ind"], "site_stypes": [], "min_height": null, "min_inclusive": true, "max_height": null},
+  {"id": 7, "level": "MSB", "label": "Multiplexes (Assembly D6 marked as multiplex)", "site_types": ["asm"], "site_stypes": ["D6"], "min_height": null, "min_inclusive": true, "max_height": null, "multiplex_only": true},
+  {"id": 2, "level": "MSB", "label": "Residential apartments 18 m and above", "site_types": ["res"], "site_stypes": ["A4"], "min_height": 18, "min_inclusive": true, "max_height": null},
+  {"id": 3, "level": "RFO", "label": "Residential apartments above 10 m (below 18 m)", "site_types": ["res"], "site_stypes": ["A4"], "min_height": 10, "min_inclusive": false, "max_height": null},
+  {"id": 4, "level": "MSB", "label": "Any building 15 m and above", "site_types": [], "site_stypes": [], "min_height": 15, "min_inclusive": true, "max_height": null},
+  {"id": 5, "level": "RFO", "label": "Any building above 10 m", "site_types": [], "site_stypes": [], "min_height": 10, "min_inclusive": false, "max_height": null},
+  {"id": 6, "level": "DFO", "label": "All other buildings (10 m and below)", "site_types": [], "site_stypes": [], "min_height": null, "min_inclusive": true, "max_height": null}
+]

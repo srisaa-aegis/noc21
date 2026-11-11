@@ -1,0 +1,177 @@
+{
+ "start": "occu",
+ "occu": {
+  "check": "@site_type",
+  "dtype": "s",
+  "decisions": [
+   {
+    "oper": "EQ",
+    "check": "edu",
+    "action": "goto",
+    "value": "height_edu"
+   },
+   {
+    "oper": "EQ",
+    "check": "ins",
+    "action": "goto",
+    "value": "height_ins"
+   },
+   {
+    "oper": "EQ",
+    "check": "asm",
+    "action": "goto",
+    "value": "height_asm"
+   },
+   {
+    "oper": "EQ",
+    "check": "mer",
+    "action": "goto",
+    "value": "height_mer"
+   },
+   {
+    "oper": "EQ",
+    "check": "ind",
+    "action": "goto",
+    "value": "height_ind"
+   },
+   {
+    "oper": "EQ",
+    "check": "sto",
+    "action": "goto",
+    "value": "height_sto"
+   },
+   {
+    "oper": "EQ",
+    "check": "haz",
+    "action": "goto",
+    "value": "height_haz"
+   }
+  ]
+ },
+ "height_edu": {
+  "check": "@height",
+  "dtype": "n",
+  "decisions": [
+   {
+    "oper": "LE",
+    "check": "30",
+    "action": "return",
+    "value": "valid"
+   },
+   {
+    "oper": "DEF",
+    "check": "",
+    "action": "return",
+    "value": ""
+   }
+  ]
+ },
+ "height_ins": {
+  "check": "@height",
+  "dtype": "n",
+  "decisions": [
+   {
+    "oper": "LE",
+    "check": "30",
+    "action": "return",
+    "value": "valid"
+   },
+   {
+    "oper": "DEF",
+    "check": "",
+    "action": "return",
+    "value": ""
+   }
+  ]
+ },
+ "height_asm": {
+  "check": "@height",
+  "dtype": "n",
+  "decisions": [
+   {
+    "oper": "LE",
+    "check": "30",
+    "action": "return",
+    "value": "valid"
+   },
+   {
+    "oper": "DEF",
+    "check": "",
+    "action": "return",
+    "value": ""
+   }
+  ]
+ },
+ "height_mer": {
+  "check": "@height",
+  "dtype": "n",
+  "decisions": [
+   {
+    "oper": "LE",
+    "check": "30",
+    "action": "return",
+    "value": "valid"
+   },
+   {
+    "oper": "DEF",
+    "check": "",
+    "action": "return",
+    "value": ""
+   }
+  ]
+ },
+ "height_ind": {
+  "check": "@height",
+  "dtype": "n",
+  "decisions": [
+   {
+    "oper": "LE",
+    "check": "18",
+    "action": "return",
+    "value": "valid"
+   },
+   {
+    "oper": "DEF",
+    "check": "",
+    "action": "return",
+    "value": ""
+   }
+  ]
+ },
+ "height_sto": {
+  "check": "@height",
+  "dtype": "n",
+  "decisions": [
+   {
+    "oper": "LE",
+    "check": "45",
+    "action": "return",
+    "value": "valid"
+   },
+   {
+    "oper": "DEF",
+    "check": "",
+    "action": "return",
+    "value": ""
+   }
+  ]
+ },
+ "height_haz": {
+  "check": "@height",
+  "dtype": "n",
+  "decisions": [
+   {
+    "oper": "LE",
+    "check": "15",
+    "action": "return",
+    "value": "valid"
+   },
+   {
+    "oper": "DEF",
+    "check": "",
+    "action": "return",
+    "value": ""
+   }
+  ]
+ }
+}

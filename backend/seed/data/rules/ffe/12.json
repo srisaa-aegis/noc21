@@ -1,0 +1,760 @@
+{
+ "start": "types",
+ "types": {
+  "check": "@site_type",
+  "dtype": "s",
+  "decisions": [
+   {
+    "oper": "EQ",
+    "check": "res",
+    "action": "goto",
+    "value": "res"
+   },
+   {
+    "oper": "EQ",
+    "check": "edu",
+    "action": "goto",
+    "value": "edu"
+   },
+   {
+    "oper": "EQ",
+    "check": "ins",
+    "action": "goto",
+    "value": "ins"
+   },
+   {
+    "oper": "EQ",
+    "check": "asm",
+    "action": "goto",
+    "value": "asm"
+   },
+   {
+    "oper": "EQ",
+    "check": "biz",
+    "action": "goto",
+    "value": "biz"
+   },
+   {
+    "oper": "EQ",
+    "check": "mer",
+    "action": "goto",
+    "value": "mer"
+   },
+   {
+    "oper": "EQ",
+    "check": "ind",
+    "action": "goto",
+    "value": "ind"
+   },
+   {
+    "oper": "EQ",
+    "check": "sto",
+    "action": "goto",
+    "value": "sto"
+   },
+   {
+    "oper": "EQ",
+    "check": "haz",
+    "action": "goto",
+    "value": "haz"
+   },
+   {
+    "oper": "DEF",
+    "check": "",
+    "action": "return",
+    "value": ""
+   }
+  ]
+ },
+ "res": {
+  "check": "@site_stype",
+  "dtype": "s",
+  "decisions": [
+   {
+    "oper": "EQ",
+    "check": "A3",
+    "action": "goto",
+    "value": "a3a4"
+   },
+   {
+    "oper": "EQ",
+    "check": "A4",
+    "action": "goto",
+    "value": "a3a4"
+   },
+   {
+    "oper": "EQ",
+    "check": "A5",
+    "action": "goto",
+    "value": "a5"
+   },
+   {
+    "oper": "EQ",
+    "check": "A6",
+    "action": "return",
+    "value": "250000"
+   },
+   {
+    "oper": "DEF",
+    "check": "",
+    "action": "return",
+    "value": ""
+   }
+  ]
+ },
+ "a3a4": {
+  "check": "@height",
+  "dtype": "n",
+  "decisions": [
+   {
+    "oper": "BR",
+    "check": "35",
+    "check2": "45",
+    "action": "return",
+    "value": "75000"
+   },
+   {
+    "oper": "BR",
+    "check": "45",
+    "check2": "60",
+    "action": "return",
+    "value": "150000"
+   },
+   {
+    "oper": "GT",
+    "check": "60",
+    "action": "return",
+    "value": "200000"
+   },
+   {
+    "oper": "DEF",
+    "check": "",
+    "action": "return",
+    "value": ""
+   }
+  ]
+ },
+ "a5": {
+  "check": "@height",
+  "dtype": "n",
+  "decisions": [
+   {
+    "oper": "LE",
+    "check": "15",
+    "action": "goto",
+    "value": "a5_1"
+   },
+   {
+    "oper": "BR",
+    "check": "15",
+    "check2": "30",
+    "action": "return",
+    "value": "150000"
+   },
+   {
+    "oper": "GT",
+    "check": "30",
+    "action": "return",
+    "value": "200000"
+   },
+   {
+    "oper": "DEF",
+    "check": "",
+    "action": "return",
+    "value": ""
+   }
+  ]
+ },
+ "a5_1": {
+  "check": "@maxarea",
+  "dtype": "n",
+  "decisions": [
+   {
+    "oper": "BR",
+    "check": "300",
+    "check2": "1000",
+    "action": "return",
+    "value": "UT_A5"
+   },
+   {
+    "oper": "GT",
+    "check": "1000",
+    "action": "return",
+    "value": "100000"
+   },
+   {
+    "oper": "DEF",
+    "check": "",
+    "action": "return",
+    "value": ""
+   }
+  ]
+ },
+ "edu": {
+  "check": "@height",
+  "dtype": "n",
+  "decisions": [
+   {
+    "oper": "BR",
+    "check": "24",
+    "check2": "30",
+    "action": "return",
+    "value": "50000"
+   },
+   {
+    "oper": "DEF",
+    "check": "",
+    "action": "return",
+    "value": ""
+   }
+  ]
+ },
+ "ins": {
+  "check": "@site_stype",
+  "dtype": "s",
+  "decisions": [
+   {
+    "oper": "EQ",
+    "check": "C1",
+    "action": "goto",
+    "value": "c1"
+   },
+   {
+    "oper": "EQ",
+    "check": "C2",
+    "action": "goto",
+    "value": "c2c3"
+   },
+   {
+    "oper": "EQ",
+    "check": "C3",
+    "action": "goto",
+    "value": "c2c3"
+   },
+   {
+    "oper": "DEF",
+    "check": "",
+    "action": "return",
+    "value": ""
+   }
+  ]
+ },
+ "c1": {
+  "check": "@height",
+  "dtype": "n",
+  "decisions": [
+   {
+    "oper": "LE",
+    "check": "15",
+    "action": "goto",
+    "value": "c1_15"
+   },
+   {
+    "oper": "BR",
+    "check": "15",
+    "check2": "24",
+    "action": "return",
+    "value": "150000"
+   },
+   {
+    "oper": "BR",
+    "check": "24",
+    "check2": "45",
+    "action": "return",
+    "value": "200000"
+   },
+   {
+    "oper": "DEF",
+    "check": "",
+    "action": "return",
+    "value": ""
+   }
+  ]
+ },
+ "c1_15": {
+  "check": "@plot_area",
+  "dtype": "n",
+  "decisions": [
+   {
+    "oper": "LE",
+    "check": "1000",
+    "action": "goto",
+    "value": "c1_1000"
+   },
+   {
+    "oper": "GT",
+    "check": "1000",
+    "action": "return",
+    "value": "100000"
+   },
+   {
+    "oper": "DEF",
+    "check": "",
+    "action": "return",
+    "value": ""
+   }
+  ]
+ },
+ "c1_1000": {
+  "check": "@floors",
+  "dtype": "n",
+  "decisions": [
+   {
+    "oper": "GT",
+    "check": "2",
+    "action": "goto",
+    "value": "2_beds"
+   },
+   {
+    "oper": "DEF",
+    "check": "",
+    "action": "return",
+    "value": ""
+   }
+  ]
+ },
+ "2_beds": {
+  "check": "@beds",
+  "dtype": "s",
+  "decisions": [
+   {
+    "oper": "EQ",
+    "check": "N",
+    "action": "return",
+    "value": ""
+   },
+   {
+    "oper": "EQ",
+    "check": "Y",
+    "action": "return",
+    "value": "75000"
+   },
+   {
+    "oper": "DEF",
+    "check": "",
+    "action": "return",
+    "value": ""
+   }
+  ]
+ },
+ "asm": {
+  "check": "@site_stype",
+  "dtype": "s",
+  "decisions": [
+   {
+    "oper": "EQ",
+    "check": "D1",
+    "action": "goto",
+    "value": "d1-d5"
+   },
+   {
+    "oper": "EQ",
+    "check": "D2",
+    "action": "goto",
+    "value": "d1-d5"
+   },
+   {
+    "oper": "EQ",
+    "check": "D3",
+    "action": "goto",
+    "value": "d1-d5"
+   },
+   {
+    "oper": "EQ",
+    "check": "D4",
+    "action": "goto",
+    "value": "d1-d5"
+   },
+   {
+    "oper": "EQ",
+    "check": "D5",
+    "action": "goto",
+    "value": "d1-d5"
+   },
+   {
+    "oper": "EQ",
+    "check": "D6",
+    "action": "return",
+    "value": "200000"
+   },
+   {
+    "oper": "DEF",
+    "check": "",
+    "action": "return",
+    "value": ""
+   }
+  ]
+ },
+ "d1-d5": {
+  "check": "@height",
+  "dtype": "n",
+  "decisions": [
+   {
+    "oper": "BR",
+    "check": "10",
+    "check2": "15",
+    "action": "return",
+    "value": "100000"
+   },
+   {
+    "oper": "BR",
+    "check": "15",
+    "check2": "24",
+    "action": "return",
+    "value": "150000"
+   },
+   {
+    "oper": "BR",
+    "check": "24",
+    "check2": "30",
+    "action": "return",
+    "value": "200000"
+   },
+   {
+    "oper": "DEF",
+    "check": "",
+    "action": "return",
+    "value": ""
+   }
+  ]
+ },
+ "biz": {
+  "check": "@height",
+  "dtype": "n",
+  "decisions": [
+   {
+    "oper": "BR",
+    "check": "10",
+    "check2": "15",
+    "action": "return",
+    "value": "50000"
+   },
+   {
+    "oper": "BR",
+    "check": "15",
+    "check2": "24",
+    "action": "return",
+    "value": "100000"
+   },
+   {
+    "oper": "BR",
+    "check": "24",
+    "check2": "30",
+    "action": "return",
+    "value": "150000"
+   },
+   {
+    "oper": "GT",
+    "check": "30",
+    "action": "return",
+    "value": "200000"
+   },
+   {
+    "oper": "DEF",
+    "check": "",
+    "action": "return",
+    "value": ""
+   }
+  ]
+ },
+ "mer": {
+  "check": "@site_stype",
+  "dtype": "s",
+  "decisions": [
+   {
+    "oper": "EQ",
+    "check": "F1",
+    "action": "goto",
+    "value": "f1f2"
+   },
+   {
+    "oper": "EQ",
+    "check": "F2",
+    "action": "goto",
+    "value": "f1f2"
+   },
+   {
+    "oper": "EQ",
+    "check": "F3",
+    "action": "return",
+    "value": "150000"
+   },
+   {
+    "oper": "DEF",
+    "check": "",
+    "action": "return",
+    "value": ""
+   }
+  ]
+ },
+ "f1f2": {
+  "check": "@height",
+  "dtype": "n",
+  "decisions": [
+   {
+    "oper": "BR",
+    "check": "15",
+    "check2": "24",
+    "action": "return",
+    "value": "100000"
+   },
+   {
+    "oper": "BR",
+    "check": "24",
+    "check2": "30",
+    "action": "return",
+    "value": "200000"
+   },
+   {
+    "oper": "DEF",
+    "check": "",
+    "action": "return",
+    "value": ""
+   }
+  ]
+ },
+ "ind": {
+  "check": "@site_stype",
+  "dtype": "s",
+  "decisions": [
+   {
+    "oper": "EQ",
+    "check": "G1",
+    "action": "goto",
+    "value": "g1"
+   },
+   {
+    "oper": "EQ",
+    "check": "G2",
+    "action": "goto",
+    "value": "g2"
+   },
+   {
+    "oper": "EQ",
+    "check": "G3",
+    "action": "goto",
+    "value": "g3"
+   },
+   {
+    "oper": "DEF",
+    "check": "",
+    "action": "return",
+    "value": ""
+   }
+  ]
+ },
+ "g1": {
+  "check": "@maxarea",
+  "dtype": "n",
+  "decisions": [
+   {
+    "oper": "GT",
+    "check": "500",
+    "action": "goto",
+    "value": "g1_1"
+   },
+   {
+    "oper": "DEF",
+    "check": "",
+    "action": "return",
+    "value": ""
+   }
+  ]
+ },
+ "g1_1": {
+  "check": "@height",
+  "dtype": "n",
+  "decisions": [
+   {
+    "oper": "GT",
+    "check": "15",
+    "action": "return",
+    "value": "75000"
+   },
+   {
+    "oper": "DEF",
+    "check": "",
+    "action": "return",
+    "value": ""
+   }
+  ]
+ },
+ "g2": {
+  "check": "@maxarea",
+  "dtype": "n",
+  "decisions": [
+   {
+    "oper": "BR",
+    "check": "500",
+    "check2": "1000",
+    "action": "goto",
+    "value": "g2_1"
+   },
+   {
+    "oper": "GT",
+    "check": "1000",
+    "action": "return",
+    "value": "150000"
+   },
+   {
+    "oper": "DEF",
+    "check": "",
+    "action": "return",
+    "value": ""
+   }
+  ]
+ },
+ "g2_1": {
+  "check": "@height",
+  "dtype": "n",
+  "decisions": [
+   {
+    "oper": "GT",
+    "check": "15",
+    "action": "return",
+    "value": "100000"
+   },
+   {
+    "oper": "DEF",
+    "check": "",
+    "action": "return",
+    "value": ""
+   }
+  ]
+ },
+ "g3": {
+  "check": "@maxarea",
+  "dtype": "n",
+  "decisions": [
+   {
+    "oper": "BR",
+    "check": "150",
+    "check2": "300",
+    "action": "return",
+    "value": "50000"
+   },
+   {
+    "oper": "BR",
+    "check": "300",
+    "check2": "500",
+    "action": "return",
+    "value": "100000"
+   },
+   {
+    "oper": "GT",
+    "check": "500",
+    "action": "return",
+    "value": "150000"
+   },
+   {
+    "oper": "DEF",
+    "check": "",
+    "action": "return",
+    "value": ""
+   }
+  ]
+ },
+ "sto": {
+  "check": "@site_stype",
+  "dtype": "s",
+  "decisions": [
+   {
+    "oper": "EQ",
+    "check": "I1",
+    "action": "goto",
+    "value": "I1"
+   },
+   {
+    "oper": "EQ",
+    "check": "MLCP",
+    "action": "goto",
+    "value": "mlcp"
+   },
+   {
+    "oper": "DEF",
+    "check": "",
+    "action": "return",
+    "value": ""
+   }
+  ]
+ },
+ "I1": {
+  "check": "@cov_area",
+  "dtype": "n",
+  "decisions": [
+   {
+    "oper": "GT",
+    "check": "250",
+    "action": "goto",
+    "value": "h1_1"
+   },
+   {
+    "oper": "DEF",
+    "check": "",
+    "action": "return",
+    "value": ""
+   }
+  ]
+ },
+ "h1_1": {
+  "check": "@floors",
+  "dtype": "n",
+  "decisions": [
+   {
+    "oper": "EQ",
+    "check": "0",
+    "action": "return",
+    "value": "50000"
+   },
+   {
+    "oper": "EQ",
+    "check": "1",
+    "action": "return",
+    "value": "75000"
+   },
+   {
+    "oper": "GE",
+    "check": "2",
+    "action": "return",
+    "value": "100000"
+   },
+   {
+    "oper": "DEF",
+    "check": "",
+    "action": "return",
+    "value": ""
+   }
+  ]
+ },
+ "mlcp": {
+  "check": "@height",
+  "dtype": "n",
+  "decisions": [
+   {
+    "oper": "BR",
+    "check": "0",
+    "check2": "15",
+    "action": "return",
+    "value": "150000"
+   },
+   {
+    "oper": "DEF",
+    "check": "",
+    "action": "return",
+    "value": ""
+   }
+  ]
+ },
+ "haz": {
+  "check": "@floors",
+  "dtype": "n",
+  "decisions": [
+   {
+    "oper": "DEF",
+    "check": "",
+    "action": "return",
+    "value": "UG_240"
+   }
+  ]
+ }
+}

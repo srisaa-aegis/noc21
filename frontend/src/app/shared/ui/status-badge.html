@@ -1,0 +1,6 @@
+<span class="status-badge" [class]="presentation().className">
+  {{ presentation().label }}
+  @if (dateLabel()) {
+    <span class="status-badge__date">· {{ dateLabel() }}</span>
+  }
+</span>

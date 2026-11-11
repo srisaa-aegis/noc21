@@ -1,0 +1,38 @@
+[
+  {
+    "code": 1,
+    "desc": "Draft"
+  },
+  {
+    "code": 2,
+    "desc": "Submitted"
+  },
+  {
+    "code": 3,
+    "desc": "Inspected"
+  },
+  {
+    "code": 4,
+    "desc": "Reviewed (ADFS)"
+  },
+  {
+    "code": 5,
+    "desc": "Reviewed (DFS-CD)"
+  },
+  {
+    "code": 6,
+    "desc": "Pending Final Approval"
+  },
+  {
+    "code": 7,
+    "desc": "Approved / Issued"
+  },
+  {
+    "code": 8,
+    "desc": "Returned with Comments"
+  },
+  {
+    "code": 9,
+    "desc": "Rejected"
+  }
+]

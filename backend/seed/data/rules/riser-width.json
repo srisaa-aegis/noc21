@@ -1,0 +1,273 @@
+{
+ "start": "types",
+ "types": {
+  "check": "@site_type",
+  "dtype": "s",
+  "decisions": [
+   {
+    "oper": "EQ",
+    "check": "res",
+    "action": "goto",
+    "value": "res"
+   },
+   {
+    "oper": "EQ",
+    "check": "edu",
+    "action": "goto",
+    "value": "edu"
+   },
+   {
+    "oper": "EQ",
+    "check": "ins",
+    "action": "goto",
+    "value": "ins"
+   },
+   {
+    "oper": "EQ",
+    "check": "asm",
+    "action": "goto",
+    "value": "asm"
+   },
+   {
+    "oper": "EQ",
+    "check": "biz",
+    "action": "goto",
+    "value": "biz"
+   },
+   {
+    "oper": "EQ",
+    "check": "mer",
+    "action": "goto",
+    "value": "mer"
+   },
+   {
+    "oper": "EQ",
+    "check": "ind",
+    "action": "goto",
+    "value": "ind"
+   },
+   {
+    "oper": "EQ",
+    "check": "sto",
+    "action": "goto",
+    "value": "sto"
+   },
+   {
+    "oper": "EQ",
+    "check": "haz",
+    "action": "goto",
+    "value": "haz"
+   },
+   {
+    "oper": "DEF",
+    "check": "",
+    "action": "return",
+    "value": ""
+   }
+  ]
+ },
+ "res": {
+  "check": "@site_stype",
+  "dtype": "s",
+  "decisions": [
+   {
+    "oper": "EQ",
+    "check": "A3",
+    "action": "goto",
+    "value": "a3a4"
+   },
+   {
+    "oper": "EQ",
+    "check": "A4",
+    "action": "goto",
+    "value": "a3a4"
+   },
+   {
+    "oper": "EQ",
+    "check": "A5",
+    "action": "goto",
+    "value": "a5"
+   },
+   {
+    "oper": "EQ",
+    "check": "A6",
+    "action": "return",
+    "value": "Riser_150"
+   },
+   {
+    "oper": "DEF",
+    "check": "",
+    "action": "return",
+    "value": ""
+   }
+  ]
+ },
+ "a3a4": {
+  "check": "@height",
+  "dtype": "n",
+  "decisions": [
+   {
+    "oper": "DEF",
+    "check": "",
+    "action": "return",
+    "value": "Riser_100"
+   }
+  ]
+ },
+ "a5": {
+  "check": "@height",
+  "dtype": "n",
+  "decisions": [
+   {
+    "oper": "LE",
+    "check": "45",
+    "action": "return",
+    "value": "Riser_100"
+   },
+   {
+    "oper": "GT",
+    "check": "45",
+    "action": "return",
+    "value": "Riser_150"
+   },
+   {
+    "oper": "DEF",
+    "check": "",
+    "action": "return",
+    "value": ""
+   }
+  ]
+ },
+ "edu": {
+  "check": "@height",
+  "dtype": "n",
+  "decisions": [
+   {
+    "oper": "DEF",
+    "check": "",
+    "action": "return",
+    "value": "Riser_100"
+   }
+  ]
+ },
+ "ins": {
+  "check": "@height",
+  "dtype": "n",
+  "decisions": [
+   {
+    "oper": "LE",
+    "check": "30",
+    "action": "return",
+    "value": "Riser_100"
+   },
+   {
+    "oper": "GT",
+    "check": "30",
+    "action": "return",
+    "value": "Riser_150"
+   },
+   {
+    "oper": "DEF",
+    "check": "",
+    "action": "return",
+    "value": ""
+   }
+  ]
+ },
+ "asm": {
+  "check": "@site_stype",
+  "dtype": "s",
+  "decisions": [
+   {
+    "oper": "DEF",
+    "check": "",
+    "action": "return",
+    "value": "Riser_100"
+   }
+  ]
+ },
+ "biz": {
+  "check": "@height",
+  "dtype": "n",
+  "decisions": [
+   {
+    "oper": "LE",
+    "check": "45",
+    "action": "return",
+    "value": "Riser_100"
+   },
+   {
+    "oper": "GT",
+    "check": "45",
+    "action": "return",
+    "value": "Riser_150"
+   },
+   {
+    "oper": "DEF",
+    "check": "",
+    "action": "return",
+    "value": ""
+   }
+  ]
+ },
+ "mer": {
+  "check": "@site_stype",
+  "dtype": "s",
+  "decisions": [
+   {
+    "oper": "DEF",
+    "check": "",
+    "action": "return",
+    "value": "Riser_100"
+   }
+  ]
+ },
+ "ind": {
+  "check": "@height",
+  "dtype": "n",
+  "decisions": [
+   {
+    "oper": "LE",
+    "check": "15",
+    "action": "return",
+    "value": "Riser_100"
+   },
+   {
+    "oper": "GT",
+    "check": "15",
+    "action": "return",
+    "value": "Riser_150"
+   },
+   {
+    "oper": "DEF",
+    "check": "",
+    "action": "return",
+    "value": ""
+   }
+  ]
+ },
+ "sto": {
+  "check": "@site_stype",
+  "dtype": "s",
+  "decisions": [
+   {
+    "oper": "DEF",
+    "check": "",
+    "action": "return",
+    "value": "Riser_150"
+   }
+  ]
+ },
+ "haz": {
+  "check": "@site_type",
+  "dtype": "s",
+  "decisions": [
+   {
+    "oper": "DEF",
+    "check": "",
+    "action": "return",
+    "value": "Riser_150"
+   }
+  ]
+ }
+}

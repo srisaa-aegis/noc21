@@ -1,0 +1,237 @@
+<div class="page page--wide">
+  <a routerLink="/admin/workflows" class="back-link"><span class="back-link__icon"><app-icon name="arrow-right" size="14"></app-icon></span> All workflows</a>
+
+  @if (notFound()) {
+    <p class="empty-state">Workflow not found.</p>
+  } @else if (draft(); as d) {
+    <div class="page-header">
+      <div>
+        <p class="page-header__eyebrow">Admin · Workflow {{ d.code }}</p>
+        <h2>{{ d.name }}</h2>
+        <p class="muted">Version {{ d.version }} · updated {{ d.updated_on }} by {{ d.updated_by }}@if (dirty()) { · <strong class="unsaved">unsaved changes</strong> }</p>
+      </div>
+    </div>
+
+    <div class="editor">
+      <div class="editor__main">
+        <section class="card">
+          <div class="field">
+            <label class="field__label field__required" for="wf-name">Workflow name</label>
+            <input id="wf-name" class="input" [(ngModel)]="d.name" (ngModelChange)="touch()" />
+          </div>
+        </section>
+
+        @for (s of d.stages; track s.key; let i = $index; let last = $last) {
+          <section class="card stage" [class.stage--final]="last" [attr.aria-label]="'Stage ' + (i + 1)">
+            <header class="stage__head">
+              <span class="stage__num">{{ i + 1 }}</span>
+              <input class="input stage__name" [attr.aria-label]="'Name of stage ' + (i + 1)" [(ngModel)]="s.name" (ngModelChange)="touch()" />
+              @if (!last) {
+                <div class="stage__tools">
+                  <button type="button" class="btn btn--ghost btn--sm btn--icon" [disabled]="i === 0" (click)="moveStage(i, -1)" [attr.aria-label]="'Move stage ' + (i + 1) + ' up'" title="Move up">▲</button>
+                  <button type="button" class="btn btn--ghost btn--sm btn--icon" [disabled]="i >= d.stages.length - 2" (click)="moveStage(i, 1)" [attr.aria-label]="'Move stage ' + (i + 1) + ' down'" title="Move down">▼</button>
+                  <button type="button" class="btn btn--ghost btn--sm btn--icon" (click)="removeStage(i)" [attr.aria-label]="'Remove stage ' + (i + 1)" title="Remove stage"><app-icon name="trash" size="14"></app-icon></button>
+                </div>
+              } @else {
+                <span class="pinned"><app-icon name="shield" size="12"></app-icon> Final decision — always last</span>
+              }
+            </header>
+
+            <div class="stage__meta">
+              @if (!last) {
+                <div class="field">
+                  <label class="field__label" [for]="'lbl-' + s.key">Queue label once complete</label>
+                  <input class="input" [id]="'lbl-' + s.key" [(ngModel)]="s.stage_label" (ngModelChange)="touch()" />
+                </div>
+                <div class="field">
+                  <label class="field__label" [for]="'st-' + s.key">Citizen status once complete</label>
+                  <select class="select" [id]="'st-' + s.key" [(ngModel)]="s.citizen_status" (ngModelChange)="touch()">
+                    @for (st of statuses(); track st.id) {
+                      <option [ngValue]="st.id">{{ st.label }}</option>
+                    }
+                  </select>
+                </div>
+              } @else {
+                <p class="muted">The issuing authority approves (status 7, NOC issued), returns with remarks (8) or rejects (9). The signed copy of the NOC / letter must be uploaded.</p>
+              }
+              <span class="key">key: {{ s.key }}</span>
+            </div>
+
+            <div class="tasks">
+              @for (t of s.tasks; track t.key; let ti = $index) {
+                <div class="task">
+                  <div class="task__grid">
+                    <div class="field">
+                      <label class="field__label field__required" [for]="'tn-' + t.key">Task</label>
+                      <input class="input" [id]="'tn-' + t.key" [(ngModel)]="t.name" (ngModelChange)="touch()" placeholder="e.g. Inspection Report" />
+                    </div>
+                    <div class="field">
+                      <label class="field__label field__required" [for]="'tr-' + t.key">Performed by</label>
+                      <select class="select" [id]="'tr-' + t.key" [(ngModel)]="t.role_id" (ngModelChange)="touch()">
+                        <option value="">Select role…</option>
+                        @for (r of roles(); track r.id) {
+                          <option [ngValue]="r.id">{{ r.code }} — {{ r.name }}</option>
+                        }
+                      </select>
+                    </div>
+                    <div class="field">
+                      <label class="field__label field__required" [for]="'tf-' + t.key">Form</label>
+                      <select class="select" [id]="'tf-' + t.key" [(ngModel)]="t.form" (ngModelChange)="touch()">
+                        <option value="">Select form…</option>
+                        @for (f of last ? decisionForms() : taskForms(); track f.id) {
+                          <option [value]="f.id">{{ f.name }}</option>
+                        }
+                      </select>
+                    </div>
+                    <div class="field">
+                      <label class="field__label field__required" [for]="'ta-' + t.key">Dashboard button</label>
+                      <input class="input" [id]="'ta-' + t.key" [(ngModel)]="t.action_label" (ngModelChange)="touch()" placeholder="Review" />
+                    </div>
+                  </div>
+
+                  @if (!last) {
+                    <div class="task__flags">
+                      <label class="checkbox-row"><input type="checkbox" [(ngModel)]="t.optional" (ngModelChange)="touch()" /> Optional</label>
+                      <label class="checkbox-row"><input type="checkbox" [ngModel]="!!t.on_demand" (ngModelChange)="onDemandChanged(s, t, $event)" /> Only when ordered by the decision</label>
+                      <span class="sep"></span>
+                      <label class="checkbox-row"><input type="checkbox" [(ngModel)]="t.permissions.send_back" (ngModelChange)="touch()" /> May send back</label>
+                      <label class="checkbox-row"><input type="checkbox" [(ngModel)]="t.permissions.request_documents" (ngModelChange)="touch()" /> May request documents</label>
+                      <label class="checkbox-row"><input type="checkbox" [(ngModel)]="t.permissions.skippable" (ngModelChange)="touch()" /> Issuing authority may bypass</label>
+                      <label class="checkbox-row"><input type="checkbox" [(ngModel)]="t.permissions.reassignable" (ngModelChange)="touch()" /> Issuing authority may change officer</label>
+                      @if (s.tasks.length > 1) {
+                        <button type="button" class="btn btn--ghost btn--sm task__remove" (click)="removeTask(s, ti)"><app-icon name="trash" size="12"></app-icon> Remove task</button>
+                      }
+                    </div>
+                  } @else {
+                    <div class="task__flags">
+                      <label class="checkbox-row"><input type="checkbox" checked disabled /> Approve</label>
+                      <label class="checkbox-row"><input type="checkbox" checked disabled /> Return with remarks</label>
+                      <label class="checkbox-row"><input type="checkbox" checked disabled /> Reject</label>
+                      @for (o of optionalOutcomes; track o.id) {
+                        <label class="checkbox-row"><input type="checkbox" [ngModel]="hasOutcome(t, o.id)" (ngModelChange)="toggleOutcome(t, o.id, $event)" /> {{ o.label }}</label>
+                      }
+                      @if (hasOutcome(t, 'inspect') && t.decision) {
+                        <label class="inline-field">
+                          Inspection stage
+                          <select class="select" [(ngModel)]="t.decision.inspect_stage" (ngModelChange)="touch()" aria-label="Inspection stage">
+                            <option [ngValue]="undefined">Select…</option>
+                            @for (os of onDemandStages(); track os.key) {
+                              <option [ngValue]="os.key">{{ os.name }}</option>
+                            }
+                          </select>
+                        </label>
+                      }
+                      <span class="sep"></span>
+                      <label class="checkbox-row"><input type="checkbox" [(ngModel)]="t.permissions.send_back" (ngModelChange)="touch()" /> May send back</label>
+                      <label class="checkbox-row"><input type="checkbox" [(ngModel)]="t.permissions.request_documents" (ngModelChange)="touch()" /> May request documents</label>
+                    </div>
+                  }
+                  <span class="key">key: {{ t.key }}</span>
+                </div>
+              }
+              @if (!last) {
+                <button type="button" class="btn btn--ghost btn--sm" (click)="addTask(s)"><app-icon name="plus" size="14"></app-icon> Add a parallel task</button>
+              }
+            </div>
+          </section>
+          @if (i === d.stages.length - 2 || (d.stages.length === 1 && last)) {
+            <button type="button" class="btn btn--secondary add-stage" (click)="addStage()"><app-icon name="plus" size="16"></app-icon> Add a stage before the final decision</button>
+          }
+        }
+      </div>
+
+      <aside class="editor__side">
+        <section class="card side-card">
+          <h3>Validation</h3>
+          @if (problems().length) {
+            <ul class="problems" role="alert">
+              @for (p of problems(); track p) {
+                <li><app-icon name="alert-circle" size="12"></app-icon> {{ p }}</li>
+              }
+            </ul>
+          } @else {
+            <p class="ok-text"><app-icon name="check-circle" size="14"></app-icon> The workflow is valid.</p>
+          }
+        </section>
+
+        <section class="card side-card">
+          <h3>Flow</h3>
+          <ol class="flow">
+            @for (s of d.stages; track s.key; let i = $index) {
+              <li class="flow__stage" [class.is-final]="isFinal(i)" [class.is-ondemand]="s.tasks.length && s.tasks[0].on_demand">
+                <span class="flow__name">{{ i + 1 }}. {{ s.name }}</span>
+                <span class="flow__tasks">
+                  @for (t of s.tasks; track t.key) {
+                    <span class="chip" [class.chip--optional]="t.optional">{{ roleName(t.role_id) || '?' }} · {{ t.name || 'task' }}</span>
+                  }
+                </span>
+                @if (!isFinal(i)) {
+                  <span class="flow__status">→ status {{ s.citizen_status }} · “{{ s.stage_label }}”</span>
+                }
+              </li>
+            }
+          </ol>
+        </section>
+
+        <section class="card side-card">
+          <h3>Who would do what?</h3>
+          <div class="sim-inputs">
+            <select class="select" aria-label="District" [ngModel]="simDistrict()" (ngModelChange)="pickDistrict($event)">
+              @for (dist of data()?.districts ?? []; track dist.id) {
+                <option [ngValue]="dist.id">{{ dist.desc }}</option>
+              }
+            </select>
+            <select class="select" aria-label="Fire station" [ngModel]="simStation()" (ngModelChange)="simStation.set($event)">
+              @for (st of stations(); track st.id) {
+                <option [ngValue]="st.id">{{ st.name }}</option>
+              }
+            </select>
+          </div>
+          <table class="table sim">
+            <tbody>
+              @for (r of simulation(); track $index) {
+                <tr>
+                  <td><strong>{{ r.task || '—' }}</strong><div class="muted">{{ r.stage }} · {{ r.role }}</div></td>
+                  <td>
+                    @if (r.officers.length) {
+                      {{ r.officers[0] }}
+                    } @else {
+                      <span class="bad-text">Unassigned</span>
+                    }
+                    @if (r.warning) {
+                      <div class="warn">{{ r.warning }}</div>
+                    }
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </section>
+
+        <section class="card side-card">
+          <h3>Applications on this workflow</h3>
+          @if (usage().length === 0) {
+            <p class="muted">No application has used this workflow yet.</p>
+          } @else {
+            <ul class="usage">
+              @for (u of usage(); track u.version) {
+                <li><strong>v{{ u.version }}</strong> — {{ u.total }} application(s), {{ u.inProcess }} in process</li>
+              }
+            </ul>
+          }
+        </section>
+      </aside>
+    </div>
+
+    <div class="savebar">
+      <button type="button" class="btn btn--ghost" (click)="restoreDefault()"><app-icon name="refresh-cw" size="14"></app-icon> Restore default</button>
+      <span class="spacer"></span>
+      <button type="button" class="btn btn--ghost" [disabled]="!dirty()" (click)="discard()">Discard changes</button>
+      <button type="button" class="btn btn--primary" [disabled]="!dirty() || problems().length > 0 || saving()" (click)="save()">
+        <app-icon name="save" size="14"></app-icon> {{ saving() ? 'Saving…' : 'Save as version ' + (d.version + 1) }}
+      </button>
+    </div>
+  } @else {
+    <p class="empty-state">Loading workflow…</p>
+  }
+</div>

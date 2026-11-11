@@ -1,0 +1,7 @@
+[
+  { "role_name": "Builder", "required_for": ["P", "O", "R"] },
+  { "role_name": "Architect", "required_for": ["P", "O"] },
+  { "role_name": "Structural Engineer", "required_for": ["P", "O"] },
+  { "role_name": "Electrical Contractor", "required_for": [] },
+  { "role_name": "Fire Safety Systems Contractor", "required_for": ["O"] }
+]

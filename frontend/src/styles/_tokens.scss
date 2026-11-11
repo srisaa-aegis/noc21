@@ -1,0 +1,82 @@
+// ============================================================================
+// Design tokens — single source of truth for color/spacing/typography.
+// Replaces the legacy app's ad hoc Bootstrap-3 + inline-style palette.
+// ============================================================================
+
+:root {
+  // Brand (Fire Service identity: red/orange) -------------------------------
+  --brand-50: #fff4f0;
+  --brand-100: #ffe2d6;
+  --brand-300: #ff9d73;
+  --brand-500: #e8491d;
+  --brand-600: #c9380f;
+  --brand-700: #9c2c0c;
+  --brand-900: #5c1a08;
+
+  // Neutrals -----------------------------------------------------------------
+  --gray-0: #ffffff;
+  --gray-50: #f8f9fb;
+  --gray-100: #eef0f3;
+  --gray-200: #e1e4e9;
+  --gray-300: #c9cdd6;
+  --gray-400: #a3a9b7;
+  --gray-500: #7b8294;
+  --gray-600: #5b6274;
+  --gray-700: #404759;
+  --gray-800: #2a2f3d;
+  --gray-900: #171a22;
+
+  // Semantic status colors -----------------------------------------------
+  --status-draft-bg: #eef0f3;
+  --status-draft-fg: #5b6274;
+  --status-submitted-bg: #e8f0fe;
+  --status-submitted-fg: #1a4fb4;
+  --status-inspected-bg: #eef2ff;
+  --status-inspected-fg: #4338ca;
+  --status-review-bg: #f3e8fd;
+  --status-review-fg: #7421b8;
+  --status-pending-bg: #fff4e0;
+  --status-pending-fg: #a4650a;
+  --status-approved-bg: #e4f7ec;
+  --status-approved-fg: #0f8a47;
+  --status-returned-bg: #fff0e0;
+  --status-returned-fg: #c2540a;
+  --status-rejected-bg: #fdeaea;
+  --status-rejected-fg: #c62828;
+
+  // Surfaces & elevation -------------------------------------------------
+  --surface: var(--gray-0);
+  --surface-alt: var(--gray-50);
+  --border: var(--gray-200);
+  --shadow-sm: 0 1px 2px rgba(23, 26, 34, 0.06), 0 1px 1px rgba(23, 26, 34, 0.04);
+  --shadow-md: 0 4px 12px rgba(23, 26, 34, 0.08), 0 2px 4px rgba(23, 26, 34, 0.04);
+  --shadow-lg: 0 12px 32px rgba(23, 26, 34, 0.12), 0 4px 8px rgba(23, 26, 34, 0.06);
+
+  // Radius / spacing scale -------------------------------------------------
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-pill: 999px;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+
+  // Typography ---------------------------------------------------------------
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-md: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.375rem;
+  --font-size-2xl: 1.75rem;
+  --font-size-3xl: 2.25rem;
+
+  --header-height: 64px;
+  --sidebar-width: 248px;
+}

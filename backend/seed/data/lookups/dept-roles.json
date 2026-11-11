@@ -1,0 +1,11 @@
+[
+  {"id": 1, "code": "DG", "name": "Director General, Fire Services", "scope": "hq", "description": "Issuing authority for Head Office (MSB) Provisional and Occupancy NOCs."},
+  {"id": 2, "code": "DFS", "name": "Director of Fire Services", "scope": "hq", "description": "Reviews Head Office files; issuing authority for Head Office renewals and declarations."},
+  {"id": 3, "code": "DFSCD", "name": "Director of Fire Services (Civil Defence)", "scope": "hq", "description": "DFS-CD review note on Head Office files."},
+  {"id": 5, "code": "ADFS", "name": "Additional Director of Fire Services", "scope": "hq", "description": "ADFS review note on Head Office files."},
+  {"id": 6, "code": "DFO", "name": "District Fire Officer", "scope": "district", "description": "Chairman of the inspection committee (Head Office files), DFO note (Regional files), issuing authority for District files."},
+  {"id": 7, "code": "RFO", "name": "Regional Fire Officer", "scope": "region", "description": "RFO note on Head Office files; issuing authority for Regional files."},
+  {"id": 8, "code": "VIEW", "name": "Monitoring (read-only)", "scope": "hq", "description": "Sees every application and the reports; takes no workflow action."},
+  {"id": 9, "code": "SFO", "name": "Station Fire Officer", "scope": "station", "description": "Inspects Regional and District files; member of the inspection committee."},
+  {"id": 10, "code": "SEC", "name": "Section (Head Office scrutiny)", "scope": "hq", "description": "Scrutiny note (documents, plans, fees, bank guarantee) on Head Office files."}
+]

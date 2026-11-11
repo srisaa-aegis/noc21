@@ -1,0 +1,77 @@
+:host {
+  display: block;
+}
+
+.outcomes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
+}
+
+.outcome-btn {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  border-radius: var(--radius-pill);
+  padding: var(--space-2) var(--space-4);
+  font: inherit;
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  cursor: pointer;
+
+  &--approve.is-active {
+    background: var(--status-approved-bg);
+    border-color: var(--status-approved-fg);
+    color: var(--status-approved-fg);
+  }
+
+  &--return.is-active {
+    background: var(--status-returned-bg);
+    border-color: var(--status-returned-fg);
+    color: var(--status-returned-fg);
+  }
+
+  &--reject.is-active {
+    background: var(--status-rejected-bg);
+    border-color: var(--status-rejected-fg);
+    color: var(--status-rejected-fg);
+  }
+
+  &--inspect.is-active {
+    background: var(--status-pending-bg);
+    border-color: var(--status-pending-fg);
+    color: var(--status-pending-fg);
+  }
+}
+
+.problems {
+  margin: 0 0 var(--space-3);
+  padding-left: 18px;
+  color: var(--status-rejected-fg);
+  font-size: var(--font-size-sm);
+}
+
+.decision-actions {
+  margin-bottom: var(--space-4);
+}
+
+.preview {
+  border-top: 1px dashed var(--border);
+  padding-top: var(--space-4);
+
+  h4 {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin: 0 0 var(--space-3);
+  }
+}
+
+.preview__sheet {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--space-5);
+  background: var(--gray-0);
+  max-height: 640px;
+  overflow: auto;
+}

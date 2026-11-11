@@ -1,0 +1,755 @@
+[
+  {
+    "id": 1,
+    "stations": [
+      {
+        "id": 40,
+        "name": "Srikakulam"
+      },
+      {
+        "id": 44,
+        "name": "Tekkali"
+      },
+      {
+        "id": 42,
+        "name": "Sompeta"
+      },
+      {
+        "id": 48,
+        "name": "Rajam"
+      },
+      {
+        "id": 49,
+        "name": "Palakonda"
+      },
+      {
+        "id": 51,
+        "name": "Kothuru"
+      },
+      {
+        "id": 41,
+        "name": "Itchapuram"
+      },
+      {
+        "id": 50,
+        "name": "Amadalavalasa"
+      },
+      {
+        "id": 43,
+        "name": "Palasa"
+      },
+      {
+        "id": 45,
+        "name": "Kotabommali"
+      },
+      {
+        "id": 47,
+        "name": "Ranasthalam"
+      },
+      {
+        "id": 46,
+        "name": "Narasannapeta"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "stations": [
+      {
+        "id": 52,
+        "name": "Vizianagaram"
+      },
+      {
+        "id": 53,
+        "name": "Srungavarapukota"
+      },
+      {
+        "id": 60,
+        "name": "Paravathipuram"
+      },
+      {
+        "id": 54,
+        "name": "Bobbili"
+      },
+      {
+        "id": 55,
+        "name": "Saluru"
+      },
+      {
+        "id": 56,
+        "name": "Cheepurupalli"
+      },
+      {
+        "id": 57,
+        "name": "Gajapathinagaram"
+      },
+      {
+        "id": 58,
+        "name": "Kothavalasa"
+      },
+      {
+        "id": 59,
+        "name": "Gummalakshmipuram"
+      },
+      {
+        "id": 61,
+        "name": "Badangi"
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "stations": [
+      {
+        "id": 62,
+        "name": "Visakhapatnam"
+      },
+      {
+        "id": 64,
+        "name": "Pedagantyada"
+      },
+      {
+        "id": 67,
+        "name": "Anakapalli"
+      },
+      {
+        "id": 65,
+        "name": "Chittivalasa"
+      },
+      {
+        "id": 69,
+        "name": "Narsipatnam"
+      },
+      {
+        "id": 72,
+        "name": "Paderu"
+      },
+      {
+        "id": 68,
+        "name": "Yelamanchili"
+      },
+      {
+        "id": 71,
+        "name": "Chodavaram"
+      },
+      {
+        "id": 63,
+        "name": "Marripalem"
+      },
+      {
+        "id": 70,
+        "name": "Madugula"
+      },
+      {
+        "id": 66,
+        "name": "Parawada (Sabbavaram)"
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "stations": [
+      {
+        "id": 77,
+        "name": "Kakinada"
+      },
+      {
+        "id": 75,
+        "name": "Jagannaickpur"
+      },
+      {
+        "id": 81,
+        "name": "Peddapuram"
+      },
+      {
+        "id": 88,
+        "name": "Tuni"
+      },
+      {
+        "id": 84,
+        "name": "Rajahmundry"
+      },
+      {
+        "id": 86,
+        "name": "Ramachandrapuram"
+      },
+      {
+        "id": 73,
+        "name": "Amalapuram"
+      },
+      {
+        "id": 79,
+        "name": "Mandapeta"
+      },
+      {
+        "id": 83,
+        "name": "Prathipadu"
+      },
+      {
+        "id": 87,
+        "name": "Razole"
+      },
+      {
+        "id": 82,
+        "name": "Pittapuram"
+      },
+      {
+        "id": 74,
+        "name": "Anaparthi"
+      },
+      {
+        "id": 78,
+        "name": "Kothapeta"
+      },
+      {
+        "id": 80,
+        "name": "Mummidivaram"
+      },
+      {
+        "id": 85,
+        "name": "Rampachodavaram"
+      },
+      {
+        "id": 76,
+        "name": "Jaggampeta"
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "stations": [
+      {
+        "id": 94,
+        "name": "Tadepalligudem"
+      },
+      {
+        "id": 95,
+        "name": "Chintalapudi"
+      },
+      {
+        "id": 93,
+        "name": "Tanuku"
+      },
+      {
+        "id": 92,
+        "name": "Bheemavaram"
+      },
+      {
+        "id": 96,
+        "name": "Jangareddygudem"
+      },
+      {
+        "id": 89,
+        "name": "Eluru"
+      },
+      {
+        "id": 90,
+        "name": "Palakollu"
+      },
+      {
+        "id": 91,
+        "name": "Nidadhavolu"
+      },
+      {
+        "id": 97,
+        "name": "Kovvur"
+      },
+      {
+        "id": 98,
+        "name": "Narasapur"
+      },
+      {
+        "id": 99,
+        "name": "Bhimadole"
+      },
+      {
+        "id": 198,
+        "name": "Akivedu"
+      },
+      {
+        "id": 100,
+        "name": "Attili"
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "stations": [
+      {
+        "id": 106,
+        "name": "Machilipatnam"
+      },
+      {
+        "id": 26,
+        "name": "Gudivada"
+      },
+      {
+        "id": 23,
+        "name": "Avanigadda"
+      },
+      {
+        "id": 28,
+        "name": "Jaggaiahpet"
+      },
+      {
+        "id": 35,
+        "name": "Nuzivid"
+      },
+      {
+        "id": 19,
+        "name": "Vijayawada Town"
+      },
+      {
+        "id": 21,
+        "name": "Ajithsing nagar"
+      },
+      {
+        "id": 20,
+        "name": "Autonagar"
+      },
+      {
+        "id": 39,
+        "name": "Vuyyur"
+      },
+      {
+        "id": 22,
+        "name": "Kothapet"
+      },
+      {
+        "id": 37,
+        "name": "Tiruvuru"
+      },
+      {
+        "id": 30,
+        "name": "Kanchikacharla"
+      },
+      {
+        "id": 36,
+        "name": "Pamarru"
+      },
+      {
+        "id": 34,
+        "name": "Nandigama"
+      },
+      {
+        "id": 32,
+        "name": "Movva"
+      },
+      {
+        "id": 25,
+        "name": "Gannavaram"
+      },
+      {
+        "id": 31,
+        "name": "Mylavaram"
+      },
+      {
+        "id": 24,
+        "name": "Bantumilli"
+      },
+      {
+        "id": 38,
+        "name": "Vissannapet"
+      },
+      {
+        "id": 27,
+        "name": "Hanuman Junction"
+      },
+      {
+        "id": 29,
+        "name": "Kaikalur"
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "stations": [
+      {
+        "id": 111,
+        "name": "Guntur-I"
+      },
+      {
+        "id": 112,
+        "name": "Guntur-II"
+      },
+      {
+        "id": 120,
+        "name": "Tenali"
+      },
+      {
+        "id": 118,
+        "name": "Repalli"
+      },
+      {
+        "id": 115,
+        "name": "Narasaraopet"
+      },
+      {
+        "id": 109,
+        "name": "Bapatla"
+      },
+      {
+        "id": 117,
+        "name": "Ponnur"
+      },
+      {
+        "id": 121,
+        "name": "Vinukonda"
+      },
+      {
+        "id": 114,
+        "name": "Mangalagiri"
+      },
+      {
+        "id": 119,
+        "name": "Sattenapalli"
+      },
+      {
+        "id": 113,
+        "name": "Macherla"
+      },
+      {
+        "id": 116,
+        "name": "Piduguralla"
+      },
+      {
+        "id": 110,
+        "name": "Chilakaluripet"
+      }
+    ]
+  },
+  {
+    "id": 8,
+    "stations": [
+      {
+        "id": 131,
+        "name": "Ongole"
+      },
+      {
+        "id": 123,
+        "name": "Chirala"
+      },
+      {
+        "id": 127,
+        "name": "Kandukur"
+      },
+      {
+        "id": 130,
+        "name": "Markapur"
+      },
+      {
+        "id": 124,
+        "name": "Cumbum"
+      },
+      {
+        "id": 128,
+        "name": "Kanigiri"
+      },
+      {
+        "id": 132,
+        "name": "Tangutur"
+      },
+      {
+        "id": 126,
+        "name": "Giddalur"
+      },
+      {
+        "id": 133,
+        "name": "Yerragondapalem"
+      },
+      {
+        "id": 129,
+        "name": "Kondepi"
+      },
+      {
+        "id": 125,
+        "name": "Dornala"
+      },
+      {
+        "id": 122,
+        "name": "Addanki"
+      }
+    ]
+  },
+  {
+    "id": 9,
+    "stations": [
+      {
+        "id": 140,
+        "name": "Nellore "
+      },
+      {
+        "id": 136,
+        "name": "Kavali"
+      },
+      {
+        "id": 135,
+        "name": "Gudur"
+      },
+      {
+        "id": 134,
+        "name": "Atmakur"
+      },
+      {
+        "id": 146,
+        "name": "Venkatagiri"
+      },
+      {
+        "id": 139,
+        "name": "Naidupet"
+      },
+      {
+        "id": 143,
+        "name": "Sullurpet"
+      },
+      {
+        "id": 141,
+        "name": "Podalakur"
+      },
+      {
+        "id": 137,
+        "name": "Kota"
+      },
+      {
+        "id": 142,
+        "name": "Rapur"
+      },
+      {
+        "id": 144,
+        "name": "Udayagiri"
+      },
+      {
+        "id": 145,
+        "name": "Vinjamoor"
+      },
+      {
+        "id": 138,
+        "name": "Marripadu"
+      }
+    ]
+  },
+  {
+    "id": 10,
+    "stations": [
+      {
+        "id": 147,
+        "name": "Chittoor "
+      },
+      {
+        "id": 149,
+        "name": "Madanapalli"
+      },
+      {
+        "id": 158,
+        "name": "Srikalahasthi"
+      },
+      {
+        "id": 156,
+        "name": "Puttur"
+      },
+      {
+        "id": 153,
+        "name": "Palamaneru"
+      },
+      {
+        "id": 159,
+        "name": "Tirumala"
+      },
+      {
+        "id": 157,
+        "name": "Satyavedu"
+      },
+      {
+        "id": 148,
+        "name": "Kuppam"
+      },
+      {
+        "id": 154,
+        "name": "Piler"
+      },
+      {
+        "id": 155,
+        "name": "Punganoor"
+      },
+      {
+        "id": 160,
+        "name": "Thirupathi"
+      },
+      {
+        "id": 152,
+        "name": "Pakala"
+      },
+      {
+        "id": 150,
+        "name": "Mulakacheruvu"
+      },
+      {
+        "id": 161,
+        "name": "Vayalpadu"
+      },
+      {
+        "id": 151,
+        "name": "Nagari"
+      }
+    ]
+  },
+  {
+    "id": 11,
+    "stations": [
+      {
+        "id": 162,
+        "name": "Ananthapur "
+      },
+      {
+        "id": 165,
+        "name": "Hindupur"
+      },
+      {
+        "id": 164,
+        "name": "Gunthakal"
+      },
+      {
+        "id": 169,
+        "name": "Penukonda"
+      },
+      {
+        "id": 163,
+        "name": "Dharmavaram"
+      },
+      {
+        "id": 166,
+        "name": "Kadiri"
+      },
+      {
+        "id": 171,
+        "name": "Rayadurgam"
+      },
+      {
+        "id": 173,
+        "name": "Uravakonda"
+      },
+      {
+        "id": 167,
+        "name": "Kalyandurgam"
+      },
+      {
+        "id": 168,
+        "name": "Madakasira"
+      },
+      {
+        "id": 172,
+        "name": "Tadipatri"
+      },
+      {
+        "id": 170,
+        "name": "Puttaparthi"
+      }
+    ]
+  },
+  {
+    "id": 12,
+    "stations": [
+      {
+        "id": 176,
+        "name": "Kadapa"
+      },
+      {
+        "id": 184,
+        "name": "Rayachoti"
+      },
+      {
+        "id": 183,
+        "name": "Rajampeta"
+      },
+      {
+        "id": 175,
+        "name": "Jammalamadugu"
+      },
+      {
+        "id": 181,
+        "name": "Proddutur"
+      },
+      {
+        "id": 182,
+        "name": "Pulivendhula"
+      },
+      {
+        "id": 174,
+        "name": "Badwel"
+      },
+      {
+        "id": 177,
+        "name": "Kamalapuram"
+      },
+      {
+        "id": 185,
+        "name": "Rly. Kodur"
+      },
+      {
+        "id": 179,
+        "name": "Mydhukur"
+      },
+      {
+        "id": 180,
+        "name": "Porumamilla"
+      },
+      {
+        "id": 178,
+        "name": "Lakkireddypally"
+      }
+    ]
+  },
+  {
+    "id": 13,
+    "stations": [
+      {
+        "id": 193,
+        "name": "Kurnool"
+      },
+      {
+        "id": 189,
+        "name": "Athmakur"
+      },
+      {
+        "id": 186,
+        "name": "Adhoni"
+      },
+      {
+        "id": 194,
+        "name": "Nandhyala"
+      },
+      {
+        "id": 196,
+        "name": "Srisalam"
+      },
+      {
+        "id": 197,
+        "name": "Yemmiganur"
+      },
+      {
+        "id": 187,
+        "name": "Allagadda"
+      },
+      {
+        "id": 191,
+        "name": "Dronachalam"
+      },
+      {
+        "id": 190,
+        "name": "Banaganapalli"
+      },
+      {
+        "id": 192,
+        "name": "Kodumur"
+      },
+      {
+        "id": 188,
+        "name": "Alur"
+      },
+      {
+        "id": 195,
+        "name": "Pathikonda"
+      }
+    ]
+  }
+]

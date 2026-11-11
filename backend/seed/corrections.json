@@ -1,0 +1,20 @@
+{
+  "$comment": [
+    "Recorded corrections applied to the seed inputs. Every correction is printed by the seeder.",
+    "Decision N-1: the fire station with the non-numeric legacy id \"4Q\" (Kunavaram, East Godavari)",
+    "is dropped from the master list altogether, together with every reference to it, because all",
+    "primary keys are integers and the value is a data-entry error in the source data.",
+    "B3: the seed data moved to integer ids, and the station was removed from the JSON inputs themselves (lookups/fire-stations.json, auth/users.json). The entry is kept as the record of the decision; the seeder lists it."
+  ],
+  "fireStations": {
+    "drop": [
+      {
+        "legacyId": "4Q",
+        "name": "Kunavaram",
+        "district": 4,
+        "reason": "non-numeric legacy id; dropped on instruction (N-1)",
+        "applied": "removed from the seed inputs (B3)"
+      }
+    ]
+  }
+}

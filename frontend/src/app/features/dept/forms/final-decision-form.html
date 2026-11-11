@@ -1,0 +1,89 @@
+@let a = app();
+<p class="form-section__intro">Choose the decision; the remarks are printed on the NOC / letter. The signed scanned copy must be attached before submitting.</p>
+
+<div class="outcomes" role="radiogroup" aria-label="Decision">
+  @for (o of allowed(); track o) {
+    <button type="button" class="outcome-btn" [class.is-active]="outcome() === o" [class]="'outcome-btn outcome-btn--' + o" (click)="selectOutcome(o)">
+      {{ outcomeLabel(o) }}
+    </button>
+  }
+</div>
+
+@if (outcome() && outcome() !== 'inspect') {
+  <div class="form-grid">
+    <div class="field span-2">
+      <label class="field__label field__required" for="fd_remark">Remarks to the applicant</label>
+      <textarea id="fd_remark" class="textarea" [ngModel]="remark()" (ngModelChange)="remark.set($event)" placeholder="Printed on the NOC / letter (one bullet per line)."></textarea>
+    </div>
+    @if (needsValidity()) {
+      <div class="field">
+        <label class="field__label" for="fd_from">Valid from</label>
+        <input id="fd_from" class="input" type="date" [ngModel]="validFromIso()" (ngModelChange)="setValidFrom($event)" />
+      </div>
+      <div class="field">
+        <label class="field__label" for="fd_to">Valid to</label>
+        <input id="fd_to" class="input" type="date" [ngModel]="validToIso()" (ngModelChange)="setValidTo($event)" />
+        <span class="field__hint">Defaults to the renewal period of the file; you may override it.</span>
+      </div>
+    }
+    <div class="field span-2">
+      <label class="field__label" for="fd_remcomm">Remarks about the committee / officers' report (internal, not printed)</label>
+      <textarea id="fd_remcomm" class="textarea" [ngModel]="remComm()" (ngModelChange)="remComm.set($event)"></textarea>
+    </div>
+    <div class="field span-2">
+      <label class="field__label" for="fd_addcc">Additional "Copy to" (one per line)</label>
+      <textarea id="fd_addcc" class="textarea" [ngModel]="addcc()" (ngModelChange)="addcc.set($event)"></textarea>
+    </div>
+    <div class="field">
+      <label class="field__label field__required" for="fd_signed">Signed scanned NOC / letter (PDF)</label>
+      <input id="fd_signed" class="input" type="file" accept="application/pdf,.pdf" (change)="onUpload($event)" />
+      @if (uploading()) {
+        <span class="field__hint">Uploading…</span>
+      } @else if (signedDoc(); as doc) {
+        <span class="field__hint"><app-icon name="check-circle" size="12"></app-icon> {{ doc.file_name }} uploaded.</span>
+      }
+    </div>
+  </div>
+} @else if (outcome() === 'inspect') {
+  <div class="form-grid">
+    <div class="field span-2">
+      <label class="field__label" for="fd_remark_insp">Remarks for the inspecting officer (optional)</label>
+      <textarea id="fd_remark_insp" class="textarea" [ngModel]="remark()" (ngModelChange)="remark.set($event)"></textarea>
+    </div>
+  </div>
+  <p class="field__hint">An inspection will be ordered; you decide again once the report is submitted.</p>
+}
+
+@if (problems().length && outcome()) {
+  <ul class="problems">
+    @for (p of problems(); track p) {
+      <li>{{ p }}</li>
+    }
+  </ul>
+}
+
+<div class="decision-actions">
+  <button type="button" class="btn btn--primary" [disabled]="!outcome() || problems().length > 0 || submitting()" (click)="submit()">
+    <app-icon name="check" size="14"></app-icon> {{ submitting() ? 'Submitting…' : outcome() ? outcomeLabel(outcome()!) + ' and Submit' : 'Submit decision' }}
+  </button>
+</div>
+
+@if (outcome() && previewApp(); as p) {
+  <section class="preview">
+    <h4><app-icon name="eye" size="14"></app-icon> Live preview</h4>
+    <div class="preview__sheet">
+      @switch (outcome()) {
+        @case ('approve') {
+          @switch (a.appl_type) {
+            @case ('P') { <app-noc-provisional [app]="p" [lookups]="lookups()" [parent]="parent()"></app-noc-provisional> }
+            @case ('O') { <app-noc-occupancy [app]="p" [lookups]="lookups()" [parent]="parent()"></app-noc-occupancy> }
+            @case ('D') { <app-declaration-letter [app]="p" [lookups]="lookups()" [parent]="parent()"></app-declaration-letter> }
+            @default { <app-noc-renewal [app]="p" [lookups]="lookups()" [parent]="parent()"></app-noc-renewal> }
+          }
+        }
+        @case ('return') { <app-rejection-letter [app]="p" [lookups]="lookups()" [parent]="parent()"></app-rejection-letter> }
+        @case ('reject') { <app-rejection-letter [app]="p" [lookups]="lookups()" [parent]="parent()"></app-rejection-letter> }
+      }
+    </div>
+  </section>
+}

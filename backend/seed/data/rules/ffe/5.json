@@ -1,0 +1,767 @@
+{
+ "start": "types",
+ "types": {
+  "check": "@site_type",
+  "dtype": "s",
+  "decisions": [
+   {
+    "oper": "EQ",
+    "check": "res",
+    "action": "goto",
+    "value": "res"
+   },
+   {
+    "oper": "EQ",
+    "check": "edu",
+    "action": "goto",
+    "value": "edu"
+   },
+   {
+    "oper": "EQ",
+    "check": "ins",
+    "action": "goto",
+    "value": "ins"
+   },
+   {
+    "oper": "EQ",
+    "check": "asm",
+    "action": "goto",
+    "value": "asm"
+   },
+   {
+    "oper": "EQ",
+    "check": "biz",
+    "action": "goto",
+    "value": "biz"
+   },
+   {
+    "oper": "EQ",
+    "check": "mer",
+    "action": "goto",
+    "value": "mer"
+   },
+   {
+    "oper": "EQ",
+    "check": "ind",
+    "action": "goto",
+    "value": "ind"
+   },
+   {
+    "oper": "EQ",
+    "check": "sto",
+    "action": "goto",
+    "value": "sto"
+   },
+   {
+    "oper": "EQ",
+    "check": "haz",
+    "action": "goto",
+    "value": "haz"
+   },
+   {
+    "oper": "DEF",
+    "check": "",
+    "action": "return",
+    "value": ""
+   }
+  ]
+ },
+ "res": {
+  "check": "@site_stype",
+  "dtype": "s",
+  "decisions": [
+   {
+    "oper": "EQ",
+    "check": "A3",
+    "action": "goto",
+    "value": "a3a4"
+   },
+   {
+    "oper": "EQ",
+    "check": "A4",
+    "action": "goto",
+    "value": "a3a4"
+   },
+   {
+    "oper": "EQ",
+    "check": "A5",
+    "action": "goto",
+    "value": "chk_flrtype"
+   },
+   {
+    "oper": "EQ",
+    "check": "A6",
+    "action": "goto",
+    "value": "chk_flrtype"
+   },
+   {
+    "oper": "DEF",
+    "check": "",
+    "action": "return",
+    "value": ""
+   }
+  ]
+ },
+ "a3a4": {
+  "check": "@height",
+  "dtype": "n",
+  "decisions": [
+   {
+    "oper": "LE",
+    "check": "45",
+    "action": "goto",
+    "value": "calc_bsmt"
+   },
+   {
+    "oper": "GT",
+    "check": "45",
+    "action": "goto",
+    "value": "chk_flrtype"
+   },
+   {
+    "oper": "DEF",
+    "check": "",
+    "action": "return",
+    "value": ""
+   }
+  ]
+ },
+ "a5": {
+  "check": "@height",
+  "dtype": "n",
+  "decisions": [
+   {
+    "oper": "LE",
+    "check": "15",
+    "action": "goto",
+    "value": "a5_1"
+   },
+   {
+    "oper": "GT",
+    "check": "15",
+    "action": "goto",
+    "value": "chk_flrtype"
+   },
+   {
+    "oper": "DEF",
+    "check": "",
+    "action": "return",
+    "value": ""
+   }
+  ]
+ },
+ "a5_1": {
+  "check": "@maxarea",
+  "dtype": "n",
+  "decisions": [
+   {
+    "oper": "LE",
+    "check": "1000",
+    "action": "goto",
+    "value": "calc_bsmt"
+   },
+   {
+    "oper": "GT",
+    "check": "1000",
+    "action": "goto",
+    "value": "chk_flrtype"
+   },
+   {
+    "oper": "DEF",
+    "check": "",
+    "action": "return",
+    "value": ""
+   }
+  ]
+ },
+ "edu": {
+  "check": "@height",
+  "dtype": "n",
+  "decisions": [
+   {
+    "oper": "LE",
+    "check": "30",
+    "action": "goto",
+    "value": "calc_bsmt"
+   },
+   {
+    "oper": "DEF",
+    "check": "",
+    "action": "return",
+    "value": ""
+   }
+  ]
+ },
+ "ins": {
+  "check": "@site_stype",
+  "dtype": "s",
+  "decisions": [
+   {
+    "oper": "EQ",
+    "check": "C1",
+    "action": "goto",
+    "value": "c1"
+   },
+   {
+    "oper": "EQ",
+    "check": "C2",
+    "action": "goto",
+    "value": "chk_flrtype"
+   },
+   {
+    "oper": "EQ",
+    "check": "C3",
+    "action": "goto",
+    "value": "chk_flrtype"
+   },
+   {
+    "oper": "DEF",
+    "check": "",
+    "action": "return",
+    "value": ""
+   }
+  ]
+ },
+ "c1": {
+  "check": "@height",
+  "dtype": "n",
+  "decisions": [
+   {
+    "oper": "LE",
+    "check": "15",
+    "action": "goto",
+    "value": "c1_15"
+   },
+   {
+    "oper": "GT",
+    "check": "15",
+    "action": "goto",
+    "value": "chk_flrtype"
+   },
+   {
+    "oper": "DEF",
+    "check": "",
+    "action": "return",
+    "value": ""
+   }
+  ]
+ },
+ "c1_15": {
+  "check": "@plot_area",
+  "dtype": "n",
+  "decisions": [
+   {
+    "oper": "LE",
+    "check": "1000",
+    "action": "goto",
+    "value": "c1_1000"
+   },
+   {
+    "oper": "GT",
+    "check": "1000",
+    "action": "goto",
+    "value": "chk_flrtype"
+   },
+   {
+    "oper": "DEF",
+    "check": "",
+    "action": "return",
+    "value": ""
+   }
+  ]
+ },
+ "c1_1000": {
+  "check": "@floors",
+  "dtype": "n",
+  "decisions": [
+   {
+    "oper": "LE",
+    "check": "2",
+    "action": "goto",
+    "value": "calc_bsmt"
+   },
+   {
+    "oper": "GT",
+    "check": "2",
+    "action": "goto",
+    "value": "2_beds"
+   },
+   {
+    "oper": "DEF",
+    "check": "",
+    "action": "return",
+    "value": ""
+   }
+  ]
+ },
+ "2_beds": {
+  "check": "@beds",
+  "dtype": "s",
+  "decisions": [
+   {
+    "oper": "EQ",
+    "check": "N",
+    "action": "goto",
+    "value": "calc_bsmt"
+   },
+   {
+    "oper": "EQ",
+    "check": "Y",
+    "action": "goto",
+    "value": "chk_flrtype"
+   },
+   {
+    "oper": "DEF",
+    "check": "",
+    "action": "return",
+    "value": ""
+   }
+  ]
+ },
+ "asm": {
+  "check": "@site_stype",
+  "dtype": "s",
+  "decisions": [
+   {
+    "oper": "EQ",
+    "check": "D1",
+    "action": "goto",
+    "value": "d1-d5"
+   },
+   {
+    "oper": "EQ",
+    "check": "D2",
+    "action": "goto",
+    "value": "d1-d5"
+   },
+   {
+    "oper": "EQ",
+    "check": "D3",
+    "action": "goto",
+    "value": "d1-d5"
+   },
+   {
+    "oper": "EQ",
+    "check": "D4",
+    "action": "goto",
+    "value": "d1-d5"
+   },
+   {
+    "oper": "EQ",
+    "check": "D5",
+    "action": "goto",
+    "value": "d1-d5"
+   },
+   {
+    "oper": "EQ",
+    "check": "D6",
+    "action": "goto",
+    "value": "chk_flrtype"
+   },
+   {
+    "oper": "DEF",
+    "check": "",
+    "action": "return",
+    "value": ""
+   }
+  ]
+ },
+ "d1-d5": {
+  "check": "@height",
+  "dtype": "n",
+  "decisions": [
+   {
+    "oper": "LE",
+    "check": "15",
+    "action": "goto",
+    "value": "calc_bsmt"
+   },
+   {
+    "oper": "BR",
+    "check": "15",
+    "check2": "30",
+    "action": "goto",
+    "value": "chk_flrtype"
+   },
+   {
+    "oper": "DEF",
+    "check": "",
+    "action": "return",
+    "value": ""
+   }
+  ]
+ },
+ "biz": {
+  "check": "@height",
+  "dtype": "n",
+  "decisions": [
+   {
+    "oper": "LE",
+    "check": "15",
+    "action": "goto",
+    "value": "calc_bsmt"
+   },
+   {
+    "oper": "GT",
+    "check": "15",
+    "action": "goto",
+    "value": "chk_flrtype"
+   },
+   {
+    "oper": "DEF",
+    "check": "",
+    "action": "return",
+    "value": ""
+   }
+  ]
+ },
+ "mer": {
+  "check": "@site_stype",
+  "dtype": "s",
+  "decisions": [
+   {
+    "oper": "EQ",
+    "check": "F1",
+    "action": "goto",
+    "value": "f1f2"
+   },
+   {
+    "oper": "EQ",
+    "check": "F2",
+    "action": "goto",
+    "value": "f1f2"
+   },
+   {
+    "oper": "EQ",
+    "check": "F3",
+    "action": "goto",
+    "value": "chk_flrtype"
+   },
+   {
+    "oper": "DEF",
+    "check": "",
+    "action": "return",
+    "value": ""
+   }
+  ]
+ },
+ "f1f2": {
+  "check": "@height",
+  "dtype": "n",
+  "decisions": [
+   {
+    "oper": "LE",
+    "check": "15",
+    "action": "goto",
+    "value": "calc_bsmt"
+   },
+   {
+    "oper": "BR",
+    "check": "15",
+    "check2": "30",
+    "action": "goto",
+    "value": "chk_flrtype"
+   },
+   {
+    "oper": "DEF",
+    "check": "",
+    "action": "return",
+    "value": ""
+   }
+  ]
+ },
+ "ind": {
+  "check": "@site_stype",
+  "dtype": "s",
+  "decisions": [
+   {
+    "oper": "EQ",
+    "check": "G1",
+    "action": "goto",
+    "value": "g1"
+   },
+   {
+    "oper": "EQ",
+    "check": "G2",
+    "action": "goto",
+    "value": "g2"
+   },
+   {
+    "oper": "EQ",
+    "check": "G3",
+    "action": "goto",
+    "value": "g3"
+   },
+   {
+    "oper": "DEF",
+    "check": "",
+    "action": "return",
+    "value": ""
+   }
+  ]
+ },
+ "g1": {
+  "check": "@maxarea",
+  "dtype": "n",
+  "decisions": [
+   {
+    "oper": "DEF",
+    "check": "",
+    "action": "goto",
+    "value": "calc_bsmt"
+   }
+  ]
+ },
+ "g2": {
+  "check": "@maxarea",
+  "dtype": "n",
+  "decisions": [
+   {
+    "oper": "DEF",
+    "check": "",
+    "action": "goto",
+    "value": "chk_flrtype"
+   }
+  ]
+ },
+ "g3": {
+  "check": "@maxarea",
+  "dtype": "n",
+  "decisions": [
+   {
+    "oper": "DEF",
+    "check": "",
+    "action": "goto",
+    "value": "calc_all"
+   }
+  ]
+ },
+ "sto": {
+  "check": "@site_stype",
+  "dtype": "s",
+  "decisions": [
+   {
+    "oper": "EQ",
+    "check": "I1",
+    "action": "goto",
+    "value": "chk_flrtype"
+   },
+   {
+    "oper": "EQ",
+    "check": "MLCP",
+    "action": "goto",
+    "value": "chk_flrtype"
+   },
+   {
+    "oper": "DEF",
+    "check": "",
+    "action": "return",
+    "value": ""
+   }
+  ]
+ },
+ "haz": {
+  "check": "@floors",
+  "dtype": "n",
+  "decisions": [
+   {
+    "oper": "DEF",
+    "check": "",
+    "action": "goto",
+    "value": "calc_all"
+   }
+  ]
+ },
+ "calc_bsmt": {
+  "check": "@flr_type",
+  "dtype": "s",
+  "decisions": [
+   {
+    "oper": "EQ",
+    "check": "B",
+    "action": "goto",
+    "value": "basement"
+   },
+   {
+    "oper": "DEF",
+    "check": "",
+    "action": "return",
+    "value": ""
+   }
+  ]
+ },
+ "basement": {
+  "check": "@floor_area",
+  "dtype": "n",
+  "decisions": [
+   {
+    "oper": "GT",
+    "check": "200",
+    "action": "goto",
+    "value": "calc_moderate"
+   },
+   {
+    "oper": "DEF",
+    "check": "",
+    "action": "return",
+    "value": ""
+   }
+  ]
+ },
+ "floor": {
+  "check": "@floor_area",
+  "dtype": "n",
+  "decisions": [
+   {
+    "oper": "GT",
+    "check": "125",
+    "action": "goto",
+    "value": "calc_moderate"
+   },
+   {
+    "oper": "DEF",
+    "check": "",
+    "action": "return",
+    "value": ""
+   }
+  ]
+ },
+ "calc_moderate": {
+  "check": "@floors",
+  "dtype": "n",
+  "decisions": [
+   {
+    "oper": "DEF",
+    "check": "",
+    "action": "return",
+    "value": "D,floor_area,12"
+   }
+  ]
+ },
+ "chk_flrtype": {
+  "check": "@flr_type",
+  "dtype": "s",
+  "decisions": [
+   {
+    "oper": "EQ",
+    "check": "B",
+    "action": "goto",
+    "value": "calc_moderate"
+   },
+   {
+    "oper": "EQ",
+    "check": "F",
+    "action": "goto",
+    "value": "floor"
+   },
+   {
+    "oper": "EQ",
+    "check": "G",
+    "action": "goto",
+    "value": "floor"
+   },
+   {
+    "oper": "DEF",
+    "check": "",
+    "action": "goto",
+    "value": "calc_all"
+   }
+  ]
+ },
+ "calc_all": {
+  "check": "@site_type",
+  "dtype": "s",
+  "decisions": [
+   {
+    "oper": "EQ",
+    "check": "res",
+    "action": "return",
+    "value": "D,floor_area,21"
+   },
+   {
+    "oper": "EQ",
+    "check": "edu",
+    "action": "return",
+    "value": "D,floor_area,21"
+   },
+   {
+    "oper": "EQ",
+    "check": "ins",
+    "action": "return",
+    "value": "D,floor_area,21"
+   },
+   {
+    "oper": "EQ",
+    "check": "asm",
+    "action": "return",
+    "value": "D,floor_area,12"
+   },
+   {
+    "oper": "EQ",
+    "check": "biz",
+    "action": "return",
+    "value": "D,floor_area,21"
+   },
+   {
+    "oper": "EQ",
+    "check": "mer",
+    "action": "return",
+    "value": "D,floor_area,12"
+   },
+   {
+    "oper": "EQ",
+    "check": "ind",
+    "action": "goto",
+    "value": "calc_ind"
+   },
+   {
+    "oper": "EQ",
+    "check": "sto",
+    "action": "return",
+    "value": "D,floor_area,12"
+   },
+   {
+    "oper": "EQ",
+    "check": "haz",
+    "action": "return",
+    "value": "D,floor_area,9"
+   },
+   {
+    "oper": "DEF",
+    "check": "",
+    "action": "return",
+    "value": ""
+   }
+  ]
+ },
+ "calc_ind": {
+  "check": "@site_stype",
+  "dtype": "s",
+  "decisions": [
+   {
+    "oper": "EQ",
+    "check": "G1",
+    "action": "return",
+    "value": "D,floor_area,21"
+   },
+   {
+    "oper": "EQ",
+    "check": "G2",
+    "action": "return",
+    "value": "D,floor_area,12"
+   },
+   {
+    "oper": "EQ",
+    "check": "G3",
+    "action": "return",
+    "value": "D,floor_area,9"
+   },
+   {
+    "oper": "DEF",
+    "check": "",
+    "action": "return",
+    "value": ""
+   }
+  ]
+ }
+}

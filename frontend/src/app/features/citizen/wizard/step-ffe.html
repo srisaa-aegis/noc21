@@ -1,0 +1,79 @@
+@let l = store.lookups()!;
+
+<section class="form-section">
+  <h3>Fire Fighting Equipment</h3>
+  <p class="form-section__intro">
+    The minimum fire safety systems for each block are calculated from its occupancy, height, number of floors, floor areas, occupant
+    load, staircases and the plot perimeter, as per Table 7 of the National Building Code. Changes on earlier pages recalculate them
+    automatically.
+    @if (hasInputs()) {
+      Enter the quantities in the white boxes of the floor-wise table: for every floor, and in the <strong>Total / Building</strong> row for
+      building-level systems (tanks, pumps, risers, yard hydrants).
+    }
+  </p>
+</section>
+
+@if (block(); as b) {
+  <section class="form-section">
+    <div class="section-title">
+      <h3>Fire Safety Systems</h3>
+      @if (hasInputs()) {
+        <button type="button" class="btn btn--ghost btn--sm" (click)="openAdd()"><app-icon name="plus" size="14"></app-icon> Add Fire Fighting Equipment</button>
+      }
+    </div>
+
+    @if (blockErrors().length) {
+      <ul class="issue-list">
+        @for (e of blockErrors(); track e.field) { <li class="field__error">{{ e.message }}</li> }
+      </ul>
+    }
+    @if (blockWarnings().length) {
+      <ul class="issue-list">
+        @for (w of blockWarnings(); track w.field) { <li class="field__warning">{{ w.message }}</li> }
+      </ul>
+    }
+
+    <app-ffe-grid
+      [block]="b"
+      [columns]="columns()"
+      [equipments]="l.equipments"
+      [notes]="l.ffeNotes"
+      (changed)="store.touch()"
+      (removeItem)="store.removeAddedEquipment(b, $event)"
+    ></app-ffe-grid>
+
+    @if (needsConfirmation()) {
+      <label class="checkbox-row agree" [class.is-invalid]="store.fieldError('blocks.' + index() + '.ffe.agree_reqt')">
+        <input type="checkbox" [ngModel]="b.ffe.agree_reqt" (ngModelChange)="setAgree(b, $event)" />
+        <span><strong>I confirm that the construction shall adhere to the minimum quantities of the fire equipment specified above.</strong></span>
+      </label>
+    }
+  </section>
+}
+
+<section class="form-section table7">
+  <div class="section-title">
+    <p>The calculation of required Fire Fighting Equipment is governed by <strong>Table 7 of the NBC</strong> as amended from time to time.</p>
+    <button type="button" class="btn btn--ghost btn--sm" (click)="showTable7.set(!showTable7())">{{ showTable7() ? 'Hide' : 'Show' }} Table 7</button>
+  </div>
+  @if (showTable7() && table7(); as t) {
+    <div class="table7__body" [innerHTML]="t.html"></div>
+  }
+</section>
+
+@if (block(); as b) {
+  <app-modal [open]="adding()" title="Add Fire Fighting Equipment" (closed)="adding.set(false)">
+    <p>Select the additional fire fighting equipment provided in {{ b.block_name }}:</p>
+    <div class="equip-choices">
+      @for (e of addable(b); track e.id) {
+        <label class="checkbox-row"><input type="checkbox" [(ngModel)]="picked[e.id]" /> {{ e.desc }}</label>
+      } @empty {
+        <p>All fire fighting equipment types are already listed.</p>
+      }
+    </div>
+    <div modal-footer>
+      <button type="button" class="btn btn--ghost" (click)="adding.set(false)">Close</button>
+      <button type="button" class="btn btn--primary" (click)="confirmAdd(b)">Add</button>
+    </div>
+  </app-modal>
+}

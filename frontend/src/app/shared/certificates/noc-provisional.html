@@ -1,0 +1,173 @@
+@let a = app();
+@let l = lookups();
+<p class="lh">Government of Andhra Pradesh</p>
+<p class="lh">A.P. State Disaster Response and Fire Services Department</p>
+<p class="doc-title">@if (revised()) { Revised }Provisional Fire No Objection Certificate</p>
+
+<div class="addr-row">
+  <div>To<br />{{ a.lic_auth }},<br />{{ a.lic_addr }}</div>
+  <div>File No: {{ a.appl_number }}<br />Date: {{ issueDate() }}</div>
+</div>
+<div>Sir/Madam,</div>
+<table class="sub-ref">
+  <tr>
+    <td>Sub:</td>
+    <td>
+      Andhra Pradesh State Disaster Response and Fire Services Department - Issue of @if (revised()) { Revised }Provisional No Objection Certificate for the
+      Proposed Construction of {{ buildingClass() }} of <b>({{ a.site_name }})&nbsp;{{ a.build_name }}, {{ a.site_addr }}</b> - Regarding.
+    </td>
+  </tr>
+  <tr>
+    <td>Ref:</td>
+    <td>
+      <ol>
+        @if (revised()) { <li>Provisional NOC RC No : {{ parent()?.appl_number ?? '' }}</li> }
+        <li>Online Application Dt. {{ a.applied_date }} , {{ a.build_name }}, {{ a.site_addr }}</li>
+        <li>Online Inspection Report submitted by Officers of this Department on {{ inspectionDate() }}.</li>
+        @if (msb()) {
+          <li>
+            Setbacks for the High-rise buildings as per Home (Prisions &amp; Fire) Department Memo.No. 13165/2018-P&amp;F Dt.25-09-2018 and Circular Memo No.
+            MAU01-28029/67/2018-M SEC-MAUD (M2), Dt. 26-07-2018
+          </li>
+        }
+      </ol>
+    </td>
+  </tr>
+</table>
+<p class="para indent">
+  It is to inform that {{ a.build_name }} have applied for Provisional No Objection Certificate on {{ a.applied_date }} for proposed construction of
+  {{ buildingClass() }} for {{ a.site_name }} at {{ a.site_addr }}. The officers of the department have scrutinized the information, documents and plans
+  submitted by the applicant along with the undertaking provided by the applicant, and have submitted the following report.
+</p>
+
+@for (b of a.blocks; track b.block_id) {
+  <h3 class="block-name">{{ b.block_name }}</h3>
+  <div class="para">
+    2. The builder has proposed to construct a {{ buildingClass() }} with {{ fn.floorDisplay(b) }} with a height of {{ b.height }} Mtrs for {{ occupancy(b) }}
+    Occupancy (Category - {{ b.site_stype }}) in a total plot area of {{ a.plot_area }} sq. meters.
+  </div>
+
+  <div class="para">
+    3. The builder has proposed open spaces all around the building
+    <table class="bordered">
+      <thead>
+        <tr><th width="20%">Side</th><th width="25%">Open Space Required as per GO.Ms.No.119(APBR , 2017) of MA &amp; UD Dept</th><th width="25%">Open Space Proposed by the Builder</th><th width="30%">Remarks</th></tr>
+      </thead>
+      <tbody>
+        @for (o of b.ospaces; track o.ospace_id) {
+          <tr><td>{{ fn.directionName(o.direc) }}</td><td>{{ reqdOs(b, o.direc) }} Meters</td><td>{{ fixed(o.proposed) }} Meters</td><td>-Nil-</td></tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <div class="para">
+    4. The builder has proposed to provide following means of escape, as per clauses 4.4.2.4.3.2 and 4.4.2.4.3.4 , Part - IV NBC 2016
+    <table class="bordered">
+      <thead>
+        <tr>
+          <th width="5%">Sl</th><th width="40%">Details of Staircases</th><th width="15%">Required Nos / Meters as per NBC</th>
+          <th width="15%">Required based on Floor Area</th><th width="15%">Proposed Nos / Meters</th><th width="10%">Deficit</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (r of escapeRows; track r.code; let i = $index) {
+          @let pc = fn.proposedEscapeCount(b, r.code);
+          <tr>
+            <td>{{ i + 1 }}</td>
+            <td>{{ r.name }}</td>
+            <td>Min 1 No. - {{ minWidth(b, r.code) }} Meters {{ fn.reqdEscapeCount(b, r.code) > 1 ? 'Each' : '' }}</td>
+            <td>--</td>
+            <td>{{ pc }} {{ pc > 1 ? 'Nos.' : 'No.' }} - {{ fixed(fn.proposedEscapeWidth(b, r.code)) }} Meters {{ pc > 1 ? 'Each' : '' }}</td>
+            <td>-Nil-</td>
+          </tr>
+        }
+        <tr>
+          <td colspan="2">Total</td>
+          <td>{{ fn.totalStairsRequiredByNBC(b) }} Nos.</td>
+          <td>{{ fn.maxStairsByLoad(b) }} Meters</td>
+          <td>{{ fixed(fn.proposedEscapeCount(b, 'I') * fn.proposedEscapeWidth(b, 'I') + fn.proposedEscapeCount(b, 'E') * fn.proposedEscapeWidth(b, 'E')) }} Meters</td>
+          <td>-Nil-</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  @if (fn.proposedEscapeCount(b, 'I') < 1 || fn.proposedEscapeCount(b, 'E') < 1) {
+    <div class="para">
+      4. The builder has proposed to provide following Doorways / Level Components
+      <table class="bordered">
+        <thead><tr><th width="5%">Sl.</th><th width="25%">Description</th><th width="15%">Width (Mtrs)</th><th width="20%">Location</th></tr></thead>
+        <tbody>
+          @for (d of b.doors; track d.door_id; let i = $index) {
+            <tr><td>{{ i + 1 }}</td><td>{{ d.desc }}</td><td>{{ d.width }}</td><td>{{ fn.directionName(d.location) }}</td></tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+
+  <div class="para">
+    5. The builder has proposed to provide Occupant Load as per unit Exit width:
+    <table class="bordered">
+      <thead>
+        <tr>
+          <th>Sl</th><th>Floor</th><th>Built up area (Sq Mtrs)</th><th>Occupancy Type</th><th>No of Occupants as declared by the builder</th>
+          <th>No of Occupants as per NBC</th><th>Aggregate width of Staircases/Doors Required (Meters)</th><th>Aggregate width of Staircases/Doors Proposed(Meters)</th>
+          @if (a.delegation_level !== 'DFO') { <th>Fire Doors</th><th>Fire Lift</th> }
+          <th>Deficit</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (f of b.floors; track f.floor_id; let i = $index) {
+          <tr>
+            <td>{{ i + 1 }}</td><td>{{ f.flr_name }}</td><td>{{ f.built_area }}</td><td>{{ fn.floorOccuName(f.occ_type) }}@if (f.occ_type === 'ASM1' && f.seats_num) { (Seats: {{ f.seats_num }}) }</td>
+            <td>{{ f.occ_c_app }}</td><td>{{ fn.t20OccCount(f) || '--' }}</td><td>{{ fn.stairsByLoad(f) ?? '--' }}</td><td>{{ fn.floorEscapeWidth(b, f.floor_id) }}</td>
+            @if (a.delegation_level !== 'DFO') {
+              <td>{{ f.built_area > 0 ? fn.reqdEscapeCount(b, 'I') + fn.reqdEscapeCount(b, 'E') : '--' }}</td>
+              <td>{{ f.built_area > 0 ? b.lifts.length : '--' }}</td>
+            }
+            <td>-Nil-</td>
+          </tr>
+        }
+        <tr>
+          <td></td><td>Total</td><td>{{ fn.blockBuiltUp(b) }}</td><td></td><td>{{ fn.blockTotalOccLoad(b) }}</td><td>{{ fn.blockTotalNbcOccLoad(b) }}</td>
+          <td [attr.colspan]="a.delegation_level !== 'DFO' ? 5 : 3"></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="para">
+    6. The minimum Fire Fighting Installations required as per Table 7 of Part 4 of National Building Code of India 2016 are:
+    <app-ffe-grid [block]="b" [columns]="ffeCols()" [equipments]="l.equipments" [notes]="l.ffeNotes" [readonly]="true" [compact]="true" [titles]="false" variant="document" [showGrid]="false" [showNotes]="false"></app-ffe-grid>
+  </div>
+  <div class="para">
+    7. The builder has proposed to provide the following floorwise Fire Fighting installations as per Table 7 of Part - 4 of NBC of India 2016.
+    <app-ffe-grid [block]="b" [columns]="ffeCols()" [equipments]="l.equipments" [notes]="l.ffeNotes" [readonly]="true" [compact]="true" [titles]="false" variant="document" [showSummary]="false"></app-ffe-grid>
+  </div>
+}
+
+@if (firstBlock(); as b0) {
+  <div class="para">
+    8. The Officers of the department have recommended to issue The Provisional No Objection Certificate for the proposed construction of {{ msb() ? 'MSB' : 'Non MSB' }}
+    {{ b0.is_mixed ? 'Mixed Occupancy (' + typeName(b0.site_type) + ')' : typeName(b0.site_type) }} Building ({{ b0.site_stype }}) belonging to
+    <b>{{ a.build_name }} {{ a.site_addr }}</b>, subject to the following conditions.
+  </div>
+}
+
+<div class="terms" [innerHTML]="terms('P')"></div>
+
+<div class="para">
+  9. The following deficiencies are identified by the officers of the department and needs to be attended to by the management.
+  <pre class="deficiencies">{{ deficiencies() }}</pre>
+</div>
+<div class="para">
+  10. This Provisional No Objection Certificate is issued with the advice that the {{ buildingClass() }} should not be occupied and the operations shall not be
+  commenced without obtaining No Objection Certificate for Occupancy from this Department about the satisfactory installation of above fire safety measures.
+</div>
+@if (revised()) {
+  <div class="para">11. The Provisional No Objection Certificate is issued vide reference 1st cited is hereby cancelled.</div>
+}
+
+<app-letter-signature [fileNo]="a.appl_number" [lines]="signatory('P')" [copyTo]="copyTo('P')"></app-letter-signature>

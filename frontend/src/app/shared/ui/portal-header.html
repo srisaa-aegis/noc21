@@ -1,0 +1,51 @@
+<header class="portal-header">
+  <div class="portal-header__brand">
+    <app-icon name="building" size="22"></app-icon>
+    <div>
+      <p class="portal-header__eyebrow">NOC Portal</p>
+      <h1 class="portal-header__title">{{ portalLabel() }}</h1>
+    </div>
+  </div>
+
+  <nav class="portal-header__nav">
+    @for (link of navLinks(); track link.path) {
+      <a [routerLink]="link.path" routerLinkActive="is-active" class="portal-header__link">
+        <app-icon [name]="link.icon" size="16"></app-icon>
+        {{ link.label }}
+      </a>
+    }
+  </nav>
+
+  <div class="portal-header__user">
+    @if (session(); as s) {
+      <div class="user-menu">
+        <button
+          type="button"
+          class="user-menu__trigger"
+          aria-haspopup="menu"
+          [attr.aria-expanded]="menuOpen()"
+          aria-controls="user-menu"
+          (click)="toggleMenu($event)"
+        >
+          <span class="user-menu__avatar" aria-hidden="true">{{ initials() }}</span>
+          <span class="user-menu__name">{{ s.displayName }}</span>
+          <app-icon name="chevron-down" size="14" class="user-menu__caret" [class.is-open]="menuOpen()"></app-icon>
+        </button>
+        @if (menuOpen()) {
+          <div id="user-menu" class="user-menu__panel" role="menu">
+            <div class="user-menu__who">
+              <strong>{{ s.displayName }}</strong>
+              <span>{{ s.username }}</span>
+            </div>
+            <a role="menuitem" class="user-menu__item" [routerLink]="'/' + s.portal + '/change-password'" (click)="closeMenu()">
+              <app-icon name="key" size="14"></app-icon> Change password
+            </a>
+            <button type="button" role="menuitem" class="user-menu__item" (click)="logout()">
+              <app-icon name="logout" size="14"></app-icon> Logout
+            </button>
+          </div>
+        }
+      </div>
+    }
+  </div>
+</header>

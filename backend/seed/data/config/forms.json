@@ -1,0 +1,385 @@
+[
+ {
+  "id": "section_note",
+  "kind": "structured",
+  "name": "Section Note (scrutiny)",
+  "legacy": "section_note / section_note_o / section_note_r (print: reports/section_note*_print.html)",
+  "summary": "Applicant, licensing authority and committee details cross-checked; survey / revenue details; plan documents (P/O: 7 plans + signed by); fees due vs challan paid (+ challan slip OK); P only: 15 % bank guarantee and FFE estimate; deficiencies; submitter."
+ },
+ {
+  "id": "inspection_report",
+  "kind": "structured",
+  "name": "Inspection Report (Committee Chairman)",
+  "legacy": "dfo_report / dfo_report_o / dfo_report_r",
+  "summary": "Per block: discrepancies in the declared data; open spaces required vs proposed/provided with OK (Y/N) + remarks; means of escape (internal, external, total) OK + remarks; floors OK + remarks; fire fighting equipment OK + remarks; floor-wise FFE grid + comments; O: images remarks, PNOC conditions complied; R: documents remarks, specific conditions. Any other action; recommendation computed automatically (all observations OK → Recommend); remarks; inspection date.",
+  "inspection": true
+ },
+ {
+  "id": "committee_concurrence",
+  "kind": "structured",
+  "name": "Committee Member Concurrence",
+  "legacy": "dfo_others_o",
+  "summary": "After the chairman's report: 'I agree with the report submitted by the Chairman of the Inspection Committee' (Yes/No) + remarks.",
+  "inspection": true
+ },
+ {
+  "id": "rfo_note",
+  "kind": "structured",
+  "name": "RFO Note",
+  "legacy": "rfo_note / rfo_note_o / rfo_note_r",
+  "summary": "Per block: 1 occupancy, area, height; 2 NBC guidelines: open spaces required vs proposed + deficiency, staircases required vs proposed + deficiency, occupant load remarks, FFE required + deficiency (12 systems), other FFE; 3 approach road width per side (required / deficiency); 4 parking required vs proposed; 5 other applicable acts/rules; 6 points for the DGFS; 7 specific conditions complied; 8 recommendation (Recommend / Not recommend) + remarks. R variant: NBC rules, other action, other rules, points, agree with chairman's report, opinion."
+ },
+ {
+  "id": "final_decision",
+  "kind": "structured",
+  "name": "Final Decision (Issuing Authority)",
+  "legacy": "dgfs_note / dgfs_note_o / dfs_note_r",
+  "summary": "Decision (Approved / Returned with Remarks / Rejected / Inspection — Declarations only); remarks for the applicant (bulleted, printed on the NOC / letter); remarks about the committee report; additional 'Copy to'; Renewal: valid from / valid to; preview of the NOC or letter; upload of the signed scanned document (required to submit).",
+  "decision": true
+ },
+ {
+  "id": "adfs_note",
+  "kind": "questionnaire",
+  "name": "ADFS Note",
+  "legacy": "adfs_note / adfs_note_o",
+  "questions": [
+   {
+    "key": "adfs_nbc_rules",
+    "label": "1) Relevant applicable rules in the NBC guidelines",
+    "kind": "text",
+    "required": true
+   },
+   {
+    "key": "adfs_diff_opi",
+    "label": "2) Is there any difference of opinion between the DFO report and RFO's finding?",
+    "kind": "choice",
+    "options": [
+     {
+      "value": "1",
+      "label": "Yes"
+     },
+     {
+      "value": "0",
+      "label": "No"
+     }
+    ],
+    "required": true
+   },
+   {
+    "key": "adfs_what_diff",
+    "label": "If there is any difference of opinion, what do the Act / NBC guidelines say, and what is your view?",
+    "kind": "text",
+    "show_if": {
+     "adfs_diff_opi": "1"
+    },
+    "required": true
+   },
+   {
+    "key": "adfs_comm_norm",
+    "label": "Is the recommendation of the committee as per the norms?",
+    "kind": "choice",
+    "options": [
+     {
+      "value": "1",
+      "label": "Yes"
+     },
+     {
+      "value": "0",
+      "label": "No"
+     }
+    ],
+    "required": true
+   },
+   {
+    "key": "adfs_deficits",
+    "label": "3) Any deficiencies you have noticed in the entire proposal of the applicant, in implementation, and in the Committee's report? If yes, please explain.",
+    "kind": "text",
+    "required": true
+   },
+   {
+    "key": "remark",
+    "label": "4) Please specify your clear opinion with reasons",
+    "kind": "text",
+    "required": true
+   },
+   {
+    "key": "recommendation",
+    "label": "Recommendation",
+    "kind": "choice",
+    "options": [
+     {
+      "value": "Y",
+      "label": "Recommend issue"
+     },
+     {
+      "value": "N",
+      "label": "Do not recommend"
+     }
+    ],
+    "required": true
+   }
+  ]
+ },
+ {
+  "id": "dfscd_note",
+  "kind": "questionnaire",
+  "name": "DFS-CD Note",
+  "legacy": "dfscd_note / dfscd_note_o (same questions as the ADFS note; _r variant: committee verified installations / specific conditions)",
+  "questions": [
+   {
+    "key": "adfs_nbc_rules",
+    "label": "1) Relevant applicable rules in the NBC guidelines",
+    "kind": "text",
+    "required": true
+   },
+   {
+    "key": "adfs_diff_opi",
+    "label": "2) Is there any difference of opinion between the inspection committee report and RFO's finding?",
+    "kind": "choice",
+    "options": [
+     {
+      "value": "1",
+      "label": "Yes"
+     },
+     {
+      "value": "0",
+      "label": "No"
+     }
+    ],
+    "required": true
+   },
+   {
+    "key": "adfs_what_diff",
+    "label": "If there is any difference of opinion, what do the Act / NBC guidelines say, and what is your view?",
+    "kind": "text",
+    "show_if": {
+     "adfs_diff_opi": "1"
+    },
+    "required": true
+   },
+   {
+    "key": "adfs_comm_norm",
+    "label": "Is the recommendation of the committee as per the norms?",
+    "kind": "choice",
+    "options": [
+     {
+      "value": "1",
+      "label": "Yes"
+     },
+     {
+      "value": "0",
+      "label": "No"
+     }
+    ],
+    "required": true
+   },
+   {
+    "key": "adfs_deficits",
+    "label": "3) Any deficiencies you have noticed in the entire proposal of the applicant, in implementation, and in the Committee's report? If yes, please explain.",
+    "kind": "text",
+    "required": true
+   },
+   {
+    "key": "remark",
+    "label": "4) Please specify your clear opinion with reasons",
+    "kind": "text",
+    "required": true
+   },
+   {
+    "key": "recommendation",
+    "label": "Recommendation",
+    "kind": "choice",
+    "options": [
+     {
+      "value": "Y",
+      "label": "Recommend issue"
+     },
+     {
+      "value": "N",
+      "label": "Do not recommend"
+     }
+    ],
+    "required": true
+   }
+  ]
+ },
+ {
+  "id": "dfs_note",
+  "kind": "questionnaire",
+  "name": "DFS Note",
+  "legacy": "dfs_note / dfs_note_o",
+  "questions": [
+   {
+    "key": "dfs_plans_ok",
+    "label": "1) Are the plans fulfilling the requirements of the safety norms as prescribed in NBC?",
+    "kind": "choice",
+    "options": [
+     {
+      "value": "1",
+      "label": "Yes"
+     },
+     {
+      "value": "0",
+      "label": "No"
+     }
+    ],
+    "required": true
+   },
+   {
+    "key": "dfs_any_found",
+    "label": "Do you find any deficiencies in the proposal, implementation, committee's report or anywhere in the entire file?",
+    "kind": "choice",
+    "options": [
+     {
+      "value": "1",
+      "label": "Yes"
+     },
+     {
+      "value": "0",
+      "label": "No"
+     }
+    ],
+    "required": true
+   },
+   {
+    "key": "dfs_deficits",
+    "label": "Please elaborate the deficiencies found",
+    "kind": "text",
+    "show_if": {
+     "dfs_any_found": "1"
+    },
+    "required": true
+   },
+   {
+    "key": "dfs_agree_or",
+    "label": "2) Do you agree with the recommendation of the Committee, RFO and DFS-CD?",
+    "kind": "choice",
+    "options": [
+     {
+      "value": "1",
+      "label": "Yes, I agree"
+     },
+     {
+      "value": "0",
+      "label": "No, I do not agree"
+     }
+    ],
+    "required": true
+   },
+   {
+    "key": "dfs_no_agree",
+    "label": "Please elaborate why you do not agree",
+    "kind": "text",
+    "show_if": {
+     "dfs_agree_or": "0"
+    },
+    "required": true
+   },
+   {
+    "key": "dfs_section_ok",
+    "label": "3) Have you cross-checked the section remarks? Are all the requirements of the section fulfilled?",
+    "kind": "choice",
+    "options": [
+     {
+      "value": "1",
+      "label": "Yes"
+     },
+     {
+      "value": "0",
+      "label": "No"
+     }
+    ],
+    "required": true
+   },
+   {
+    "key": "dfs_section_nok",
+    "label": "Please elaborate the shortcomings",
+    "kind": "text",
+    "show_if": {
+     "dfs_section_ok": "0"
+    },
+    "required": true
+   },
+   {
+    "key": "remark",
+    "label": "4) Please specify your clear opinion with reasons",
+    "kind": "text",
+    "required": true
+   },
+   {
+    "key": "recommendation",
+    "label": "Recommendation",
+    "kind": "choice",
+    "options": [
+     {
+      "value": "Y",
+      "label": "Recommend issue"
+     },
+     {
+      "value": "N",
+      "label": "Do not recommend"
+     }
+    ],
+    "required": true
+   }
+  ]
+ },
+ {
+  "id": "dfo_note",
+  "kind": "questionnaire",
+  "name": "DFO Note (Regional applications)",
+  "legacy": "NEW — modelled on rfo_note_r (no legacy template for the district review of RFO-level files)",
+  "questions": [
+   {
+    "key": "nbc_rules",
+    "label": "1) Relevant applicable rules in the NBC / other guidelines",
+    "kind": "text",
+    "required": true
+   },
+   {
+    "key": "any_other",
+    "label": "2) Any other action to be taken by the owner / applicant?",
+    "kind": "text",
+    "required": true
+   },
+   {
+    "key": "agree_report",
+    "label": "3) Do you agree with the inspection report?",
+    "kind": "choice",
+    "options": [
+     {
+      "value": "1",
+      "label": "Yes"
+     },
+     {
+      "value": "0",
+      "label": "No"
+     }
+    ],
+    "required": true
+   },
+   {
+    "key": "remark",
+    "label": "4) Opinion of the officer regarding approval of the NOC",
+    "kind": "text",
+    "required": true
+   },
+   {
+    "key": "recommendation",
+    "label": "Recommendation",
+    "kind": "choice",
+    "options": [
+     {
+      "value": "Y",
+      "label": "Recommend issue"
+     },
+     {
+      "value": "N",
+      "label": "Do not recommend"
+     }
+    ],
+    "required": true
+   }
+  ]
+ }
+]

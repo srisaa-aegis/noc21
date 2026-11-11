@@ -1,0 +1,76 @@
+@let opts = store.lookups()!.blockOptions;
+
+@if (block(); as b) {
+  <section class="form-section">
+    <div class="section-title">
+      <h3>Floors</h3>
+      <span class="field__hint">{{ floorDisplay(b) || 'No floors' }} · Total built-up area <strong>{{ blockBuiltUp(b) }} sq.m</strong></span>
+    </div>
+    @if (err('floors'); as e) { <p class="field__error">{{ e }}</p> }
+    <div class="table-scroll">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Floor Type</th>
+            <th>Floor</th>
+            @if (showParent()) { <th class="num">Area as per PNOC</th><th class="num">Occupants as per PNOC (Table 20)</th><th class="num">Declared as per PNOC</th> }
+            <th class="num">Total Built-up Area (sq.m)</th>
+            <th>Occupancy Type</th>
+            <th class="num">Occupants (Table 20)</th>
+            <th class="num">Occupants declared</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (f of b.floors; track f.floor_id; let i = $index) {
+            <tr>
+              <td>
+                <select class="select" [attr.aria-label]="'Floor ' + (i + 1) + ' type'" [ngModel]="f.flr_type" (ngModelChange)="store.set(f, 'flr_type', $event)">
+                  @for (t of opts.floorTypes; track t.code) { <option [value]="t.code">{{ t.name }}</option> }
+                </select>
+              </td>
+              <td><input class="input" [attr.aria-label]="'Floor ' + (i + 1) + ' name'" [class.is-invalid]="err('floors.' + i + '.flr_name')" [ngModel]="f.flr_name" (ngModelChange)="store.set(f, 'flr_name', $event)" /></td>
+              @if (showParent()) {
+                <td class="num">{{ f.parent_built_area ?? '—' }}</td>
+                <td class="num">{{ t20O(f) }}</td>
+                <td class="num">{{ f.parent_occ_c_app ?? '—' }}</td>
+              }
+              <td class="num"><input class="input" type="number" min="0" [attr.aria-label]="'Floor ' + (i + 1) + ' area'" [class.is-invalid]="err('floors.' + i + '.built_area')" [ngModel]="f.built_area" (ngModelChange)="store.set(f, 'built_area', $event)" /></td>
+              <td>
+                <select class="select occ-select" [attr.aria-label]="'Floor ' + (i + 1) + ' occupancy'" [class.is-invalid]="err('floors.' + i + '.occ_type')" [ngModel]="f.occ_type" (ngModelChange)="store.set(f, 'occ_type', $event)">
+                  <option value="">Select…</option>
+                  @for (o of opts.floorOccupancies; track o.code) { <option [value]="o.code">{{ o.name }}</option> }
+                </select>
+                @if (f.occ_type === 'ASM1') {
+                  <input class="input seats" type="number" min="0" placeholder="Seats" [attr.aria-label]="'Floor ' + (i + 1) + ' seats'" [class.is-invalid]="err('floors.' + i + '.seats_num')" [ngModel]="f.seats_num" (ngModelChange)="store.set(f, 'seats_num', $event)" />
+                }
+              </td>
+              <td class="num computed">{{ t20(f) || '--' }}</td>
+              <td class="num"><input class="input" type="number" min="0" [attr.aria-label]="'Floor ' + (i + 1) + ' occupants'" [ngModel]="f.occ_c_app" (ngModelChange)="store.set(f, 'occ_c_app', $event)" /></td>
+              <td>
+                <button type="button" class="btn btn--ghost btn--sm btn--icon" [disabled]="b.floors.length <= 1" (click)="store.removeFloor(b, i)" [attr.aria-label]="'Remove floor ' + (i + 1)"><app-icon name="trash" size="14"></app-icon></button>
+              </td>
+            </tr>
+          }
+        </tbody>
+        <tfoot>
+          <tr>
+            <th colspan="2">Total</th>
+            @if (showParent()) {
+              <th class="num">{{ blockBuiltUpO(b) }}</th>
+              <th class="num">{{ blockTotalNbcOccLoadO(b) }}</th>
+              <th class="num">{{ blockTotalOccLoadO(b) }}</th>
+            }
+            <th class="num">{{ blockBuiltUp(b) }}</th>
+            <th></th>
+            <th class="num">{{ blockTotalNbcOccLoad(b) }}</th>
+            <th class="num">{{ blockTotalOccLoad(b) }}</th>
+            <th></th>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+    <button type="button" class="btn btn--ghost btn--sm" (click)="store.addFloor(b)"><app-icon name="plus" size="14"></app-icon> Add floor</button>
+  </section>
+}
+

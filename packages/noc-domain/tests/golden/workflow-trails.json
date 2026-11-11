@@ -1,0 +1,127 @@
+{
+ "P-MSB": {
+  "trail": [
+   "2|Submitted|section|section.hq",
+   "2|Submitted|inspection|dfo.visakhapatnam",
+   "2|Submitted|committee|sfo.officer",
+   "3|Inspected|rfo|rfo.officer",
+   "3|Reviewed by RFO|adfs|adfs.officer",
+   "4|Reviewed by ADFS|dfscd|dfscd.officer",
+   "5|Reviewed by DFS-CD|dfs|dfs.officer",
+   "6|Reviewed by DFS|decision|dg.officer",
+   "7|Approved|-|-",
+   "7|Approved|completed"
+  ],
+  "tasks": 8
+ },
+ "P-RFO": {
+  "trail": [
+   "2|Submitted|inspection|sfo.officer",
+   "3|Inspected|dfo|dfo.visakhapatnam",
+   "6|Reviewed by DFO|decision|rfo.officer",
+   "7|Approved|-|-",
+   "7|Approved|completed"
+  ],
+  "tasks": 3
+ },
+ "P-DFO": {
+  "trail": [
+   "2|Submitted|inspection|sfo.officer",
+   "6|Inspected|decision|dfo.visakhapatnam",
+   "7|Approved|-|-",
+   "7|Approved|completed"
+  ],
+  "tasks": 2
+ },
+ "O-MSB": {
+  "trail": [
+   "2|Submitted|section|section.hq",
+   "2|Submitted|inspection|dfo.visakhapatnam",
+   "2|Submitted|committee|sfo.officer",
+   "3|Inspected|rfo|rfo.officer",
+   "3|Reviewed by RFO|adfs|adfs.officer",
+   "4|Reviewed by ADFS|dfscd|dfscd.officer",
+   "5|Reviewed by DFS-CD|dfs|dfs.officer",
+   "6|Reviewed by DFS|decision|dg.officer",
+   "7|Approved|-|-",
+   "7|Approved|completed"
+  ],
+  "tasks": 8
+ },
+ "O-RFO": {
+  "trail": [
+   "2|Submitted|inspection|sfo.officer",
+   "3|Inspected|dfo|dfo.visakhapatnam",
+   "6|Reviewed by DFO|decision|rfo.officer",
+   "7|Approved|-|-",
+   "7|Approved|completed"
+  ],
+  "tasks": 3
+ },
+ "O-DFO": {
+  "trail": [
+   "2|Submitted|inspection|sfo.officer",
+   "6|Inspected|decision|dfo.visakhapatnam",
+   "7|Approved|-|-",
+   "7|Approved|completed"
+  ],
+  "tasks": 2
+ },
+ "R-MSB": {
+  "trail": [
+   "2|Submitted|section|section.hq",
+   "2|Submitted|inspection|dfo.visakhapatnam",
+   "2|Submitted|committee|sfo.officer",
+   "3|Inspected|rfo|rfo.officer",
+   "4|Reviewed by RFO / Renewal Inspected|adfs|adfs.officer",
+   "5|Reviewed by ADFS|dfscd|dfscd.officer",
+   "6|Reviewed by DFS-CD|decision|dfs.officer",
+   "7|Approved|-|-",
+   "7|Approved|completed"
+  ],
+  "tasks": 7
+ },
+ "R-RFO": {
+  "trail": [
+   "2|Submitted|inspection|sfo.officer",
+   "3|Inspected|dfo|dfo.visakhapatnam",
+   "6|Reviewed by DFO|decision|rfo.officer",
+   "7|Approved|-|-",
+   "7|Approved|completed"
+  ],
+  "tasks": 3
+ },
+ "R-DFO": {
+  "trail": [
+   "2|Submitted|inspection|sfo.officer",
+   "6|Inspected|decision|dfo.visakhapatnam",
+   "7|Approved|-|-",
+   "7|Approved|completed"
+  ],
+  "tasks": 2
+ },
+ "D-MSB": {
+  "trail": [
+   "2|Submitted|decision|dfs.officer",
+   "7|Approved|-|-",
+   "7|Approved|completed"
+  ],
+  "tasks": 3
+ },
+ "D-RFO": {
+  "trail": [
+   "2|Submitted|decision|rfo.officer",
+   "7|Approved|-|-",
+   "7|Approved|completed"
+  ],
+  "tasks": 2
+ },
+ "D-DFO": {
+  "trail": [
+   "2|Submitted|decision|dfo.visakhapatnam",
+   "7|Approved|-|-",
+   "7|Approved|completed"
+  ],
+  "tasks": 2
+ }
+}

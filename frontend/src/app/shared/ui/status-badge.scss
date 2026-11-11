@@ -1,0 +1,48 @@
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: 2px var(--space-3);
+  border-radius: var(--radius-pill);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.status-badge__date {
+  font-weight: 400;
+  opacity: 0.85;
+}
+
+.status--draft {
+  background: var(--status-draft-bg);
+  color: var(--status-draft-fg);
+}
+.status--submitted {
+  background: var(--status-submitted-bg);
+  color: var(--status-submitted-fg);
+}
+.status--inspected {
+  background: var(--status-inspected-bg);
+  color: var(--status-inspected-fg);
+}
+.status--review {
+  background: var(--status-review-bg);
+  color: var(--status-review-fg);
+}
+.status--pending {
+  background: var(--status-pending-bg);
+  color: var(--status-pending-fg);
+}
+.status--approved {
+  background: var(--status-approved-bg);
+  color: var(--status-approved-fg);
+}
+.status--returned {
+  background: var(--status-returned-bg);
+  color: var(--status-returned-fg);
+}
+.status--rejected {
+  background: var(--status-rejected-bg);
+  color: var(--status-rejected-fg);
+}

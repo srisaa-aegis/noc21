@@ -1,0 +1,42 @@
+@if (dialog.state(); as state) {
+  <div
+    class="dialog-backdrop"
+    role="presentation"
+    (click)="dialog.respond(false)"
+    (keydown.escape)="dialog.respond(false)"
+  >
+    <div
+      class="dialog"
+      role="dialog"
+      aria-modal="true"
+      tabindex="-1"
+      [attr.aria-label]="state.title"
+      (click)="$event.stopPropagation()"
+      (keydown.escape)="dialog.respond(false)"
+    >
+      <h3 class="dialog__title">{{ state.title }}</h3>
+      <div class="dialog__body">
+        @if (state.message) {
+          <p>{{ state.message }}</p>
+        }
+        @if (state.items?.length) {
+          <ol class="dialog__list">
+            @for (item of state.items; track item) {
+              <li>{{ item }}</li>
+            }
+          </ol>
+        }
+      </div>
+      <div class="dialog__actions">
+        @if (!state.infoOnly) {
+          <button type="button" class="btn btn--ghost" (click)="dialog.respond(false)">
+            {{ state.cancelText ?? 'Cancel' }}
+          </button>
+        }
+        <button type="button" class="btn btn--primary" (click)="dialog.respond(true)">
+          {{ state.confirmText ?? 'OK' }}
+        </button>
+      </div>
+    </div>
+  </div>
+}

@@ -1,0 +1,406 @@
+<div class="page">
+  <a routerLink="/dept/dashboard" class="back-link">
+    <span class="back-link__icon"><app-icon name="arrow-right" size="14"></app-icon></span>
+    Back to the dashboard
+  </a>
+
+  @if (loading()) {
+    <p class="empty-state">Loading application…</p>
+  } @else if (notFound() || !app()) {
+    <p class="empty-state">Application not found.</p>
+  } @else {
+    @let a = app()!;
+    <div class="page-header">
+      <div>
+        <p class="page-header__eyebrow"><app-appl-type-badge [applType]="a.appl_type"></app-appl-type-badge></p>
+        <h2>{{ a.site_name }}</h2>
+        <p class="muted-line">{{ a.appl_number }}@if (a.revision > 1) { · revision {{ a.revision }} } · {{ a.dist_name }} / {{ stationName() }} · {{ levelName(a) }}</p>
+      </div>
+      <div class="header-side">
+        <app-status-badge [statusId]="a.status_id" [dateLabel]="a.final_date || a.applied_date"></app-status-badge>
+        @if (a.stage_label) {
+          <span class="stage-label">{{ a.stage_label }}</span>
+        }
+        @if (processing(); as p) {
+          <span class="sla" [class.sla--bad]="p.overdue" [class.sla--done]="p.complete">
+            <app-icon name="clock" size="12"></app-icon>
+            @if (p.complete) {
+              Processed in {{ p.days }} days
+            } @else {
+              Day {{ p.days }} of {{ p.sla ?? '—' }}
+            }
+          </span>
+        }
+      </div>
+    </div>
+
+    <div class="quick-actions no-print">
+      @if (canChangeFireStation()) {
+        <button type="button" class="btn btn--ghost btn--sm" (click)="openModal('fire_station')"><app-icon name="building" size="14"></app-icon> Change fire station</button>
+      }
+      @if (canUpdateLicAuth()) {
+        <button type="button" class="btn btn--ghost btn--sm" (click)="openModal('lic_auth')"><app-icon name="edit" size="14"></app-icon> Update licensing authority</button>
+      }
+      @if (canUploadOrSms()) {
+        <button type="button" class="btn btn--ghost btn--sm" (click)="openModal('upload_doc')"><app-icon name="upload" size="14"></app-icon> Upload document</button>
+        <button type="button" class="btn btn--ghost btn--sm" (click)="openModal('sms')"><app-icon name="bell" size="14"></app-icon> Send SMS</button>
+      }
+    </div>
+
+    @if (processing()?.overdue) {
+      <div class="banner banner--warning">
+        <app-icon name="alert-triangle" size="16"></app-icon>
+        The processing SLA has been exceeded — the issuing authority can only approve or reject this application (no return).
+      </div>
+    }
+
+    @if (myOpenTasks().length) {
+      <section class="card my-task">
+        @if (myOpenTasks().length > 1) {
+          <div class="task-switch" role="tablist" aria-label="Your open tasks">
+            @for (t of myOpenTasks(); track t.task.task_id) {
+              <button type="button" role="tab" class="chip" [class.is-active]="isSelectedTask(t.task.task_id)" (click)="selectTask(t.task.task_id)">{{ t.task.name }}</button>
+            }
+          </div>
+        }
+        @if (selected(); as sel) {
+          <div class="my-task__head">
+            <app-icon name="clipboard-list" size="18"></app-icon>
+            <div>
+              <strong>Your task: {{ sel.task.name }}</strong>
+              <span class="muted">pending since {{ sel.task.start_date }} ({{ sel.days }} of {{ sel.sla }} days) — {{ sel.formName }}</span>
+            </div>
+          </div>
+
+          @if (isDecisionTask()) {
+            <app-final-decision-form
+              [app]="a"
+              [taskId]="sel.task.task_id"
+              [lookups]="lookups()!"
+              [parent]="parent()"
+              [allowed]="allowedDecisionOutcomes()"
+              [submitting]="submitting()"
+              (decided)="onDecide($event)"
+            ></app-final-decision-form>
+          } @else if (taskData()) {
+            @if (challanCheck()) {
+              <label class="checkbox-row challan-check">
+                <input type="checkbox" [checked]="taskData()![challanField] === 'Y'" (change)="setChallanVerified($any($event.target).checked)" />
+                <span>
+                  <strong>Challan verified</strong> — the fee was paid by bank challan ({{ a.payment.challan_num }}, {{ a.payment.challan_date }},
+                  {{ a.payment.challan_bnk }}); I have checked the challan against the bank record.
+                </span>
+              </label>
+            }
+            @switch (selectedForm()?.id) {
+              @case ('section_note') {
+                <app-section-note-form [data]="sectionNoteData()" [app]="a" (changed)="onFormChanged()"></app-section-note-form>
+              }
+              @case ('inspection_report') {
+                <app-inspection-report-form [data]="inspectionReportData()" [app]="a" (changed)="onFormChanged()"></app-inspection-report-form>
+              }
+              @case ('committee_concurrence') {
+                <app-committee-concurrence-form [data]="committeeConcurrenceData()" (changed)="onFormChanged()"></app-committee-concurrence-form>
+              }
+              @case ('rfo_note') {
+                <app-rfo-note-form [data]="rfoNoteData()" (changed)="onFormChanged()"></app-rfo-note-form>
+              }
+              @default {
+                @if (selectedForm(); as f) {
+                  <app-questionnaire-form [form]="f" [data]="questionnaireData()" (changed)="onFormChanged()"></app-questionnaire-form>
+                }
+              }
+            }
+
+            @if (problems().length) {
+              <ul class="problems">
+                @for (p of problems(); track p) {
+                  <li>{{ p }}</li>
+                }
+              </ul>
+            }
+
+            <div class="task-actions">
+              <button type="button" class="btn btn--ghost" [disabled]="saving()" (click)="saveDraft()"><app-icon name="save" size="14"></app-icon> {{ saving() ? 'Saving…' : 'Save draft' }}</button>
+              @if (canSendBack()) {
+                <button type="button" class="btn btn--secondary" (click)="openModal('sendback')"><app-icon name="refresh-cw" size="14"></app-icon> Send back</button>
+              }
+              <span class="spacer"></span>
+              <button type="button" class="btn btn--primary" [disabled]="submitting() || problems().length > 0" (click)="submitTask()">
+                <app-icon name="check" size="14"></app-icon> {{ submitting() ? 'Submitting…' : sel.def?.action_label || 'Submit' }}
+              </button>
+            </div>
+          }
+        }
+      </section>
+    }
+
+    <dl class="summary card">
+      <div><dt>Builder</dt><dd>{{ a.build_name }}</dd></div>
+      <div><dt>Mobile</dt><dd>{{ a.build_mobile }}</dd></div>
+      <div><dt>Applied on</dt><dd>{{ a.applied_date }}</dd></div>
+      <div><dt>Pending with</dt><dd>{{ a.reviewer || '—' }}</dd></div>
+      <div><dt>Workflow</dt><dd>{{ workflowName(a) }}@if (a.workflow) { <span class="muted">&nbsp;v{{ a.workflow.version }}</span> }</dd></div>
+      <div><dt>Fee</dt><dd>Rs. {{ a.payment.amount }} · {{ a.payment.status === 'paid' ? 'Paid' : 'Not paid' }}</dd></div>
+      @if (a.valid_to) {
+        <div><dt>Valid</dt><dd>{{ a.valid_from }} – {{ a.valid_to }}</dd></div>
+      }
+      @if (a.ref_no) {
+        <div><dt>Occupancy NOC ref.</dt><dd>{{ a.ref_no }}</dd></div>
+      }
+    </dl>
+
+    <div class="tabs" role="tablist" aria-label="Application sections">
+      @for (t of tabs; track t.id) {
+        <button type="button" role="tab" class="tab" [class.is-active]="tab() === t.id" [attr.aria-selected]="tab() === t.id" (click)="tab.set(t.id)">
+          <app-icon [name]="t.icon" size="14"></app-icon> {{ t.label }}
+          @if (t.id === 'correspondence' && a.sms?.length) {
+            <span class="tab__count">{{ a.sms!.length }}</span>
+          }
+        </button>
+      }
+    </div>
+
+    @switch (tab()) {
+      @case ('workflow') {
+        <section class="card" role="tabpanel">
+          @if (a.workflow; as run) {
+            <app-workflow-progress [run]="run" [roles]="cfg()?.roles ?? []" [forms]="cfg()?.forms ?? []" [sla]="cfg()?.sla ?? null" [now]="now" [highlight]="highlight()"></app-workflow-progress>
+          } @else {
+            <p class="empty-state">No workflow has been started for this application.</p>
+          }
+        </section>
+
+        @if (pendingOfficers().length) {
+          <section class="card pending-officers" role="region" aria-label="Pending officers">
+            <h3>Pending officers</h3>
+            <p class="field__hint">As the issuing authority you may bypass an officer or change who a task is assigned to.</p>
+            <div class="table-scroll">
+              <table class="table">
+                <thead><tr><th>Stage</th><th>Task</th><th>Officer</th><th>State</th><th></th></tr></thead>
+                <tbody>
+                  @for (row of pendingOfficers(); track row.task.task_id) {
+                    <tr>
+                      <td>{{ row.task.stage_key }}</td>
+                      <td>{{ row.task.name }}</td>
+                      <td>{{ row.task.assignee_name || 'Unassigned' }}@if (row.isMine) { <span class="muted"> (you)</span> }</td>
+                      <td>{{ row.task.state === 'active' ? 'In progress' : 'Waiting' }}</td>
+                      <td class="actions">
+                        @if (row.canSkip) {
+                          <button type="button" class="btn btn--ghost btn--sm" (click)="openModal('bypass', row)"><app-icon name="user-x" size="14"></app-icon> Bypass</button>
+                        }
+                        @if (row.canReassign) {
+                          <button type="button" class="btn btn--ghost btn--sm" (click)="openModal('reassign', row)"><app-icon name="users" size="14"></app-icon> Change officer</button>
+                        }
+                      </td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          </section>
+        }
+
+        @for (h of history(); track h.revision) {
+          <details class="card history">
+            <summary>Revision {{ h.revision }} — started {{ h.started_on }}@if (h.completed_on) { · decided {{ h.completed_on }} }</summary>
+            <app-workflow-progress [run]="h" [roles]="cfg()?.roles ?? []" [forms]="cfg()?.forms ?? []"></app-workflow-progress>
+          </details>
+        }
+      }
+      @case ('application') {
+        <div role="tabpanel">
+          @if (lookups(); as l) {
+            <app-application-sheet [app]="a" [lookups]="l" [sections]="['general', 'parties', 'blocks', 'conditions', 'payment']" [collapsible]="true"></app-application-sheet>
+          }
+        </div>
+      }
+      @case ('documents') {
+        <div role="tabpanel" class="docs">
+          @if (lookups(); as l) {
+            <app-application-sheet [app]="a" [lookups]="l" [sections]="['documents']"></app-application-sheet>
+          }
+          <section class="card">
+            <div class="section-title">
+              <h3>Documents requested from the applicant</h3>
+              @if (canRequestDocuments()) {
+                <button type="button" class="btn btn--ghost btn--sm no-print" (click)="openModal('request_doc')"><app-icon name="paperclip" size="14"></app-icon> Request a document</button>
+              }
+            </div>
+            @if (a.deptfiles.length === 0) {
+              <p class="muted">No document has been requested.</p>
+            } @else {
+              <table class="table">
+                <thead><tr><th>Document</th><th>Requested by</th><th>Status</th><th>Applicant's comment</th></tr></thead>
+                <tbody>
+                  @for (f of a.deptfiles; track f.fileid) {
+                    <tr>
+                      <td>{{ f.file_desc }}@if (f.file_name) { <div class="muted">{{ f.file_name }}</div> }</td>
+                      <td>{{ f.requested_by || '—' }}<div class="muted">{{ f.requested_on }}</div></td>
+                      <td>{{ f.status === 'R' ? 'Awaiting upload' : f.status === 'U' ? 'Uploaded' : 'Closed' }}</td>
+                      <td>{{ f.citizen_comment || '—' }}</td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            }
+          </section>
+          <section class="card">
+            <div class="section-title">
+              <h3>Department documents</h3>
+              @if (canUploadOrSms()) {
+                <button type="button" class="btn btn--ghost btn--sm no-print" (click)="openModal('upload_doc')"><app-icon name="upload" size="14"></app-icon> Upload</button>
+              }
+            </div>
+            @if (!a.dept_documents?.length) {
+              <p class="muted">No document uploaded by the department.</p>
+            } @else {
+              <table class="table">
+                <thead><tr><th>File</th><th>Description</th><th>Uploaded by</th><th>On</th></tr></thead>
+                <tbody>
+                  @for (d of a.dept_documents!; track d.doc_id) {
+                    <tr><td><app-icon name="file" size="14"></app-icon> <app-file-link [fileId]="d.file_id" [name]="d.file_name"></app-file-link></td><td>{{ d.description }}</td><td>{{ d.uploaded_by }}</td><td>{{ d.uploaded_on }}</td></tr>
+                  }
+                </tbody>
+              </table>
+            }
+          </section>
+        </div>
+      }
+      @case ('correspondence') {
+        <section class="card" role="tabpanel">
+          <div class="section-title">
+            <h3>SMS sent to the applicant</h3>
+            @if (canUploadOrSms()) {
+              <button type="button" class="btn btn--ghost btn--sm no-print" (click)="openModal('sms')"><app-icon name="bell" size="14"></app-icon> Send SMS</button>
+            }
+          </div>
+          @if (!a.sms?.length) {
+            <p class="muted">No SMS has been sent.</p>
+          } @else {
+            <ul class="sms-list">
+              @for (m of a.sms!; track m.sms_id) {
+                <li>
+                  <p>{{ m.message }}</p>
+                  <span class="muted">{{ m.sent_by }} · {{ m.sent_on }} · to {{ a.build_mobile }}</span>
+                </li>
+              }
+            </ul>
+          }
+        </section>
+      }
+      @case ('timeline') {
+        <section class="card" role="tabpanel">
+          <ol class="timeline">
+            @for (step of a.processLog; track step.step_id) {
+              <li class="timeline__item">
+                <div class="timeline__dot"></div>
+                <div>
+                  <p class="timeline__title">{{ step.action }} — {{ step.role }} ({{ step.reviewer_name }})</p>
+                  <p class="timeline__date">{{ step.at_date }}</p>
+                  @if (step.remarks) {
+                    <p class="timeline__remarks">{{ step.remarks }}</p>
+                  }
+                </div>
+              </li>
+            } @empty {
+              <li class="muted">No activity recorded yet.</li>
+            }
+          </ol>
+        </section>
+      }
+    }
+  }
+</div>
+
+<app-modal [open]="!!modal()" [wide]="modal() === 'sendback'" [title]="'Action'" (closed)="closeModal()">
+  @switch (modal()) {
+    @case ('sendback') {
+      <p>The file goes back to the officers of the previous stage, with your comments.</p>
+      <div class="field">
+        <label class="field__label field__required" for="sb_comments">Comments for the previous officer</label>
+        <textarea id="sb_comments" class="textarea" [(ngModel)]="comments"></textarea>
+      </div>
+    }
+    @case ('bypass') {
+      <p>
+        <strong>{{ modalTask?.task?.name }}</strong> ({{ modalTask?.task?.assignee_name || 'Unassigned' }}) will be marked "Officer Bypassed" and the file moves on
+        without this note.
+      </p>
+    }
+    @case ('reassign') {
+      <p>Change the officer of <strong>{{ modalTask?.task?.name }}</strong> (currently {{ modalTask?.task?.assignee_name || 'Unassigned' }}).</p>
+      @if (reassignCandidates().length) {
+        <div class="field">
+          <label class="field__label" for="reassign_to">New officer</label>
+          <select id="reassign_to" class="select" [(ngModel)]="reassignTo">
+            @for (u of reassignCandidates(); track u.id) {
+              <option [ngValue]="u.id">{{ u.displayName }}</option>
+            }
+          </select>
+        </div>
+      } @else {
+        <p class="form-error" role="alert">There is no other active officer with this role.</p>
+      }
+    }
+    @case ('request_doc') {
+      <div class="field">
+        <label class="field__label field__required" for="req_desc">Document requested from the applicant</label>
+        <input id="req_desc" class="input" [(ngModel)]="requestDocDesc" placeholder="e.g. Revised undertaking" />
+      </div>
+    }
+    @case ('upload_doc') {
+      <div class="field">
+        <label class="field__label field__required" for="up_file">File (PDF)</label>
+        <input id="up_file" class="input" type="file" accept="application/pdf,.pdf" (change)="onUploadFile($event)" />
+      </div>
+      <div class="field">
+        <label class="field__label" for="up_desc">Description</label>
+        <input id="up_desc" class="input" [(ngModel)]="uploadDesc" placeholder="e.g. Inspection photographs" />
+      </div>
+    }
+    @case ('sms') {
+      <div class="field">
+        <label class="field__label field__required" for="sms_msg">Message to {{ app()?.build_mobile }}</label>
+        <textarea id="sms_msg" class="textarea" [(ngModel)]="smsMessage"></textarea>
+      </div>
+    }
+    @case ('fire_station') {
+      <div class="form-grid">
+        <div class="field">
+          <label class="field__label" for="fs_district">District</label>
+          <select id="fs_district" class="select" [(ngModel)]="newDistrict" (ngModelChange)="newStation = null">
+            @for (d of districts(); track d.id) {
+              <option [ngValue]="d.id">{{ d.desc }}</option>
+            }
+          </select>
+        </div>
+        <div class="field">
+          <label class="field__label" for="fs_station">Fire station</label>
+          <select id="fs_station" class="select" [(ngModel)]="newStation">
+            <option [ngValue]="null">Select…</option>
+            @for (s of newStations(); track s.id) {
+              <option [ngValue]="s.id">{{ s.name }}</option>
+            }
+          </select>
+        </div>
+      </div>
+    }
+    @case ('lic_auth') {
+      <div class="form-grid">
+        <div class="field span-2">
+          <label class="field__label field__required" for="la_name">Licensing authority</label>
+          <input id="la_name" class="input" [(ngModel)]="licAuth" />
+        </div>
+        <div class="field span-2">
+          <label class="field__label field__required" for="la_addr">Address</label>
+          <input id="la_addr" class="input" [(ngModel)]="licAddr" />
+        </div>
+      </div>
+    }
+  }
+  <div modal-footer>
+    <button type="button" class="btn btn--ghost" (click)="closeModal()">Cancel</button>
+    <button type="button" class="btn btn--primary" [disabled]="modalBusy()" (click)="confirmModal()">{{ modalBusy() ? 'Working…' : 'Confirm' }}</button>
+  </div>
+</app-modal>

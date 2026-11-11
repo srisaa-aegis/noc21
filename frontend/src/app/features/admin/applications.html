@@ -1,0 +1,113 @@
+<div class="page">
+  <div class="page-header">
+    <div>
+      <p class="page-header__eyebrow">Admin</p>
+      <h2>Search &amp; Delete Applications</h2>
+    </div>
+    <button type="button" class="btn btn--ghost" (click)="presetStaleDrafts()">
+      <app-icon name="clock" size="14"></app-icon> Stale drafts (180+ days)
+    </button>
+  </div>
+
+  <form class="card filters" (ngSubmit)="search()">
+    <div class="field filters__text">
+      <label class="field__label" for="q">Search</label>
+      <input id="q" name="q" class="input" placeholder="Appl. no., site, builder, owner username, district…" [(ngModel)]="text" />
+    </div>
+    <div class="field">
+      <label class="field__label" for="type">Type</label>
+      <select id="type" name="type" class="select" [(ngModel)]="type">
+        <option value="">All types</option>
+        @for (t of applicationTypes(); track t.code) {
+          <option [value]="t.code">{{ t.name }}</option>
+        }
+      </select>
+    </div>
+    <div class="field">
+      <label class="field__label" for="status">Status</label>
+      <select id="status" name="status" class="select" [(ngModel)]="status">
+        <option value="">All statuses</option>
+        <option value="1">Draft</option>
+        <option value="2">Submitted</option>
+        <option value="3">Inspected</option>
+        <option value="4">Reviewed (ADFS)</option>
+        <option value="5">Reviewed (DFS-CD)</option>
+        <option value="6">Pending Final Approval</option>
+        <option value="7">Approved</option>
+        <option value="8">Returned with Comments</option>
+        <option value="9">Rejected</option>
+      </select>
+    </div>
+    <div class="field">
+      <label class="field__label" for="stale">Idle for at least (days)</label>
+      <input id="stale" name="stale" class="input" type="number" min="0" [(ngModel)]="staleDays" />
+    </div>
+    <label class="checkbox-row filters__check">
+      <input type="checkbox" name="draftsOnly" [(ngModel)]="draftsOnly" /> Drafts only
+    </label>
+    <div class="filters__actions">
+      <button type="submit" class="btn btn--primary"><app-icon name="search" size="14"></app-icon> Search</button>
+      <button type="button" class="btn btn--ghost" (click)="clear()">Clear</button>
+    </div>
+  </form>
+
+  <section class="card">
+    <div class="section-title">
+      <h3>{{ total() }} result(s)@if (total() > results().length) { <span class="field__hint">(showing the first {{ results().length }})</span> }</h3>
+      <button type="button" class="btn btn--danger btn--sm" [disabled]="selected().size === 0" (click)="deleteSelected()">
+        <app-icon name="trash" size="14"></app-icon> Delete selected ({{ selected().size }})
+      </button>
+    </div>
+
+    @if (loading()) {
+      <p class="empty-state">Searching…</p>
+    } @else if (results().length === 0) {
+      <p class="empty-state">No applications match these filters.</p>
+    } @else {
+      <div class="table-scroll">
+        <table class="table">
+          <thead>
+            <tr>
+              <th><input type="checkbox" aria-label="Select all" [checked]="allSelected()" (change)="toggleAll()" /></th>
+              <th>Type</th>
+              <th>Appl. No.</th>
+              <th>Site / Builder</th>
+              <th>Owner</th>
+              <th>Status</th>
+              <th>Last Modified</th>
+              <th>Idle (days)</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (row of results(); track row.appl_id) {
+              <tr [class.is-selected]="selected().has(row.appl_id)">
+                <td>
+                  @if (deletable(row)) {
+                    <input type="checkbox" [attr.aria-label]="'Select ' + row.site_name" [checked]="selected().has(row.appl_id)" (change)="toggle(row.appl_id)" />
+                  }
+                </td>
+                <td><app-appl-type-badge [applType]="row.appl_type"></app-appl-type-badge></td>
+                <td>{{ row.appl_number || 'Draft #' + row.appl_id }}</td>
+                <td><strong>{{ row.site_name || '—' }}</strong><br /><span class="muted">{{ row.build_name }}</span></td>
+                <td>{{ row.owner }}</td>
+                <td><app-status-badge [statusId]="row.status_id"></app-status-badge></td>
+                <td>{{ row.last_modified || '—' }}</td>
+                <td [class.stale]="(row.days_idle ?? 0) >= 180">{{ row.days_idle ?? '—' }}</td>
+                <td>
+                  @if (deletable(row)) {
+                    <button type="button" class="btn btn--ghost btn--sm" (click)="deleteOne(row)" [attr.aria-label]="'Delete ' + row.site_name">
+                      <app-icon name="trash" size="14"></app-icon> Delete
+                    </button>
+                  } @else {
+                    <span class="field__hint" title="Submitted applications are kept">Kept</span>
+                  }
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </section>
+</div>

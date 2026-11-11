@@ -1,0 +1,235 @@
+<div class="page">
+  <div class="page-header">
+    <div>
+      <p class="page-header__eyebrow">Department Workbench</p>
+      <h2>{{ session()?.displayName }}</h2>
+      <p class="who">
+        @if (roleLabel()) {
+          <span class="who__role">{{ roleLabel() }}</span>
+        }
+        <span class="muted">{{ jurisdiction() }}</span>
+      </p>
+    </div>
+    <div class="kpis">
+      <div class="kpi">
+        <span class="kpi__value">{{ taskTotal() }}</span>
+        <span class="kpi__label">My open tasks</span>
+      </div>
+      <div class="kpi" [class.kpi--bad]="overdueTasks() > 0">
+        <span class="kpi__value">{{ overdueTasks() }}</span>
+        <span class="kpi__label">Tasks past SLA</span>
+      </div>
+      <div class="kpi">
+        <span class="kpi__value">{{ inProcess() }}</span>
+        <span class="kpi__label">Files in process</span>
+      </div>
+      <div class="kpi" [class.kpi--bad]="processingOverdue() > 0">
+        <span class="kpi__value">{{ processingOverdue() }}</span>
+        <span class="kpi__label">Past processing SLA</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card filters-bar">
+    <app-icon name="search" size="16"></app-icon>
+    <input class="input" aria-label="Search" placeholder="Application no., site, builder, district…" [value]="text()" (input)="setFilter('text', $any($event.target).value)" />
+    <select class="select" aria-label="Application type" [value]="type()" (change)="setFilter('type', $any($event.target).value)">
+      <option value="">All types</option>
+      <option value="P">Provisional</option>
+      <option value="O">Occupancy</option>
+      <option value="R">Renewal</option>
+      <option value="D">Declaration</option>
+    </select>
+    <select class="select" aria-label="Approval level" [value]="level()" (change)="setFilter('level', $any($event.target).value)">
+      <option value="">All levels</option>
+      <option value="MSB">Head Office (MSB)</option>
+      <option value="RFO">Regional (RFO)</option>
+      <option value="DFO">District (DFO)</option>
+    </select>
+    @if (text() || type() || level() || stage()) {
+      <button type="button" class="btn btn--ghost btn--sm" (click)="clearFilters()">Clear</button>
+    }
+  </div>
+
+  @if (loading()) {
+    <p class="empty-state">Loading queues…</p>
+  } @else {
+    <section class="card block" aria-labelledby="my-tasks-title">
+      <div class="section-title">
+        <h3 id="my-tasks-title"><app-icon name="clipboard-list" size="18"></app-icon> My tasks</h3>
+        <span class="count">{{ taskTotal() }}</span>
+      </div>
+      @if (taskGroups().length === 0) {
+        <p class="empty-state empty-state--compact">No task is waiting for you.</p>
+      }
+      @if (taskTotal() > taskRows().length) {
+        <p class="field__hint">The {{ taskRows().length }} oldest of your {{ taskTotal() }} tasks are listed; use the search and filters above to find the others.</p>
+      }
+      @for (g of taskGroups(); track g.name) {
+        <h4 class="group-title">{{ g.name }} <span class="count">{{ g.count }}</span></h4>
+        <div class="table-scroll">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Type</th>
+                <th>Appl. No.</th>
+                <th>Site / Builder</th>
+                <th>District · Station</th>
+                <th>Level</th>
+                <th>Pending since</th>
+                <th>SLA</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (r of g.rows; track r.task.task_id) {
+                <tr [class.row--overdue]="r.overdue">
+                  <td><app-appl-type-badge [applType]="r.app.appl_type"></app-appl-type-badge></td>
+                  <td class="nowrap">
+                    {{ r.app.appl_number }}
+                    @if (r.app.revision > 1) {
+                      <span class="muted">[{{ r.app.revision }}]</span>
+                    }
+                  </td>
+                  <td>
+                    <strong>{{ r.app.site_name }}</strong><br />
+                    <span class="muted">{{ r.app.build_name }}</span>
+                  </td>
+                  <td>{{ r.app.dist_name }}<br /><span class="muted">{{ r.station }}</span></td>
+                  <td>{{ r.app.delegation_level }}</td>
+                  <td class="nowrap">{{ r.task.start_date }}</td>
+                  <td>
+                    <span class="sla" [class.sla--bad]="r.overdue" [attr.title]="r.overdue ? 'Past the SLA of ' + r.sla + ' days' : 'Within the SLA of ' + r.sla + ' days'">
+                      <app-icon name="clock" size="12"></app-icon> {{ r.days }} / {{ r.sla }} d
+                    </span>
+                  </td>
+                  <td>
+                    <a class="btn btn--primary btn--sm nowrap" [routerLink]="['/dept/applications', r.app.appl_id]" [queryParams]="{ task: r.task.task_id }">
+                      {{ r.action }} <app-icon name="arrow-right" size="14"></app-icon>
+                    </a>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+    </section>
+
+    <section class="card block" aria-labelledby="monitor-title">
+      <div class="section-title">
+        <h3 id="monitor-title"><app-icon name="eye" size="18"></app-icon> Monitoring</h3>
+        <label class="checkbox-row toggle">
+          <input type="checkbox" [checked]="showCompleted()" (change)="toggleCompleted($any($event.target).checked)" />
+          Include decided files
+        </label>
+      </div>
+      @if (showCompleted() && decidedWindow(); as w) {
+        <p class="field__hint decided-window">
+          @if (w.window_months) {
+            Decided files of the last {{ w.window_months }} months are listed ({{ w.total }} decided in all).
+            <button type="button" class="link-button" (click)="showAllDecided()">Show all decided files</button>
+          } @else {
+            All {{ w.total }} decided files are listed.
+          }
+        </p>
+      }
+      <div class="stage-chips" role="tablist" aria-label="Stage">
+        <button type="button" role="tab" class="chip" [class.is-active]="!stage()" [attr.aria-selected]="!stage()" (click)="setFilter('stage', '')">All</button>
+        @for (s of stages(); track s.label) {
+          <button type="button" role="tab" class="chip" [class.is-active]="stage() === s.label" [attr.aria-selected]="stage() === s.label" (click)="setFilter('stage', s.label)">
+            {{ s.label }} <span class="chip__count">{{ s.count }}</span>
+          </button>
+        }
+      </div>
+      @if (monitorRows().length === 0) {
+        <p class="empty-state empty-state--compact">No application to show.</p>
+      } @else {
+        <div class="table-scroll">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Type</th>
+                <th>Appl. No.</th>
+                <th>Site / Builder</th>
+                <th>District · Station</th>
+                <th>Level</th>
+                <th>Status</th>
+                <th>Pending with</th>
+                <th>Processing</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (r of monitorRows(); track r.app.appl_id) {
+                <tr>
+                  <td><app-appl-type-badge [applType]="r.app.appl_type"></app-appl-type-badge></td>
+                  <td class="nowrap">
+                    <a [routerLink]="['/dept/applications', r.app.appl_id]">{{ r.app.appl_number }}</a>
+                    @if (r.app.revision > 1) {
+                      <span class="muted">[{{ r.app.revision }}]</span>
+                    }
+                  </td>
+                  <td>
+                    <strong>{{ r.app.site_name }}</strong><br />
+                    <span class="muted">{{ r.app.build_name }}</span>
+                  </td>
+                  <td>{{ r.app.dist_name }}<br /><span class="muted">{{ r.station }}</span></td>
+                  <td>{{ r.app.delegation_level }}</td>
+                  <td>
+                    <app-status-badge [statusId]="r.app.status_id"></app-status-badge>
+                    <div class="muted">{{ r.app.stage_label }}</div>
+                  </td>
+                  <td>{{ r.app.reviewer || '—' }}</td>
+                  <td class="nowrap">
+                    @if (r.complete) {
+                      <span class="muted">{{ r.days }} d (decided {{ r.app.final_date }})</span>
+                    } @else {
+                      <span class="sla" [class.sla--bad]="r.overdue">{{ r.days }} / {{ r.sla ?? '—' }} d</span>
+                    }
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+        @if (pages() > 1) {
+          <div class="pager" role="navigation" aria-label="Monitoring pages">
+            <button type="button" class="btn btn--ghost btn--sm" [disabled]="page() <= 1" (click)="page.set(page() - 1)">Previous</button>
+            <span class="muted">Page {{ page() }} of {{ pages() }} · {{ monitorTotal() }} files</span>
+            <button type="button" class="btn btn--ghost btn--sm" [disabled]="page() >= pages()" (click)="page.set(page() + 1)">Next</button>
+          </div>
+        }
+      }
+    </section>
+  }
+
+  <section class="card feedback-panel">
+    <div class="feedback-panel__head">
+      <h3><app-icon name="star" size="18"></app-icon> Citizen feedback</h3>
+      <div class="period-tabs" role="tablist" aria-label="Feedback period">
+        @for (p of periods; track p.label) {
+          <button type="button" role="tab" [class.is-active]="feedbackMonths() === p.months" [attr.aria-selected]="feedbackMonths() === p.months" (click)="loadFeedback(p.months)">{{ p.label }}</button>
+        }
+      </div>
+    </div>
+    @if (feedback(); as f) {
+      <div class="feedback-panel__body">
+        <div class="feedback-panel__avg">
+          <span class="feedback-panel__value">{{ f.count ? f.average.toFixed(2) : '—' }}</span>
+          <app-star-rating [value]="round(f.average)" [readonly]="true" label="Average rating"></app-star-rating>
+          <span class="muted">{{ f.count }} rating(s)</span>
+        </div>
+        <ul class="feedback-panel__recent">
+          @for (r of f.rows.slice(0, 3); track r.appl_id) {
+            <li>
+              <app-star-rating [value]="r.rating" [readonly]="true" label="Rating"></app-star-rating>
+              <strong>{{ r.appl_number }}</strong> {{ r.site_name }} — <q>{{ r.remarks }}</q> <span class="muted">{{ r.rated_on }}</span>
+            </li>
+          } @empty {
+            <li class="muted">No feedback received in this period.</li>
+          }
+        </ul>
+      </div>
+    }
+  </section>
+</div>

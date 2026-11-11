@@ -1,0 +1,156 @@
+.tabs {
+  display: flex;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
+  border-bottom: 1px solid var(--border);
+
+  button {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    padding: var(--space-2) var(--space-4);
+    border: none;
+    border-bottom: 2px solid transparent;
+    background: none;
+    font: inherit;
+    font-size: var(--font-size-sm);
+    color: var(--gray-600);
+    cursor: pointer;
+
+    &.is-active {
+      border-bottom-color: var(--brand-500);
+      color: var(--gray-900);
+      font-weight: 600;
+    }
+  }
+}
+
+.config-grid {
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  gap: var(--space-4);
+
+  @media (max-width: 1000px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.card {
+  margin-bottom: var(--space-4);
+
+  h4 {
+    margin: var(--space-3) 0 var(--space-2);
+    font-size: var(--font-size-md);
+  }
+}
+
+.hint {
+  font-size: var(--font-size-xs);
+  color: var(--gray-500);
+}
+
+p.hint {
+  font-size: var(--font-size-sm);
+  margin-bottom: var(--space-3);
+}
+
+.actions {
+  display: flex;
+  gap: var(--space-2);
+  justify-content: flex-end;
+  align-items: center;
+  margin-top: var(--space-3);
+
+  .spacer {
+    flex: 1;
+  }
+}
+
+.rules-table {
+  td {
+    vertical-align: top;
+  }
+
+  .input,
+  .select {
+    min-width: 0;
+  }
+}
+
+.types-cell {
+  min-width: 320px;
+}
+
+.height-cell {
+  min-width: 170px;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  align-items: center;
+}
+
+.chips--sub {
+  margin-top: var(--space-2);
+}
+
+.chip {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  border-radius: var(--radius-pill);
+  padding: 2px 10px;
+  font: inherit;
+  font-size: var(--font-size-xs);
+  cursor: pointer;
+  color: var(--gray-600);
+
+  &.is-on {
+    background: var(--brand-500);
+    border-color: var(--brand-500);
+    color: var(--gray-0);
+  }
+}
+
+.chip--sm {
+  padding: 1px 8px;
+}
+
+.inline {
+  display: flex;
+  gap: var(--space-1);
+  align-items: center;
+  margin-bottom: 4px;
+
+  .input {
+    width: 80px;
+  }
+
+  .select {
+    width: auto;
+  }
+}
+
+.row-actions {
+  white-space: nowrap;
+}
+
+.tester__inputs {
+  flex-wrap: wrap;
+
+  .select {
+    width: auto;
+    min-width: 160px;
+  }
+}
+
+.tester__result {
+  margin-top: var(--space-3);
+  font-size: var(--font-size-md);
+}
+
+.multiplex {
+  margin-top: var(--space-2);
+  font-size: var(--font-size-xs);
+}

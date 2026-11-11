@@ -1,0 +1,237 @@
+<div class="page">
+  <a routerLink="/citizen/dashboard" class="back-link">
+    <span class="back-link__icon"><app-icon name="arrow-right" size="14"></app-icon></span>
+    Back to My Applications
+  </a>
+
+  @if (loading()) {
+    <p class="empty-state">Loading application…</p>
+  } @else if (notFound() || !application()) {
+    <p class="empty-state">Application not found.</p>
+  } @else {
+    @let app = application()!;
+    @let s = summary()!;
+    <div class="page-header">
+      <div>
+        <p class="page-header__eyebrow">
+          <app-appl-type-badge [applType]="app.appl_type"></app-appl-type-badge>
+        </p>
+        <h2>{{ app.site_name || 'Untitled application' }}</h2>
+        <p>{{ app.site_addr }}</p>
+      </div>
+      <app-status-badge [statusId]="app.status_id" [dateLabel]="app.status_id === 1 ? 'edited ' + app.last_modified : app.final_date || app.applied_date"></app-status-badge>
+    </div>
+
+    <div class="action-bar">
+      @if (app.status_id === 1) {
+        <button type="button" class="btn btn--primary btn--sm" (click)="actions.continue(app.appl_id)"><app-icon name="edit" size="14"></app-icon> Continue editing</button>
+      }
+      @if (app.status_id > 1) {
+        <a class="btn btn--ghost btn--sm" [routerLink]="actions.printUrl(app.appl_id, 'acknowledgement')"><app-icon name="printer" size="14"></app-icon> Acknowledgement</a>
+      }
+      @if (app.payment.status === 'paid') {
+        <a class="btn btn--ghost btn--sm" [routerLink]="actions.printUrl(app.appl_id, 'receipt')"><app-icon name="credit-card" size="14"></app-icon> Payment Receipt</a>
+      }
+      @if (app.status_id === 7) {
+        <a class="btn btn--ghost btn--sm" [routerLink]="actions.printUrl(app.appl_id, 'certificate')"><app-icon name="download" size="14"></app-icon> Download NOC</a>
+        @if (app.appl_type === 'O' || app.appl_type === 'R' || app.appl_type === 'RO') {
+          <a class="btn btn--ghost btn--sm" [routerLink]="actions.printUrl(app.appl_id, 'display-certificate')"><app-icon name="file" size="14"></app-icon> Display Certificate</a>
+        }
+      }
+      @if (app.status_id === 8 || app.status_id === 9) {
+        <a class="btn btn--ghost btn--sm" [routerLink]="actions.printUrl(app.appl_id, 'rejection')"><app-icon name="download" size="14"></app-icon> {{ app.status_id === 9 ? 'Reject Letter' : 'Return Letter' }}</a>
+      }
+      @if (can.revise(s)) {
+        <button type="button" class="btn btn--secondary btn--sm" (click)="actions.revise(s)"><app-icon name="refresh-cw" size="14"></app-icon> Revise</button>
+      }
+      @if (can.occupancy(s)) {
+        <button type="button" class="btn btn--secondary btn--sm" (click)="actions.applyForOccupancy(s)"><app-icon name="login" size="14"></app-icon> Apply for Occupancy</button>
+      }
+      @if (can.renewal(s)) {
+        <button type="button" class="btn btn--secondary btn--sm" (click)="actions.applyForRenewal(s)"><app-icon name="repeat" size="14"></app-icon> Apply for Renewal</button>
+      }
+      @if (can.rate(s)) {
+        <button type="button" class="btn btn--ghost btn--sm" (click)="rating.set(true)"><app-icon name="star" size="14"></app-icon> {{ app.feedback ? 'Update rating' : 'Rate this service' }}</button>
+      }
+      @if (can.delete(s)) {
+        <button type="button" class="btn btn--danger btn--sm" (click)="deleteDraft()"><app-icon name="trash" size="14"></app-icon> Delete draft</button>
+      }
+    </div>
+
+    @if (app.feedback) {
+      <div class="feedback-strip">
+        <span>Your rating</span>
+        <app-star-rating [value]="app.feedback.rating" [readonly]="true" label="Your rating"></app-star-rating>
+        @if (app.feedback.remarks) { <q>{{ app.feedback.remarks }}</q> }
+        <span class="field__hint">{{ app.feedback.rated_on }}</span>
+      </div>
+    }
+
+    @if (openRequests().length > 0) {
+      <section class="card requests" id="requests">
+        <h3><app-icon name="alert-circle" size="18"></app-icon> Documents requested by the department</h3>
+        @for (r of openRequests(); track r.fileid) {
+          <div class="request">
+            <div class="request__info">
+              <strong>{{ r.file_desc }}</strong>
+              <span class="field__hint">Requested by {{ r.requested_by || 'the department' }}{{ r.requested_on ? ' on ' + r.requested_on : '' }}</span>
+            </div>
+            <input type="file" accept="application/pdf,.pdf" class="input" [attr.aria-label]="'File for ' + r.file_desc" (change)="onRequestFile(r, $event)" />
+            <input class="input" placeholder="Comments (optional)" [attr.aria-label]="'Comments for ' + r.file_desc" [(ngModel)]="requestComments[r.fileid]" />
+            <button type="button" class="btn btn--primary btn--sm" [disabled]="!requestFiles()[r.fileid]" (click)="uploadRequested(r)"><app-icon name="upload" size="14"></app-icon> Upload</button>
+          </div>
+        }
+      </section>
+    }
+
+    @if (app.workflow; as run) {
+      <section class="card progress-card">
+        <h3>Processing progress</h3>
+        <app-workflow-progress [run]="run" [compact]="true"></app-workflow-progress>
+      </section>
+    }
+
+    <div class="detail-grid">
+      <section class="card">
+        <h3>Application Details</h3>
+        <dl class="kv">
+          <dt>Application No.</dt>
+          <dd>{{ app.appl_number || 'Draft #' + app.appl_id }}@if (app.revision > 1) { (revision {{ app.revision }}) }</dd>
+          <dt>District / Fire Station</dt>
+          <dd>{{ app.dist_name || '—' }} / {{ stationName(app) }}</dd>
+          @if (app.appl_type === 'P' || app.appl_type === 'O') {
+            <dt>Plot</dt>
+            <dd>{{ app.plot_area | number }} sq.m · perimeter {{ app.perimeter }} m</dd>
+            <dt>Licensing Authority</dt>
+            <dd>{{ app.lic_auth || '—' }}</dd>
+          }
+          @if (app.ref_no) {
+            <dt>Occupancy NOC Ref.</dt>
+            <dd>{{ app.ref_no }}</dd>
+          }
+          @if (app.parent_id) {
+            <dt>Based on</dt>
+            <dd><a [routerLink]="['/citizen/applications', app.parent_id]">Application #{{ app.parent_id }}</a></dd>
+          }
+          @if (app.child_id) {
+            <dt>Follow-up</dt>
+            <dd><a [routerLink]="['/citizen/applications', app.child_id]">Application #{{ app.child_id }}</a></dd>
+          }
+          <dt>Approval Level</dt>
+          <dd>{{ levelName(app) }}</dd>
+          @if (app.valid_to) {
+            <dt>Valid</dt>
+            <dd>{{ app.valid_from }} to {{ app.valid_to }}</dd>
+          }
+          <dt>Pending With</dt>
+          <dd>{{ app.reviewer || '—' }}</dd>
+          <dt>Applied On</dt>
+          <dd>{{ app.applied_date || '—' }}</dd>
+        </dl>
+      </section>
+
+      <section class="card">
+        <h3>Builder Contact &amp; Payment</h3>
+        <dl class="kv">
+          <dt>Name</dt>
+          <dd>{{ app.build_name }}</dd>
+          <dt>Mobile</dt>
+          <dd>{{ app.build_mobile }}</dd>
+          <dt>Email</dt>
+          <dd>{{ app.build_email }}</dd>
+          <dt>Fee</dt>
+          <dd>Rs. {{ app.payment.amount | number }} — {{ app.payment.status === 'paid' ? 'Paid' : 'Not paid' }}</dd>
+          @if (app.payment.status === 'paid') {
+            <dt>{{ app.payment.mode === 'online' ? 'Transaction' : 'Challan' }}</dt>
+            <dd>{{ app.payment.mode === 'online' ? app.payment.txn_ref : app.payment.challan_num + ' (' + app.payment.challan_bnk + ')' }} on {{ app.payment.paid_on }}</dd>
+          }
+        </dl>
+      </section>
+
+      @if (app.parties.length) {
+        <section class="card detail-grid__wide">
+          <h3>Parties</h3>
+          <div class="table-scroll">
+            <table class="table">
+              <thead>
+                <tr><th>Role</th><th>Name</th><th>Phone</th><th>Email</th><th>License No.</th></tr>
+              </thead>
+              <tbody>
+                @for (party of app.parties; track party.sl_no) {
+                  <tr>
+                    <td>{{ party.role_name }}</td>
+                    <td>{{ party.party_name || '—' }}</td>
+                    <td>{{ party.phone_number }}</td>
+                    <td>{{ party.email }}</td>
+                    <td>{{ party.license_no }}</td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </section>
+      }
+
+      @if (lookups(); as l) {
+        <div class="detail-grid__wide">
+          <app-application-sheet [app]="app" [lookups]="l" [sections]="['blocks', 'conditions', 'documents']" [collapsible]="true"></app-application-sheet>
+        </div>
+      }
+
+      @if (revisions().length > 0) {
+        <section class="card detail-grid__wide">
+          <h3>Revision History</h3>
+          <div class="table-scroll">
+            <table class="table">
+              <thead><tr><th>Revision</th><th>Event</th><th>Recorded</th><th>Fee (Rs.)</th></tr></thead>
+              <tbody>
+                @for (r of revisions(); track $index) {
+                  <tr>
+                    <td>{{ r.revision }}</td>
+                    <td>{{ revisionKind(r.kind) }}</td>
+                    <td>{{ r.createdAt | date: 'dd-MMM-yyyy HH:mm' }}</td>
+                    <td>{{ r.fee === null ? '—' : (r.fee | number) }}</td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </section>
+      }
+
+      <section class="card detail-grid__wide">
+        <h3>Process Timeline</h3>
+        @if (app.processLog.length === 0) {
+          <p class="empty-state">No activity recorded yet.</p>
+        } @else {
+          <ol class="timeline">
+            @for (step of app.processLog; track step.step_id) {
+              <li class="timeline__item">
+                <div class="timeline__dot"></div>
+                <div>
+                  <p class="timeline__title">{{ step.action }} — {{ step.role }} ({{ step.reviewer_name }})</p>
+                  <p class="timeline__date">{{ step.at_date }}</p>
+                  @if (step.remarks) {
+                    <p class="timeline__remarks">{{ step.remarks }}</p>
+                  }
+                </div>
+              </li>
+            }
+          </ol>
+        }
+      </section>
+    </div>
+  }
+
+  @if (application(); as app) {
+    <app-rate-dialog
+      [open]="rating()"
+      [applId]="app.appl_id"
+      [siteName]="app.site_name"
+      [applNumber]="app.appl_number"
+      [existing]="app.feedback"
+      (closed)="rating.set(false)"
+      (saved)="onRated($event)"
+    ></app-rate-dialog>
+  }
+</div>

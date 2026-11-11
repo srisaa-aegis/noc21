@@ -1,0 +1,86 @@
+{
+  "_source": "modules/citizen/partials/confirmpnoc.html / confirmonoc.html / confirmrnoc.html ('Undertaking by Applicant'); which boxes must be ticked follows SubmitAppl() in modules/citizen/controllers/confirmController.js — P: correct, nostart, finalnoc, nohite, onlyfire, ffequip; O, R and D: correct, nohite, onlyfire. Boxes hidden in the legacy pages (ng-show=false) are not shown and not enforced.",
+  "P": [
+    {
+      "id": "correct",
+      "text": "I confirm that all the information furnished above is correct and I understand that if any misinformation is found the Provisional No Objection Certificate will be automatically cancelled.",
+      "required": true
+    },
+    {
+      "id": "nostart",
+      "text": "I confirm that the construction has not started at the site.",
+      "required": true
+    },
+    {
+      "id": "finalnoc",
+      "text": "I understand that, if the final construction doesn't match the plans and information provided here, No Objection Certificate for Occupancy will not be issued.",
+      "required": true
+    },
+    {
+      "id": "nohite",
+      "text": "I confirm that there are no High Tension Wires passing through the site or the approach roads.",
+      "required": true
+    },
+    {
+      "id": "onlyfire",
+      "text": "I understand that this Provisional No Objection Certificate is being applied for fire safety purposes only and cannot be used for any other purposes.",
+      "required": true
+    },
+    {
+      "id": "ffequip",
+      "text": "I shall provide the Fire Safety Installation specified by the fire services department as per the NBC Table 7 and relevant IS Codes.",
+      "required": true
+    }
+  ],
+  "O": [
+    {
+      "id": "correct",
+      "text": "I confirm that all the information furnished above is correct and I understand that if any misinformation is found the Occupancy No Objection Certificate will be automatically cancelled.",
+      "required": true
+    },
+    {
+      "id": "nohite",
+      "text": "I confirm that there are no High Tension Wires passing through the site or the approach roads.",
+      "required": true
+    },
+    {
+      "id": "onlyfire",
+      "text": "I understand that this Occupancy No Objection Certificate is being applied for fire safety purposes only and cannot be used for any other purposes.",
+      "required": true
+    }
+  ],
+  "R": [
+    {
+      "id": "correct",
+      "text": "I confirm that all the information furnished above is correct and I understand that if any misinformation is found the Renewal No Objection Certificate will be automatically cancelled.",
+      "required": true
+    },
+    {
+      "id": "nohite",
+      "text": "I confirm that there are no High Tension Wires passing through the site or the approach roads.",
+      "required": true
+    },
+    {
+      "id": "onlyfire",
+      "text": "I understand that this Renewal No Objection Certificate is being applied for fire safety purposes only and cannot be used for any other purposes.",
+      "required": true
+    }
+  ],
+  "D": [
+    {
+      "id": "correct",
+      "text": "I confirm that all the information furnished above is correct and I understand that if any misinformation is found the Renewal No Objection Certificate will be automatically cancelled.",
+      "required": true
+    },
+    {
+      "id": "nohite",
+      "text": "I confirm that there are no High Tension Wires passing through the site or the approach roads.",
+      "required": true
+    },
+    {
+      "id": "onlyfire",
+      "text": "I understand that this Renewal No Objection Certificate is being applied for fire safety purposes only and cannot be used for any other purposes.",
+      "required": true
+    }
+  ]
+}

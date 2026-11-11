@@ -1,0 +1,13 @@
+{
+  "_source": "editpnoc_2.html instructions + commonrules.js Common_Maximum_Travel_Distance / _DeadEnd (Table 5, NBC Part 4)",
+  "travel_distance": { "default": 30, "by_site_type": { "ind": 45, "haz": 22.5 } },
+  "dead_end": { "default": 15, "by_site_type": { "asm": 6, "ins": 6 } },
+  "sprinklered_factor": 1.5,
+  "exit_min_width": 4.5,
+  "exit_min_abutting_road": 12,
+  "headroom_min": 5,
+  "projection_max": 0.75,
+  "refuge_min_height": 24,
+  "refuge_area_per_person": 0.3,
+  "refuge_min_area": 15
+}

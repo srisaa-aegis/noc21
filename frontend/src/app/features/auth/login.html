@@ -1,0 +1,53 @@
+<form class="login-form" (ngSubmit)="submit()">
+  @if (notice) {
+    <p class="login-form__notice" role="status">{{ notice }}</p>
+  }
+  @if (errorMessage()) {
+    <p class="login-form__error" role="alert">{{ errorMessage() }}</p>
+  }
+
+  <div class="field">
+    <label class="field__label" for="username">Username / Email</label>
+    <input
+      id="username"
+      name="username"
+      class="input"
+      autocomplete="username"
+      [ngModel]="username()"
+      (ngModelChange)="username.set($event)"
+      placeholder="e.g. citizen1"
+    />
+  </div>
+
+  <div class="field">
+    <label class="field__label" for="password">Password</label>
+    <input
+      id="password"
+      name="password"
+      type="password"
+      class="input"
+      autocomplete="current-password"
+      [ngModel]="password()"
+      (ngModelChange)="password.set($event)"
+      placeholder="demo"
+    />
+  </div>
+
+  <button type="submit" class="btn btn--primary btn--block" [disabled]="isSubmitting()">
+    {{ isSubmitting() ? 'Signing in…' : 'Sign In' }}
+  </button>
+
+  <div class="login-form__links">
+    <a routerLink="/auth/forgot-password">Forgot password?</a>
+    <a routerLink="/auth/register">Register as a new applicant</a>
+  </div>
+</form>
+
+<div class="demo-accounts">
+  <p class="demo-accounts__title">Demo accounts (password: <code>demo</code>)</p>
+  <div class="demo-accounts__list">
+    @for (account of demoAccounts; track account.username) {
+      <button type="button" class="chip" (click)="fillDemo(account.username)">{{ account.label }}</button>
+    }
+  </div>
+</div>

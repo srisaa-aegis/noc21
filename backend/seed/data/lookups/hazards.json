@@ -1,0 +1,762 @@
+[
+  {
+    "code": "L1",
+    "name": "Abrasive Premises Manufacturing",
+    "hazard_code": "G1"
+  },
+  {
+    "code": "L2",
+    "name": "Aerated Water Factories",
+    "hazard_code": "G1"
+  },
+  {
+    "code": "L3",
+    "name": "Agarbatti Manufacturing",
+    "hazard_code": "G1"
+  },
+  {
+    "code": "L4",
+    "name": "Areca Nut Slicing and/or Betelnut Factories",
+    "hazard_code": "G1"
+  },
+  {
+    "code": "L5",
+    "name": "Analytical and/orControl LaboratoriesQuality",
+    "hazard_code": "G1"
+  },
+  {
+    "code": "L6",
+    "name": "Asbestos Steam Packing andLagging Manufacturing",
+    "hazard_code": "G1"
+  },
+  {
+    "code": "L7",
+    "name": "Battery CharginglBatteryService Stations",
+    "hazard_code": "G1"
+  },
+  {
+    "code": "L8",
+    "name": "Battery Manufacturing",
+    "hazard_code": "G1"
+  },
+  {
+    "code": "L9",
+    "name": "Breweries",
+    "hazard_code": "G1"
+  },
+  {
+    "code": "L10",
+    "name": "Brick Works",
+    "hazard_code": "G1"
+  },
+  {
+    "code": "L11",
+    "name": "Canning Factories",
+    "hazard_code": "G1"
+  },
+  {
+    "code": "L12",
+    "name": "Cardamom Factories",
+    "hazard_code": "G1"
+  },
+  {
+    "code": "L13",
+    "name": "Cement Factories and/or",
+    "hazard_code": "G1"
+  },
+  {
+    "code": "L14",
+    "name": "Asbestos or Concrete ProductsManufacturing",
+    "hazard_code": "G1"
+  },
+  {
+    "code": "L15",
+    "name": "Ceramic Factories",
+    "hazard_code": "G1"
+  },
+  {
+    "code": "L16",
+    "name": "Crockery and Stoneware PipeManufacturing",
+    "hazard_code": "G1"
+  },
+  {
+    "code": "L17",
+    "name": "Clay Works",
+    "hazard_code": "G1"
+  },
+  {
+    "code": "L18",
+    "name": "Clock and Watch Manufacturing",
+    "hazard_code": "G1"
+  },
+  {
+    "code": "L19",
+    "name": "Coffee Curing Roasting and Grinding Premises",
+    "hazard_code": "G1"
+  },
+  {
+    "code": "L20",
+    "name": "Condensed Milk Factories, MilkPasteurising Plant and Dairies",
+    "hazard_code": "G1"
+  },
+  {
+    "code": "L21",
+    "name": "Confectionery Manufacturing",
+    "hazard_code": "G1"
+  },
+  {
+    "code": "L22",
+    "name": "Electric Generating Houses(Hydro electric)",
+    "hazard_code": "G1"
+  },
+  {
+    "code": "L23",
+    "name": "Electric Lamps (Incandescentand Fluorescent) and TV PictureTube Manufacturing",
+    "hazard_code": "G1"
+  },
+  {
+    "code": "L24",
+    "name": "Electro Plating Works",
+    "hazard_code": "G1"
+  },
+  {
+    "code": "L25",
+    "name": "Engineering Workshops",
+    "hazard_code": "G1"
+  },
+  {
+    "code": "L26",
+    "name": "Fruits and Vegetables Dehydrating and Drying Factories",
+    "hazard_code": "G1"
+  },
+  {
+    "code": "L27",
+    "name": "Fruit Products and Condiment Factories",
+    "hazard_code": "G1"
+  },
+  {
+    "code": "L28",
+    "name": "Glass and Glass Fibre Manufacturing",
+    "hazard_code": "G1"
+  },
+  {
+    "code": "L29",
+    "name": "Godowns and Warehouses Storing Non-combustible Goods only",
+    "hazard_code": "G1"
+  },
+  {
+    "code": "L30",
+    "name": "Green Houses",
+    "hazard_code": "G1"
+  },
+  {
+    "code": "L31",
+    "name": "Gold Thread/Gilding Factories",
+    "hazard_code": "G1"
+  },
+  {
+    "code": "L32",
+    "name": "Gum and/or Glue and Gelatine Manufacturing",
+    "hazard_code": "G1"
+  },
+  {
+    "code": "L33",
+    "name": "Ice, Ice Candy and Ice-cream Manufacturing",
+    "hazard_code": "G1"
+  },
+  {
+    "code": "L34",
+    "name": "Ink (Excluding Printing Ink)Factories",
+    "hazard_code": "G1"
+  },
+  {
+    "code": "L35",
+    "name": "Mica Products Manufacturing",
+    "hazard_code": "G1"
+  },
+  {
+    "code": "L36",
+    "name": "Pottery Works",
+    "hazard_code": "G1"
+  },
+  {
+    "code": "L37",
+    "name": "Poultry Farms",
+    "hazard_code": "G1"
+  },
+  {
+    "code": "L38",
+    "name": "Salt Crushing Factories and Refineries",
+    "hazard_code": "G1"
+  },
+  {
+    "code": "L39",
+    "name": "Stables",
+    "hazard_code": "G1"
+  },
+  {
+    "code": "L40",
+    "name": "Sugar Candy Manufacturing",
+    "hazard_code": "G1"
+  },
+  {
+    "code": "L41",
+    "name": "Sugar Factories and Refineries",
+    "hazard_code": "G1"
+  },
+  {
+    "code": "L42",
+    "name": "Tanneriesl Leather Goods Manufacturers",
+    "hazard_code": "G1"
+  },
+  {
+    "code": "L43",
+    "name": "Umbrella Assembling Factories",
+    "hazard_code": "G1"
+  },
+  {
+    "code": "L44",
+    "name": "Vermicelli Factories",
+    "hazard_code": "G1"
+  },
+  {
+    "code": "L45",
+    "name": "Water Treatment/Filtration Plants and Water Pump Houses",
+    "hazard_code": "G1"
+  },
+  {
+    "code": "L46",
+    "name": "Zinc/Copper Factories",
+    "hazard_code": "G1"
+  },
+  {
+    "code": "M1",
+    "name": "Aluminium Factories",
+    "hazard_code": "G2"
+  },
+  {
+    "code": "M2",
+    "name": "Atta and Cereal Grinding",
+    "hazard_code": "G2"
+  },
+  {
+    "code": "M3",
+    "name": "Bakeries and Biscuit Factories",
+    "hazard_code": "G2"
+  },
+  {
+    "code": "M4",
+    "name": "Beedi Factories",
+    "hazard_code": "G2"
+  },
+  {
+    "code": "M5",
+    "name": "Bobbin Factories",
+    "hazard_code": "G2"
+  },
+  {
+    "code": "M6",
+    "name": "Cable Manufacturing",
+    "hazard_code": "G2"
+  },
+  {
+    "code": "M7",
+    "name": "Camphor Boiling",
+    "hazard_code": "G2"
+  },
+  {
+    "code": "M8",
+    "name": "Candle Works",
+    "hazard_code": "G2"
+  },
+  {
+    "code": "M9",
+    "name": "Carbon Papertypewriter Ribbon Manufacturing",
+    "hazard_code": "G2"
+  },
+  {
+    "code": "M10",
+    "name": "Cardboard Box Manufacturing",
+    "hazard_code": "G2"
+  },
+  {
+    "code": "M11",
+    "name": "Carpenters, Wood Wool Furniture Manufacturing",
+    "hazard_code": "G2"
+  },
+  {
+    "code": "M12",
+    "name": "Carpet and Dorries Factories",
+    "hazard_code": "G2"
+  },
+  {
+    "code": "M13",
+    "name": "Cashewnut Factories",
+    "hazard_code": "G2"
+  },
+  {
+    "code": "M14",
+    "name": "Chemical Manufacturing usingraw materials having flash points above 23°C",
+    "hazard_code": "G2"
+  },
+  {
+    "code": "M15",
+    "name": "Cigar and Cigarette Factories",
+    "hazard_code": "G2"
+  },
+  {
+    "code": "M16",
+    "name": "Coir Factories",
+    "hazard_code": "G2"
+  },
+  {
+    "code": "M17",
+    "name": "Coir Carpets, Rugs, Tobacco,Hides and Skin Presses",
+    "hazard_code": "G2"
+  },
+  {
+    "code": "M18",
+    "name": "Cold Storage Premises",
+    "hazard_code": "G2"
+  },
+  {
+    "code": "M19",
+    "name": "Cork Products Manufacturing",
+    "hazard_code": "G2"
+  },
+  {
+    "code": "M20",
+    "name": "Dry Cleaning, Dyeing and Laundries",
+    "hazard_code": "G2"
+  },
+  {
+    "code": "M21",
+    "name": "Electric Substations/Distribution Stations",
+    "hazard_code": "G2"
+  },
+  {
+    "code": "M22",
+    "name": "Electric Generating Stations(Other than Underground Power houses)",
+    "hazard_code": "G2"
+  },
+  {
+    "code": "M23",
+    "name": "Enamelware Factories",
+    "hazard_code": "G2"
+  },
+  {
+    "code": "M24",
+    "name": "Filter and Wax Paper Manufacturing",
+    "hazard_code": "G2"
+  },
+  {
+    "code": "M25",
+    "name": "Flour Mills",
+    "hazard_code": "G2"
+  },
+  {
+    "code": "M26",
+    "name": "Garages",
+    "hazard_code": "G2"
+  },
+  {
+    "code": "M27",
+    "name": "Garment Makers",
+    "hazard_code": "G2"
+  },
+  {
+    "code": "M28",
+    "name": "Ghee Factories (Other thanVegetable)",
+    "hazard_code": "G2"
+  },
+  {
+    "code": "M29",
+    "name": "Godowns and Warehouses(Other than those Under Lightand High Hazard A Categories)",
+    "hazard_code": "G2"
+  },
+  {
+    "code": "M30",
+    "name": "Grain and/or SeedsDisintegrating and/or Crushing Factories",
+    "hazard_code": "G2"
+  },
+  {
+    "code": "M31",
+    "name": "Grease Manufacturing",
+    "hazard_code": "G2"
+  },
+  {
+    "code": "M32",
+    "name": "Hosiery, Lace, Embroidery and Thread Factories",
+    "hazard_code": "G2"
+  },
+  {
+    "code": "M33",
+    "name": "Incandescent Gas Mantle Manufacturing",
+    "hazard_code": "G2"
+  },
+  {
+    "code": "M34",
+    "name": "Industrial Gas Manufacturing(InertlHalogenated hydrocarbon gases)",
+    "hazard_code": "G2"
+  },
+  {
+    "code": "M35",
+    "name": "Man-made Manufacturing Yarn/Fibre Manufacturing (Other than Acrylic fibre/Yarn Manufacturing",
+    "hazard_code": "G2"
+  },
+  {
+    "code": "M36",
+    "name": "Manure and Fertilizer Works(Blending, Mixing andgranulating)",
+    "hazard_code": "G2"
+  },
+  {
+    "code": "M37",
+    "name": "Mineral Oil Blending and Processing",
+    "hazard_code": "G2"
+  },
+  {
+    "code": "M38",
+    "name": "Oil and Leather Cloth Factories",
+    "hazard_code": "G2"
+  },
+  {
+    "code": "M39",
+    "name": "Oil TerminalslDepots Otherthan those Categorised under High Hazard A",
+    "hazard_code": "G2"
+  },
+  {
+    "code": "M40",
+    "name": "Open storage of Flammable Liquids in Drums, Cans, etc",
+    "hazard_code": "G2"
+  },
+  {
+    "code": "M41",
+    "name": "Oxygen Plants",
+    "hazard_code": "G2"
+  },
+  {
+    "code": "M42",
+    "name": "Paper and Cardboard Mills. without Raw Material Yards",
+    "hazard_code": "G2"
+  },
+  {
+    "code": "M43",
+    "name": "Piers, Wharves, Jetties and Dockyards other than those Categorized Under High Hazard A",
+    "hazard_code": "G2"
+  },
+  {
+    "code": "M44",
+    "name": "Plastic Goods Manufacturing",
+    "hazard_code": "G2"
+  },
+  {
+    "code": "M45",
+    "name": "Plywood/Wood Veneering Factories",
+    "hazard_code": "G2"
+  },
+  {
+    "code": "M46",
+    "name": "Printing Press Premises",
+    "hazard_code": "G2"
+  },
+  {
+    "code": "M47",
+    "name": "Pulverising and Crushing Mills",
+    "hazard_code": "G2"
+  },
+  {
+    "code": "M48",
+    "name": "Rice Mills",
+    "hazard_code": "G2"
+  },
+  {
+    "code": "M49",
+    "name": "Rope Works",
+    "hazard_code": "G2"
+  },
+  {
+    "code": "M50",
+    "name": "Rubber Goods Manufacturing",
+    "hazard_code": "G2"
+  },
+  {
+    "code": "M51",
+    "name": "Rubber Tyres and Tubes Manufacturing",
+    "hazard_code": "G2"
+  },
+  {
+    "code": "M52",
+    "name": "Shellac Factories",
+    "hazard_code": "G2"
+  },
+  {
+    "code": "M53",
+    "name": "Silk Filiatures",
+    "hazard_code": "G2"
+  },
+  {
+    "code": "M54",
+    "name": "Soaps and Glycerine Factories",
+    "hazard_code": "G2"
+  },
+  {
+    "code": "M55",
+    "name": "Spray Painting",
+    "hazard_code": "G2"
+  },
+  {
+    "code": "M56",
+    "name": "Starch Factories",
+    "hazard_code": "G2"
+  },
+  {
+    "code": "M57",
+    "name": "Tea Factories",
+    "hazard_code": "G2"
+  },
+  {
+    "code": "M58",
+    "name": "Textile Mills",
+    "hazard_code": "G2"
+  },
+  {
+    "code": "M59",
+    "name": "Tobacco (Chewing) and PanMasala Making",
+    "hazard_code": "G2"
+  },
+  {
+    "code": "M60",
+    "name": "Tobacco Grinding and Crushing",
+    "hazard_code": "G2"
+  },
+  {
+    "code": "M61",
+    "name": "Tobacco Redrying Factories",
+    "hazard_code": "G2"
+  },
+  {
+    "code": "M62",
+    "name": "Woollen Mills",
+    "hazard_code": "G2"
+  },
+  {
+    "code": "H1",
+    "name": "Aircraft Hangers",
+    "hazard_code": "G3"
+  },
+  {
+    "code": "H2",
+    "name": "Aluminiuml Magnesium power Plants",
+    "hazard_code": "G3"
+  },
+  {
+    "code": "H3",
+    "name": "Bituminised Paper and/or Hessian Clothffar Felt Manufacturing",
+    "hazard_code": "G3"
+  },
+  {
+    "code": "H4",
+    "name": "Cotton Waste Factories",
+    "hazard_code": "G3"
+  },
+  {
+    "code": "H5",
+    "name": "Celluloid Goods Manufacturing",
+    "hazard_code": "G3"
+  },
+  {
+    "code": "H6",
+    "name": "Chemical Manufacturing using raw materials having flash points below 23°C",
+    "hazard_code": "G3"
+  },
+  {
+    "code": "H7",
+    "name": "Cigarette Filter Manufacturing",
+    "hazard_code": "G3"
+  },
+  {
+    "code": "H8",
+    "name": "Cinema Films and T.V. Production Studios",
+    "hazard_code": "G3"
+  },
+  {
+    "code": "H9",
+    "name": "Coal and/or Coke and/or Charcoal Ball and Briquettes Manufacturing",
+    "hazard_code": "G3"
+  },
+  {
+    "code": "H10",
+    "name": "Collieries",
+    "hazard_code": "G3"
+  },
+  {
+    "code": "H11",
+    "name": "Cotton Seed Cleaning or De-Hnting Factories",
+    "hazard_code": "G3"
+  },
+  {
+    "code": "H12",
+    "name": "Distilleries",
+    "hazard_code": "G3"
+  },
+  {
+    "code": "H13",
+    "name": "Duplicating/Stencil Paper Manufacturing",
+    "hazard_code": "G3"
+  },
+  {
+    "code": "H14",
+    "name": "Fire-works Manufacturing",
+    "hazard_code": "G3"
+  },
+  {
+    "code": "H15",
+    "name": "Foam Plastics Manufacturing and/or Converting Plants",
+    "hazard_code": "G3"
+  },
+  {
+    "code": "H16",
+    "name": "Godowns and Warehouses (Storing COnIDustiblelFlammable Goods)",
+    "hazard_code": "G3"
+  },
+  {
+    "code": "H17",
+    "name": "Grass, Hay, Fodder and Bhoosa (chaff) Pressing Factories",
+    "hazard_code": "G3"
+  },
+  {
+    "code": "H18",
+    "name": "Industrial Gas Manufacturing (Other than Inert/Halogenated Hydrocarbon Gases)",
+    "hazard_code": "G3"
+  },
+  {
+    "code": "H19",
+    "name": "Jute Mills and Jute Presses",
+    "hazard_code": "G3"
+  },
+  {
+    "code": "H20",
+    "name": "Linoleum Factories",
+    "hazard_code": "G3"
+  },
+  {
+    "code": "H21",
+    "name": "LPG Bottling Plants (Mini)",
+    "hazard_code": "G3"
+  },
+  {
+    "code": "H22",
+    "name": "Man Made Fibres (Acrylic Manufacturing Fibres/yarn Manufacturing)",
+    "hazard_code": "G3"
+  },
+  {
+    "code": "H23",
+    "name": "Match Factories",
+    "hazard_code": "G3"
+  },
+  {
+    "code": "H24",
+    "name": "Mattress and Pillow Making",
+    "hazard_code": "G3"
+  },
+  {
+    "code": "H25",
+    "name": "Metal or Tin Printers (where more than 50 Percent of floor area is occupied as Engineering Workshop;this may be taken as ordinary hazard risk)",
+    "hazard_code": "G3"
+  },
+  {
+    "code": "H26",
+    "name": "Oil Mills",
+    "hazard_code": "G3"
+  },
+  {
+    "code": "H27",
+    "name": "Oil Extraction Plants",
+    "hazard_code": "G3"
+  },
+  {
+    "code": "H28",
+    "name": "Oil TerminalslDepots handling flammable Liquids having flash point of 23° C and Below",
+    "hazard_code": "G3"
+  },
+  {
+    "code": "H29",
+    "name": "Paints and Varnish Factories",
+    "hazard_code": "G3"
+  },
+  {
+    "code": "H30",
+    "name": "Paper and Cardboard Mills having raw material yards",
+    "hazard_code": "G3"
+  },
+  {
+    "code": "H31",
+    "name": "Piers, Wharves and Jetties - Handling Extra Hazardous Materials",
+    "hazard_code": "G3"
+  },
+  {
+    "code": "H32",
+    "name": "Printing Ink Manufacturing",
+    "hazard_code": "G3"
+  },
+  {
+    "code": "H33",
+    "name": "Rosin Lamp-Black and Turpentine Factories",
+    "hazard_code": "G3"
+  },
+  {
+    "code": "H34",
+    "name": "Saw Mills",
+    "hazard_code": "G3"
+  },
+  {
+    "code": "H35",
+    "name": "Sponge Iron Steel Plants (Gas Based)",
+    "hazard_code": "G3"
+  },
+  {
+    "code": "H36",
+    "name": "Surgical Cotton Manufacturing",
+    "hazard_code": "G3"
+  },
+  {
+    "code": "H37",
+    "name": "Tarpaulin and Canvas Proofing Factories",
+    "hazard_code": "G3"
+  },
+  {
+    "code": "H38",
+    "name": "Turpentine and Rosin Distilleries",
+    "hazard_code": "G3"
+  },
+  {
+    "code": "H39",
+    "name": "Tyre Retreading and Resoling Factories",
+    "hazard_code": "G3"
+  },
+  {
+    "code": "H40",
+    "name": "Ammonia and Urea Synthesis Plants",
+    "hazard_code": "G3"
+  },
+  {
+    "code": "H41",
+    "name": "CNG Compressing and Bottling Plants",
+    "hazard_code": "G3"
+  },
+  {
+    "code": "H42",
+    "name": "Coal Based Methane Plants",
+    "hazard_code": "G3"
+  },
+  {
+    "code": "H43",
+    "name": "Explosive Factories",
+    "hazard_code": "G3"
+  },
+  {
+    "code": "H44",
+    "name": "Others",
+    "hazard_code": "G3"
+  }
+]

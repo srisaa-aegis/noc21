@@ -1,0 +1,197 @@
+@let a = app();
+@let l = lookups();
+@let n = withoutPnoc();
+<p class="lh">Government of Andhra Pradesh</p>
+<p class="lh">A.P. State Disaster Response and Fire Services Department</p>
+<p class="doc-title">No Objection Certificate for Occupancy</p>
+
+<div class="addr-row">
+  <div>To<br />{{ a.lic_auth }},<br />{{ a.lic_addr }}</div>
+  <div>File No: {{ a.appl_number }}<br />Date: {{ issueDate() }}</div>
+</div>
+<div>Sir/Madam,</div>
+<table class="sub-ref">
+  <tr>
+    <td>Sub:</td>
+    <td>
+      Andhra Pradesh State Disaster Response and Fire Services Department - No Objection Certificate for Occupancy to the existing / newly constructed
+      Multi Storeyed Building <b>({{ a.site_name }})&nbsp;{{ a.build_name }}, {{ a.site_addr }}</b> - Regarding.
+    </td>
+  </tr>
+  <tr>
+    <td>Ref:</td>
+    <td>
+      <ol>
+        <li>Online Application Dt. {{ a.applied_date }} , {{ a.build_name }}, {{ a.site_addr }}</li>
+        <li>Online Inspection Report submitted by Officers of this Department on {{ inspectionDate() }}.</li>
+      </ol>
+    </td>
+  </tr>
+</table>
+<p class="para indent">
+  It is to inform that {{ a.build_name }} applied for No Objection Certificate on {{ a.applied_date }} for Occupancy to the existing / newly constructed
+  Multi Storeyed Building for {{ a.site_name }} at {{ a.site_addr }}. The officers of the department have scrutinized the information, documents and plans
+  submitted by the applicant along with the undertaking provided by the applicant, and have submitted the following report.
+</p>
+
+@for (b of a.blocks; track b.block_id) {
+  <h3 class="block-name">{{ b.block_name }}</h3>
+  <div class="para">
+    2. The builder has constructed a @if (!msb()) { Non }Multi Storeyed Building with {{ fn.floorDisplay(b) }} with a height of {{ b.height }} Mtrs for
+    {{ occupancy(b) }} Occupancy (Category - {{ b.site_stype }}) in a total plot area of {{ a.plot_area }} sq. meters.
+  </div>
+
+  <div class="para">
+    3. The builder has provided open spaces all around the building
+    <table class="bordered">
+      <thead>
+        <tr>
+          <th>Side</th>
+          @if (n) {
+            <th>Open Space Required as per 119 APBR 2016</th>
+          } @else {
+            <th>Open Space Required as per Provisional</th>
+            <th>Open Space Proposed by the Builder</th>
+          }
+          <th>Open Space Provided by the Builder</th>
+          <th>Remarks</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (o of b.ospaces; track o.ospace_id) {
+          <tr>
+            <td>{{ fn.directionName(o.direc) }}</td>
+            @if (n) {
+              <td>{{ reqdOs(b, o.direc) }} Meters</td>
+            } @else {
+              <td>{{ fixed(o.os_preqd ?? reqdOs(b, o.direc)) }} Meters</td>
+              <td>{{ fixed(o.parent_proposed) }} Meters</td>
+            }
+            <td>{{ fixed(o.proposed) }} Meters</td>
+            <td>-Nil-</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <div class="para">
+    4. The builder has constructed following means of escape:
+    <table class="bordered">
+      <thead>
+        <tr>
+          <th>Sl</th><th>Details of Staircases</th>
+          @if (n) { <th>Required Nos / Meters as per A.P.B.R</th><th>Required based on Floor Area</th> }
+          <th>Provided Nos / Meters</th><th>Deficit</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (r of escapeRows; track r.code; let i = $index) {
+          @let pc = fn.proposedEscapeCount(b, r.code);
+          <tr>
+            <td>{{ i + 1 }}</td>
+            <td>{{ r.name }}</td>
+            @if (n) {
+              <td>Min 1 No. - {{ minWidth(b, r.code) }} Meters {{ fn.reqdEscapeCount(b, r.code) > 1 ? 'Each' : '' }}</td>
+              <td>--</td>
+            }
+            <td>{{ pc }} {{ pc > 1 ? 'Nos.' : 'No.' }} - {{ fixed(fn.proposedEscapeWidth(b, r.code)) }} Meters {{ pc > 1 ? 'Each' : '' }}</td>
+            <td>-Nil-</td>
+          </tr>
+        }
+        <tr>
+          <td colspan="2">Total</td>
+          @if (n) {
+            <td>{{ fn.totalStairsRequiredByNBC(b) }} Nos.</td>
+            <td>{{ fn.maxStairsByLoad(b) }} Meters</td>
+          }
+          <td>{{ fixed(fn.proposedEscapeCount(b, 'I') * fn.proposedEscapeWidth(b, 'I') + fn.proposedEscapeCount(b, 'E') * fn.proposedEscapeWidth(b, 'E')) }} Meters</td>
+          <td>-Nil-</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="para">
+    5. The builder has proposed to provide Occupant Load :
+    <table class="bordered">
+      <thead>
+        <tr>
+          <th>Sl</th><th>Floor</th><th>Built up area (Sq Mtrs)</th><th>Occupancy Type</th><th>No of Occupants as declared by the builder</th>
+          @if (n) {
+            <th>No of Occupants as per NBC</th><th>Aggregate width of Staircases Required (Meters)</th>
+          } @else {
+            <th>Aggregate width of Staircases Provided(Meters)</th>
+          }
+          <th>Fire Doors</th><th>Fire Lift</th><th>Deficit</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (f of b.floors; track f.floor_id; let i = $index) {
+          <tr>
+            <td>{{ i + 1 }}</td><td>{{ f.flr_name }}</td><td>{{ f.built_area }}</td><td>{{ fn.floorOccuName(f.occ_type) }}</td><td>{{ f.occ_c_app }}</td>
+            @if (n) {
+              <td>{{ fn.t20OccCount(f) || '--' }}</td><td>{{ fn.stairsByLoad(f) ?? '--' }}</td>
+            } @else {
+              <td>{{ fn.floorEscapeWidth(b, f.floor_id) }}</td>
+            }
+            <td>{{ f.built_area > 0 ? fn.reqdEscapeCount(b, 'I') + fn.reqdEscapeCount(b, 'E') : '--' }}</td>
+            <td>{{ f.built_area > 0 ? b.lifts.length : '--' }}</td>
+            <td>Nil</td>
+          </tr>
+        }
+        <tr>
+          <td></td><td>Total</td><td>{{ fn.blockBuiltUp(b) }}</td><td></td><td>{{ fn.blockTotalOccLoad(b) }}</td>
+          @if (n) { <td>{{ fn.blockTotalNbcOccLoad(b) }}</td> }
+          <td colspan="5"></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="para">
+    6. The minimum Fire Fighting Installations required as per Table 7 of Part 4 of National Building Code of India 2016 are:
+    <app-ffe-grid [block]="b" [columns]="ffeCols()" [equipments]="l.equipments" [notes]="l.ffeNotes" [readonly]="true" [compact]="true" [titles]="false" variant="document" [showGrid]="false" [showNotes]="false"></app-ffe-grid>
+  </div>
+  <div class="para">
+    7. The builder has provided the following floorwise Fire Fighting installations as per Table 7 of Part - 4 of NBC of India 2016.
+    <app-ffe-grid [block]="b" [columns]="ffeCols()" [equipments]="l.equipments" [notes]="l.ffeNotes" [readonly]="true" [compact]="true" [titles]="false" variant="document" [showSummary]="false"></app-ffe-grid>
+  </div>
+}
+
+@if (firstBlock(); as b0) {
+  <div class="para">
+    8. The Officers of the department have recommended to issue The No Objection Certificate for Occupancy of @if (!msb()) { Non }MSB
+    {{ b0.is_mixed ? 'Mixed Occupancy (' + typeName(b0.site_type) + ')' : typeName(b0.site_type) }} Building ({{ b0.site_stype }}) belonging to
+    <b>{{ a.build_name }} {{ a.site_addr }}</b>, subject to the following conditions.
+  </div>
+}
+
+@if (a.appl_mode !== 'N' && a.conditions?.length) {
+  <div class="terms">
+    Occupancy NOC Conditions :
+    <div class="para">
+      <table class="bordered">
+        <thead><tr><th width="1%">Sl.</th><th width="30%">Condition</th><th width="5%">Complied by the Applicant / Not</th></tr></thead>
+        <tbody>
+          @for (c of a.conditions; track c.checklist_id; let i = $index) {
+            <tr><td>{{ i + 1 }}</td><td>{{ c.item_desc }}</td><td>{{ c.selected === true ? 'Yes' : 'No' }}</td></tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+}
+
+<div class="terms" [innerHTML]="terms('O')"></div>
+
+<div class="para">
+  9. The following deficiencies are identified by the officers of the department and need to be attended to by the management.
+  <pre class="deficiencies">{{ deficiencies() }}</pre>
+</div>
+<div>
+  In view of the above, as per the recommendations of the NOC Committee, the No Objection Certificate for Occupancy is hereby issued to the Newly constructed
+  @if (!msb()) { Non }Multi Storeyed Building subject to the above conditions.
+</div>
+
+<app-letter-signature [fileNo]="a.appl_number" [lines]="signatory('O')" [copyTo]="copyTo('O')"></app-letter-signature>

@@ -1,0 +1,168 @@
+[
+  {
+    "code": "P",
+    "name": "Provisional NOC",
+    "shortLabel": "Provisional",
+    "description": "Required before construction begins, based on the approved building plan.",
+    "icon": "clipboard-list",
+    "instructions": [
+      "Provide site name, address, correspondence address and district.",
+      "Provide licensing authority details (Municipal Corporation etc.).",
+      "Provide plot area, perimeter and (if available) GPS location.",
+      "Provide builder/owner contact details and the 5 technical parties (Architect, Structural Engineer, Electrical Contractor, Fire Safety Systems Contractor).",
+      "Add each block: occupancy type/sub-type, height, surroundings, open spaces, floor-wise built-up area and means of escape.",
+      "Review the system-calculated minimum fire-fighting equipment for the block.",
+      "Provide challan (fee) details and upload the required supporting documents.",
+      "Submit the application for Departmental review."
+    ],
+    "mode": [
+      {
+        "code": "",
+        "name": "Online",
+        "ffe": [
+          {
+            "tag": "reqt",
+            "head": "Minimum Required",
+            "type": "text"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "code": "O",
+    "name": "Occupancy NOC",
+    "shortLabel": "Occupancy",
+    "description": "Required before occupying a completed building; can reference a prior Provisional NOC.",
+    "icon": "login",
+    "instructions": [
+      "If a Provisional NOC was issued, its details are pre-filled; otherwise enter them manually.",
+      "Confirm the as-built block/floor details match (or update where construction deviated).",
+      "Provide the fire-fighting equipment actually provided for each block.",
+      "Upload completion photographs and supporting documents.",
+      "Submit for inspection and final review."
+    ],
+    "mode": [
+      {
+        "code": "O",
+        "name": "Online",
+        "ffe": [
+          {
+            "tag": "prop",
+            "head": "Proposed",
+            "type": "text"
+          },
+          {
+            "tag": "prov",
+            "head": "Provided",
+            "type": "input"
+          }
+        ]
+      },
+      {
+        "code": "M",
+        "name": "Manual",
+        "ffe": [
+          {
+            "tag": "prop",
+            "head": "Proposed",
+            "type": "input"
+          },
+          {
+            "tag": "prov",
+            "head": "Provided",
+            "type": "input"
+          }
+        ]
+      },
+      {
+        "code": "N",
+        "name": "Not Applied for Provisional",
+        "ffe": [
+          {
+            "tag": "reqt",
+            "head": "Required",
+            "type": "text"
+          },
+          {
+            "tag": "prov",
+            "head": "Provided",
+            "type": "input"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "code": "R",
+    "name": "Renewal of Occupancy NOC",
+    "shortLabel": "Renewal",
+    "description": "Periodic renewal of an already-issued Occupancy NOC.",
+    "icon": "repeat",
+    "instructions": [
+      "Confirm the building details are unchanged since the last Occupancy NOC / Renewal.",
+      "Confirm fire-fighting equipment is maintained and in working condition.",
+      "Provide renewal fee challan details.",
+      "Submit for inspection and review."
+    ],
+    "mode": [
+      {
+        "code": "O",
+        "name": "Online (linked Occupancy NOC)",
+        "ffe": [
+          {
+            "tag": "prop",
+            "head": "Proposed",
+            "type": "text"
+          },
+          {
+            "tag": "prov",
+            "head": "Provided",
+            "type": "input"
+          }
+        ]
+      },
+      {
+        "code": "M",
+        "name": "Manual (Occupancy NOC reference)",
+        "ffe": [
+          {
+            "tag": "prop",
+            "head": "Proposed",
+            "type": "input"
+          },
+          {
+            "tag": "prov",
+            "head": "Provided",
+            "type": "input"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "code": "D",
+    "name": "Declaration for Renewal",
+    "shortLabel": "Declaration",
+    "description": "Simplified self-certifying declaration in lieu of a full renewal inspection.",
+    "icon": "save",
+    "instructions": [
+      "Confirm there has been no material change to the building or its occupancy.",
+      "Confirm fire-fighting equipment continues to be maintained and tested.",
+      "Sign and upload the self-declaration document.",
+      "Submit for Departmental record."
+    ],
+    "mode": [
+      {
+        "code": "O",
+        "name": "Online (linked Occupancy NOC)",
+        "ffe": []
+      },
+      {
+        "code": "M",
+        "name": "Manual (Occupancy NOC reference)",
+        "ffe": []
+      }
+    ]
+  }
+]

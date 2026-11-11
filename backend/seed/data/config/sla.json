@@ -1,0 +1,110 @@
+{
+ "workflows": {
+  "P-MSB": {
+   "processing_days": 60,
+   "inspection_days": 15,
+   "step_days": {
+    "section": 5,
+    "rfo": 5,
+    "adfs": 5,
+    "dfscd": 5,
+    "dfs": 5,
+    "decision": 7
+   }
+  },
+  "P-RFO": {
+   "processing_days": 30,
+   "inspection_days": 10,
+   "step_days": {
+    "dfo": 5,
+    "decision": 7
+   }
+  },
+  "P-DFO": {
+   "processing_days": 21,
+   "inspection_days": 10,
+   "step_days": {
+    "decision": 7
+   }
+  },
+  "O-MSB": {
+   "processing_days": 60,
+   "inspection_days": 15,
+   "step_days": {
+    "section": 5,
+    "rfo": 5,
+    "adfs": 5,
+    "dfscd": 5,
+    "dfs": 5,
+    "decision": 7
+   }
+  },
+  "O-RFO": {
+   "processing_days": 30,
+   "inspection_days": 10,
+   "step_days": {
+    "dfo": 5,
+    "decision": 7
+   }
+  },
+  "O-DFO": {
+   "processing_days": 21,
+   "inspection_days": 10,
+   "step_days": {
+    "decision": 7
+   }
+  },
+  "R-MSB": {
+   "processing_days": 60,
+   "inspection_days": 15,
+   "step_days": {
+    "section": 5,
+    "rfo": 5,
+    "adfs": 5,
+    "dfscd": 5,
+    "decision": 7
+   }
+  },
+  "R-RFO": {
+   "processing_days": 30,
+   "inspection_days": 10,
+   "step_days": {
+    "dfo": 5,
+    "decision": 7
+   }
+  },
+  "R-DFO": {
+   "processing_days": 21,
+   "inspection_days": 10,
+   "step_days": {
+    "decision": 7
+   }
+  },
+  "D-MSB": {
+   "processing_days": 60,
+   "inspection_days": 15,
+   "step_days": {
+    "decision": 7
+   }
+  },
+  "D-RFO": {
+   "processing_days": 30,
+   "inspection_days": 10,
+   "step_days": {
+    "decision": 7
+   }
+  },
+  "D-DFO": {
+   "processing_days": 21,
+   "inspection_days": 10,
+   "step_days": {
+    "decision": 7
+   }
+  }
+ },
+ "escalation": {
+  "notify_officer": true,
+  "notify_approver": true,
+  "remind_every_days": 7
+ }
+}

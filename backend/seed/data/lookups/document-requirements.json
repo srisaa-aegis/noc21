@@ -1,0 +1,38 @@
+{
+  "P": [
+    { "code": "ChallanCopy", "label": "Scanned Copy of Challan", "condition": "challan" },
+    { "code": "Undertaking", "label": "Undertaking on Rs. 100 Stamp Paper", "condition": "not_dfo" },
+    { "code": "BankGuarantee", "label": "15% Bank Guarantee for 5 years", "condition": "not_dfo" },
+    { "code": "SelfDeclaration", "label": "Self Declaration", "condition": "always" },
+    { "code": "FFEEstimate", "label": "Estimate towards provision of required fire safety systems", "condition": "not_dfo" },
+    { "code": "ProofSurrender", "label": "Proof of Surrendering Land for Road Widening", "condition": "road_widening" },
+    { "code": "AdditionalDoc", "label": "Any additional document", "condition": "always", "optional": true }
+  ],
+  "O": [
+    { "code": "ChallanCopy", "label": "Scanned Copy of Challan", "condition": "challan" },
+    { "code": "ProNOC", "label": "Scanned Copy of the Provisional NOC", "condition": "has_parent" },
+    { "code": "MunicipalDoc", "label": "Municipality Approved Document (Building Permission / Completion)", "condition": "always" },
+    { "code": "ProofSurrender", "label": "Proof of Surrendering Land for Road Widening", "condition": "road_widening" },
+    { "code": "AdditionalDoc", "label": "Any additional document", "condition": "always", "optional": true }
+  ],
+  "R": [
+    { "code": "ChallanCopy", "label": "Scanned Copy of Challan", "condition": "challan" },
+    { "code": "OcNOC", "label": "Scanned Copy of the Occupancy NOC", "condition": "always" },
+    { "code": "LastRenewalDoc", "label": "Last Renewal NOC (if any)", "condition": "always", "optional": true },
+    { "code": "AdditionalDoc", "label": "Any additional document", "condition": "always", "optional": true }
+  ],
+  "D": [
+    { "code": "ChallanCopy", "label": "Scanned Copy of Challan", "condition": "challan" },
+    { "code": "Declaration", "label": "Signed Self-Declaration for Renewal", "condition": "always" },
+    { "code": "AdditionalDoc", "label": "Any additional document", "condition": "always", "optional": true }
+  ],
+  "plans": {
+    "applies_to": ["P", "O"],
+    "block": [
+      { "code": "SitePlan", "label": "Site Plan" },
+      { "code": "SectionPlan", "label": "Section Plan" },
+      { "code": "ElevationPlan", "label": "Elevation Plan" }
+    ],
+    "floor": { "code": "FloorPlan", "label": "Floor Plan" }
+  }
+}

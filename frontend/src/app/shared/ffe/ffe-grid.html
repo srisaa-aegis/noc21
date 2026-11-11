@@ -1,0 +1,141 @@
+@let b = block();
+@let cols = columns();
+
+@if (showSummary()) {
+  <div class="ffe-part">
+    @if (titles()) { <h4 class="ffe-title">Minimum required Fire Safety Systems</h4> }
+    <div class="table-scroll">
+      <table class="table ffe-summary">
+        <thead>
+          <tr>
+            <th class="sl">Sl</th>
+            <th>Fire Safety System</th>
+            @for (c of cols; track c.tag) { <th class="num">{{ c.head }}</th> }
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of items(); track item.equip_id; let i = $index) {
+            <tr>
+              <td class="sl">{{ i + 1 }}</td>
+              <td>
+                {{ equipment(item.equip_id)?.desc ?? 'Equipment #' + item.equip_id }}
+                @if (item.added) { <span class="ffe-tag">added by applicant</span> }
+                @for (k of item.note_keys; track k) { <span class="ffe-note-ref">{{ k }}</span> }
+              </td>
+              @for (c of cols; track c.tag) {
+                <td class="num nowrap">{{ summaryValue(item, tagOf(c)) }}</td>
+              }
+            </tr>
+          } @empty {
+            <tr><td [attr.colspan]="2 + cols.length" class="empty">No fire safety systems calculated yet — enter the block's occupancy, height and floors.</td></tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+}
+
+@if (showGrid() && items().length) {
+  <div class="ffe-part">
+    @if (titles()) { <h4 class="ffe-title">Floor-wise Fire Safety Systems</h4> }
+    @if (cols.length > 1 && titles()) {
+      <p class="ffe-legend">
+        Each cell shows
+        @for (c of cols; track c.tag; let last = $last) { <strong>{{ c.head }}</strong>@if (!last) { / } }
+        quantities.
+      </p>
+    }
+    <div class="table-scroll">
+      <table class="ffe-grid" [class.is-compact]="compact()">
+        <thead>
+          <tr>
+            <th class="sl">Sl.</th>
+            <th class="floor">Floor</th>
+            @for (item of items(); track item.equip_id) {
+              <th [title]="equipment(item.equip_id)?.desc ?? ''">
+                {{ short(item.equip_id) }}
+                @if (canRemove(item)) {
+                  <button type="button" class="ffe-remove" (click)="removeItem.emit(item.equip_id)" [attr.aria-label]="'Remove ' + short(item.equip_id)">×</button>
+                }
+              </th>
+            }
+          </tr>
+        </thead>
+        <tbody>
+          @for (f of b.floors; track f.floor_id; let fi = $index) {
+            <tr>
+              <td class="sl">{{ fi + 1 }}</td>
+              <td class="floor">{{ f.flr_name || floorTypeName(f.flr_type) }}</td>
+              @for (item of items(); track item.equip_id) {
+                <td>
+                  @if (item.level === 'F') {
+                    @let c = cell(item, f.floor_id);
+                    @if (c) {
+                      <div class="ffe-cell">
+                        @for (col of cols; track col.tag) {
+                          @if (isInput(col)) {
+                            <input
+                              class="input ffe-input"
+                              inputmode="numeric"
+                              placeholder="--"
+                              [attr.aria-label]="short(item.equip_id) + ' ' + col.head + ' — ' + (f.flr_name || 'floor ' + (fi + 1))"
+                              [class.is-invalid]="missing(item, c, tagOf(col))"
+                              [class.is-short]="col.tag === 'prov' && isShort(item, c)"
+                              [ngModel]="inputValue(c, tagOf(col))"
+                              (ngModelChange)="setValue(c, tagOf(col), $event)"
+                            />
+                          } @else {
+                            <span class="ffe-val" [class.is-note]="isNote(val(c, col))">{{ text(item, val(c, col), false) }}</span>
+                          }
+                        }
+                      </div>
+                    }
+                  }
+                </td>
+              }
+            </tr>
+          }
+          <tr class="ffe-total">
+            <td class="sl"></td>
+            <td class="floor">Total / Building</td>
+            @for (item of items(); track item.equip_id) {
+              <td>
+                <div class="ffe-cell">
+                  @for (col of cols; track col.tag) {
+                    @if (item.level === 'B') {
+                      @if (isInput(col)) {
+                        <input
+                          class="input ffe-input"
+                          inputmode="numeric"
+                          placeholder="--"
+                          [attr.aria-label]="short(item.equip_id) + ' ' + col.head + ' — building'"
+                          [class.is-invalid]="missing(item, item.block, tagOf(col))"
+                          [class.is-short]="col.tag === 'prov' && isShort(item, item.block)"
+                          [ngModel]="inputValue(item.block, tagOf(col))"
+                          (ngModelChange)="setValue(item.block, tagOf(col), $event)"
+                        />
+                      } @else {
+                        <span class="ffe-val">{{ text(item, val(item.block, col)) }}</span>
+                      }
+                    } @else {
+                      <span class="ffe-val ffe-val--total">{{ floorTotal(item, tagOf(col)) }}</span>
+                    }
+                  }
+                </div>
+              </td>
+            }
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+}
+
+@if (showNotes() && noteList().length) {
+  <div class="ffe-part">
+    @if (titles()) { <h4 class="ffe-title">Notes</h4> }
+    <ul class="ffe-notes">
+      @for (n of noteList(); track n.key) { <li><strong>{{ n.text }}</strong></li> }
+    </ul>
+  </div>
+}
